@@ -13,12 +13,11 @@ class Communication {
      *
      * @returns {string}
      */
-    httpGet()
-    {
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open( "GET", "", false );
-    xmlHttp.send( null );
-        console.log(xmlHttp.responseText);
+    httpGet() {
+        $.get("http://httpbin.org/ip", function (data) {
+            $(".result").html(data);
+            alert("Load was performed.");
+        });
     }
 
     httpPost() {
@@ -33,7 +32,5 @@ class Communication {
         $.post("bots/1/tree", {name: "shout"}).done(function (data) {
             alert("Data Loaded: " + data);
         });
-
-
     }
 }
