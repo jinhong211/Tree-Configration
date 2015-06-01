@@ -1,14 +1,11 @@
+///<reference path="..\typings\jquery\jquery.d.ts"/>
 /**
- * Created by Quentin on 01/06/2015.
- */
-
-/**
- * @author Quentin Cornevin,
+ * @author Quentin Cornevin,Anaïs Marongiu
  *
  * This class handle the communication.
  */
-class Communication {
 
+class Communication {
     /**
      *
      * @returns {string}
@@ -21,6 +18,7 @@ class Communication {
     }
 
     httpPost() {
+        alert("httppost");
         /* var xhr = new XMLHttpRequest();
          xhr.open("POST", "bots/1/tree", true); // 1 pour l'id du joueur
          xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded"); // parce qu'on est en post
@@ -30,7 +28,7 @@ class Communication {
 
         // envoyer shout en format json et afficher le résultat de la requete
         $.post("bots/1/tree", {name: "shout"}).done(function (data) {
-            alert("Data Loaded: " + data);
+            alert("Result: " + data);
         });
     }
 }
