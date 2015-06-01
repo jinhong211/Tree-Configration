@@ -1,12 +1,8 @@
+///<reference path="..\typings\jquery\jquery.d.ts"/>
 /**
  * Created by Quentin on 01/06/2015.
  */
 
-/**
- * @author Quentin Cornevin,
- *
- * This class handle the communication.
- */
 class Communication {
 
     /**
@@ -15,9 +11,9 @@ class Communication {
      */
     httpGet()
     {
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open( "GET", "", false );
-    xmlHttp.send( null );
-    Console.log(xmlHttp.responseText);
+        $.get( "http://httpbin.org/ip", function( data ) {
+            $( ".result" ).html( data );
+            alert( "Load was performed." );
+        });
     }
 }
