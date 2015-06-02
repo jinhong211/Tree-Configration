@@ -1,11 +1,17 @@
 ///<reference path="..\typings\jquery\jquery.d.ts"/>
 /**
- * @author Quentin Cornevin,Anaïs Marongiu
+ * @author Quentin Cornevin, Anaïs Marongiu
  *
  * This class handle the communication.
  */
 
 class Communication {
+    private urlSimulator:string;
+
+    public constructor(url:string) {
+        this.urlSimulator = url;
+    }
+
     /**
      *
      * @returns {string}
@@ -17,8 +23,13 @@ class Communication {
         });
     }
 
-    httpPost() {
-        alert("httppost");
+    httpGetMock():string {
+        return "shout";
+    }
+
+
+    httpPostTest() {
+        alert("httppost test");
         /* var xhr = new XMLHttpRequest();
          xhr.open("POST", "bots/1/tree", true); // 1 pour l'id du joueur
          xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded"); // parce qu'on est en post
@@ -27,7 +38,16 @@ class Communication {
          xhr.send("name=shout"); // variable1=truc&variable2=bidule*/
 
         // envoyer shout en format json et afficher le résultat de la requete
-        $.post("bots/1/tree", {name: "shout"}).done(function (data) {
+        $.post(this.urlSimulator, {name: "shout"}).done(function (data) {
+            alert("Result: " + data);
+        });
+    }
+
+    httpPost() {
+        //TODO appeler parsage XML sur l'arbre selectionne par le user
+        alert("httppost");
+        // envoyer shout en format xml et afficher le résultat de la requete
+        $.post(this.urlSimulator, {name: "shout"}).done(function (data) {
             alert("Result: " + data);
         });
     }
