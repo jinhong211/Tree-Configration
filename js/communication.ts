@@ -1,5 +1,7 @@
 ///<reference path="..\typings\jquery\jquery.d.ts"/>
 ///<reference path=".\treeNode.ts"/>
+///<reference path=".\ActionTreeNode.ts"/>
+
 
 /**
  * @author Quentin Cornevin, Anaïs Marongiu
@@ -54,10 +56,15 @@ class Communication {
         });
     }
 
-    parse(datajson : string) :string {
+    parseOneBlock(datajson : string) : TreeNode {
 
         var obj = JSON.parse(datajson);
-        return obj.name;
+        return new ActionTreeNode(obj.name);
+    }
+
+    parseBlocks(datajson : string) : Array<TreeNode> {
+        // TODO
+        return new Array();
     }
 
     parseXml(racine : TreeNode) : string {

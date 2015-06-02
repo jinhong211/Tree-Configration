@@ -10,5 +10,5 @@ var bloc = c.httpGetMock();
 var x = document.getElementById("blocs");
 x.innerHTML = bloc.toString();
 
-var nodeRacine = new TreeNode("shout");
-c.parseXml(nodeRacine);
+// var nodeRacine = new TreeNode("shout");
+// c.parseXml(nodeRacine);
