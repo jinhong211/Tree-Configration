@@ -11,10 +11,15 @@
  */
 
 class Communication {
+
     private urlSimulator:string;
+    private routeGET:string;
+    private routePOST:string;
 
     public constructor(url:string) {
         this.urlSimulator = url;
+        this.routeGET = "/blocks/all";
+        this.routePOST = "/bots/1/tree";
     }
     
     /**
@@ -24,39 +29,25 @@ class Communication {
      */
     httpGet(f: (s:string)=>void) : void {
         var retour : string;
-        $.get("http://10.212.118.128:3000/blocks/all", function (data) {
+        $.get(this.urlSimulator+this.routeGET, function (data) {
             retour = data["name"];
             f(retour);
         });
     }
 
-    httpGetMock():string {
-        return "shout";
-    }
-
-    httpPostDirty() {
-        /* var xhr = new XMLHttpRequest();
-         xhr.open("POST", "bots/1/tree", true); // 1 pour l'id du joueur
-         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded"); // parce qu'on est en post
-         //var variable = encodeURIComponent("name=shout"); //conserver les caractères spéciaux et les espaces.
-         var data = encodeURIComponent("{"name": "shout"}");
-         xhr.send("name=shout"); // variable1=truc&variable2=bidule*/
-
+    httpPostDirty(xml:string, f:(s:string)=>void):void {
         // envoyer shout en format json et afficher le résultat de la requete
-        $.post(this.urlSimulator, {name: "shout"}).done(function (data) {
-            alert("Result: " + data);
+        $.post(this.urlSimulator+this.routePOST, {name: "shout"}).done(function (data) {
+            f(data);
         });
     }
 
-    httpPost(xml:string) {
-        alert("httppost");
+    httpPost(xml:string, f:(s:string)=>void):void {
         // envoyer shout en format xml et afficher le résultat de la requete
-        $.post(this.urlSimulator, xml).done(function (data) {
+        $.post(this.urlSimulator+this.routePOST, xml).done(function (data) {
             alert("Result: " + data);
         });
     }
-
-
 
     parseOneBlock(datajson : string) : TreeNode {
 
