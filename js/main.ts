@@ -1,4 +1,4 @@
-///<reference path=".\controller.ts"/>
+///<reference path=".\communication.ts"/>
 
 /**
  * Created by Anaïs Marongiu

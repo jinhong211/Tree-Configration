@@ -15,11 +15,19 @@ class Communication {
     public constructor(url:string) {
         this.urlSimulator = url;
     }
-
-    httpGet() {
-        $.get("http://httpbin.org/ip", function (data) {
-            $(".result").html(data);
-            alert("Load was performed.");
+    
+    /**
+     * This function is used to call the http method.
+     *
+     * @param f : anonyme function for the callback.
+     */
+    httpGet(f: (s:string)=>void) : void {
+        var retour : string;
+        $.get("http://10.212.118.128:3000/blocks/all", function (data) {
+        //    console.log(data["name"]);
+            retour = data["name"];
+        //    console.log(retour);
+            f(retour);
         });
     }
 
@@ -35,8 +43,7 @@ class Communication {
          var data = encodeURIComponent("{"name": "shout"}");
          xhr.send("name=shout"); // variable1=truc&variable2=bidule*/
 
-        alert("httppost dirty");
-        // envoyer shout en format xml et afficher le résultat de la requete
+        // envoyer shout en format json et afficher le résultat de la requete
         $.post(this.urlSimulator, {name: "shout"}).done(function (data) {
             alert("Result: " + data);
         });
