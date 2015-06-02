@@ -1,4 +1,6 @@
 ///<reference path="..\typings\jquery\jquery.d.ts"/>
+///<reference path=".\treeNode.ts"/>
+
 /**
  * @author Quentin Cornevin,Anaïs Marongiu
  *
@@ -30,5 +32,21 @@ class Communication {
         $.post("bots/1/tree", {name: "shout"}).done(function (data) {
             alert("Result: " + data);
         });
+    }
+
+    parse(datajson : string) :string {
+
+        var obj = JSON.parse(datajson);
+        return obj.name;
+    }
+
+    parseXml(racine : TreeNode) : string {
+        var xml = document.createElement("node");
+        var bloc = document.createElement("node");
+        bloc.setAttribute("type","action");
+        bloc.innerHTML = racine.getName();
+        xml.appendChild( bloc );
+
+        return xml.innerHTML;
     }
 }
