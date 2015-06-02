@@ -1,6 +1,7 @@
 ///<reference path="..\typings\jquery\jquery.d.ts"/>
 ///<reference path=".\treeNode.ts"/>
 ///<reference path=".\ActionTreeNode.ts"/>
+///<reference path=".\CompositeTreeNode"/>
 
 
 /**
@@ -59,11 +60,23 @@ class Communication {
         return new Array();
     }
 
-    parseXml(racine : TreeNode) : string {
+    parseXml(noeudCourant : TreeNode) : string {
         var xml = document.createElement("node");
         var bloc = document.createElement("node");
-        bloc.setAttribute("type","action");
-        //bloc.innerHTML = racine.getName(); // TODO getName si type action
+
+
+
+        if (noeudCourant instanceof ActionTreeNode) {
+            bloc.setAttribute("type","action");
+            bloc.innerHTML += noeudCourant.getName();
+
+        } else if (noeudCourant instanceof CompositeTreeNode) {
+            bloc.setAttribute("type","composite");
+            var children = noeudCourant.getChiledrenNodes();
+            for (var i=0; i<children.length; i++) {
+                bloc.innerHTML += this.parseXml(children[i]);
+            }
+        }
         xml.appendChild( bloc );
 
         return xml.innerHTML;
