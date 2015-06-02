@@ -4,8 +4,7 @@
  * Created by ben on 01/06/2015.
  */
 
-class buildingTree {
-    private racine: TreeNode;
+class BuildingTree {
     private selected: TreeNode[];
     private available: TreeNode[];
 
