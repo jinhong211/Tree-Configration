@@ -1,14 +1,11 @@
 ///<reference path=".\communication.ts"/>
 ///<reference path=".\buildingTree.ts"/>
 
-
 /**
- * Created by ben on 02/06/2015.
+ * Created by Benjamin Lissilour, Anaïs Marongiu
  */
 
-
 class Controller {
-
     private communication : Communication;
     private building : BuildingTree;
 
@@ -21,9 +18,13 @@ class Controller {
         var dataJson = this.communication.httpGetMock();
         var treeNode = this.communication.parseOneBlock(dataJson);
         this.building.setRoot(treeNode);
+
+        var x = document.getElementById("blocs");
+        x.innerHTML = treeNode.toString();
     }
 
     public send() {
         var xml = this.communication.parseXml(this.building.getTree().getRoot());
+        this.communication.httpPost(xml);
     }
 }

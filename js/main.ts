@@ -1,14 +1,10 @@
-///<reference path=".\communication.ts"/>
+///<reference path=".\controller.ts"/>
 
 /**
  * Created by Anaïs Marongiu
  */
-var c = new Communication("bots/1/tree");
-//c.httpPost();
-var bloc = c.httpGetMock();
 
-var x = document.getElementById("blocs");
-x.innerHTML = bloc.toString();
+var c = new Controller("bots/1/tree");
+c.init();
 
-// var nodeRacine = new TreeNode("shout");
-// c.parseXml(nodeRacine);
+

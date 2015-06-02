@@ -2,7 +2,7 @@
 ///<reference path="./tree.ts"/>
 
 /**
- * Created by ben on 01/06/2015.
+ * Created by Benjamin Lissilour, Anaïs Marongiu
  */
 
 class BuildingTree {

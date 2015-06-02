@@ -2,7 +2,7 @@
 
 
 /**
- * Created by ben on 02/06/2015.
+ * Created by Benjamin Lissilour, Anaïs Marongiu
  */
 
 class CompositeTreeNode extends TreeNode {
