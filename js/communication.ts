@@ -8,8 +8,8 @@
  *
  * This class handle the communication.
  */
-
 class Communication {
+
     private urlSimulator:string;
 
     public constructor(url:string) {
@@ -17,20 +17,27 @@ class Communication {
     }
 
     /**
+     * This function is used to call the http method.
      *
-     * @returns {string}
+     * @param f : anonyme function for the callback.
      */
-    httpGet() {
-        $.get("http://httpbin.org/ip", function (data) {
-            $(".result").html(data);
-            alert("Load was performed.");
+    httpGet(f: (s:string)=>void) : void {
+        var retour : string;
+        $.get("http://10.212.118.128:3000/blocks/all", function (data) {
+        //    console.log(data["name"]);
+            retour = data["name"];
+        //    console.log(retour);
+            f(retour);
         });
     }
 
+    /**
+     * This function is
+     * @returns {string}
+     */
     httpGetMock():string {
         return "shout";
     }
-
 
     httpPostTest() {
         alert("httppost test");
@@ -56,7 +63,7 @@ class Communication {
         });
     }
 
-    parseOneBlock(datajson : string) : TreeNode {
+    parse(datajson : string) :string {
 
         var obj = JSON.parse(datajson);
         return new ActionTreeNode(obj.name);
