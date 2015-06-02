@@ -25,6 +25,10 @@ class Controller {
 
     public send() {
         var xml = this.communication.parseXml(this.building.getTree().getRoot());
-        this.communication.httpPost(xml);
+        var retour:string;
+        this.communication.httpPostDirty(xml, function (s:string) {
+            retour = s;
+            alert("Result : " + retour);
+        });
     }
 }
