@@ -15,7 +15,7 @@ class ActionTreeNode extends TreeNode{
     }
 
     public getName() {
-        return name;
+        return this.name;
     }
 
 }

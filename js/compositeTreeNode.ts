@@ -9,7 +9,8 @@ class CompositeTreeNode extends TreeNode {
 
     private childrenNodes : Array<TreeNode>;
 
-    public constructor(children : TreeNode[]) {
+    public constructor() {
+        this.childrenNodes = new Array<TreeNode>();
         super();
     }
 
@@ -23,6 +24,10 @@ class CompositeTreeNode extends TreeNode {
     public removeChildNode(node : TreeNode) {
         var number = this.childrenNodes.indexOf(node);
         delete this.childrenNodes[number];
+    }
+
+    public getChiledrenNodes() : Array<TreeNode> {
+        return this.childrenNodes;
     }
 
 }
