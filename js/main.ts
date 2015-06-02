@@ -1,7 +1,7 @@
 ///<reference path=".\communication.ts"/>
 
 /**
- * Created by A on 01/06/2015.
+ * Created by Anaïs Marongiu
  */
 var c = new Communication("bots/1/tree");
 //c.httpPost();
