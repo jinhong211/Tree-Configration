@@ -1,4 +1,5 @@
 typings
-
-
+.idea
+*.js.map
+*.js
 .xml
