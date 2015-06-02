@@ -24,9 +24,7 @@ class Communication {
     httpGet(f: (s:string)=>void) : void {
         var retour : string;
         $.get("http://10.212.118.128:3000/blocks/all", function (data) {
-        //    console.log(data["name"]);
             retour = data["name"];
-        //    console.log(retour);
             f(retour);
         });
     }

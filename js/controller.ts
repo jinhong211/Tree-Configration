@@ -2,10 +2,11 @@
 ///<reference path=".\buildingTree.ts"/>
 
 /**
- * Created by Benjamin Lissilour, Anaïs Marongiu
+ * @author by Benjamin Lissilour, Anaïs Marongiu, Quentin Cornevin
  */
 
 class Controller {
+
     private communication : Communication;
     private building : BuildingTree;
 
@@ -15,13 +16,22 @@ class Controller {
     }
 
     public init() {
-        var dataJson = this.communication.httpGetMock();
+        var dataJson : string;
+        this.communication.httpGet(function (s:string) {
+            dataJson = s;
+            console.log(dataJson);
+            var doc = document.getElementById("blocs");
+            console.log(doc);
+            doc.innerHTML = dataJson.toString();
+        });
+
         var treeNode = this.communication.parseOneBlock(dataJson);
         this.building.setRoot(treeNode);
 
         var x = document.getElementById("blocs");
         x.innerHTML = treeNode.toString();
     }
+
 
     public send() {
         var xml = this.communication.parseXml(this.building.getTree().getRoot());
