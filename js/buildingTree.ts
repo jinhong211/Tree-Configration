@@ -2,7 +2,7 @@
 ///<reference path="./tree.ts"/>
 
 /**
- * Created by Benjamin Lissilour, Anaïs Marongiu
+ * Created by Benjamin Lissilour, Anaï¿½s Marongiu
  */
 
 class BuildingTree {
@@ -15,6 +15,8 @@ class BuildingTree {
         this.selected = new Array<TreeNode>();
         this.available = new Array<TreeNode>();
     }
+
+
     // TODO
     render() : void {
     }

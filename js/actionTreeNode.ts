@@ -1,7 +1,7 @@
 ///<reference path=".\treeNode.ts"/>
 
 /**
- * Created by Benjamin Lissilour, Anaïs Marongiu
+ * Created by Benjamin Lissilour, Anaï¿½s Marongiu
  */
 
 
