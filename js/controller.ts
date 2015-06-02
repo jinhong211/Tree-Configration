@@ -19,22 +19,20 @@ class Controller {
         var dataJson : string;
         this.communication.httpGet(function (s:string) {
             dataJson = s;
-            console.log(dataJson);
             var doc = document.getElementById("blocs");
-            console.log(doc);
             doc.innerHTML = dataJson.toString();
         });
 
-        var treeNode = this.communication.parseOneBlock(dataJson);
-        this.building.setRoot(treeNode);
+    //    var treeNode = this.communication.parseOneBlock(dataJson);
+    //  this.building.setRoot(treeNode);
 
-        var x = document.getElementById("blocs");
-        x.innerHTML = treeNode.toString();
+        console.log("derp");
     }
 
 
     public send() {
-        var xml = this.communication.parseXml(this.building.getTree().getRoot());
+       // var xml = this.communication.parseXml(this.building.getTree().getRoot());
+        var xml = null;
         var retour:string;
         this.communication.httpPostDirty(xml, function (s:string) {
             retour = s;
