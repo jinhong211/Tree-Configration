@@ -91,7 +91,7 @@ $(function test(){ // on dom ready
             }
             if(!t.closest('.jstree').length) {
                 if(t.closest('.drop').length) {
-                    var treeNode = new TreeNode(text);
+                    var treeNode = new ActionTreeNode(text);
                     Controller.getInstance().getBuildingTree().getSelectedBlocks().push(treeNode);
                     cy.add({
                         group: "nodes",

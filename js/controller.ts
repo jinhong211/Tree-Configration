@@ -53,9 +53,11 @@ class Controller {
 
     public send() {
        // var xml = this.communication.parseXml(this.building.getTree().getRoot());
-        var xml = null;
+        console.log(this.building.getSelectedBlocks()[0]);
+        var xml = this.parser.parseXml(this.building.getSelectedBlocks()[0]);
         var retour:string;
-        this.communication.httpPostDirty(xml, function (s:string) {
+        console.log("xml", xml);
+        this.communication.httpPost(xml, function (s:string) {
             retour = s;
             alert("Result : " + retour);
         });
