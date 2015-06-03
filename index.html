@@ -3,11 +3,14 @@
 <head lang="en">
     <meta charset="UTF-8">
     <link href="style/style.css" rel="stylesheet" />
+    <link rel="stylesheet" href="jsTree/dist/themes/default/style.min.css">
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="jsTree/dist/jstree.min.js"></script>
     <script src="./js/communication.js"></script>
     <script src="./js/treeNode.js"></script>
     <script src="./js/controller.js"></script>
     <script src="./js/buildingTree.js"></script>
+    <script src="./js/navigationTree.js"></script>
     <script src="./cytoscape/cytoscape.min.js"></script>
     <script src="./cytoscape/cytoscape-edgehandles.js"></script>
     <script src="./js/code.js"></script>
@@ -15,6 +18,7 @@
 </head>
 <body>
 <h1>Build your tree</h1>
+    <div id="jstree"></div>
     <div id="blocs"></div>
     <script src="./js/main.js"></script>
     <div id="cy"></div>

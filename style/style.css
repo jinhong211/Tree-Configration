@@ -5,9 +5,9 @@ body {
 }
 #jstree {
     height: 30%;
-    width: 100%;
+    width: 70%;
     position: absolute;
-    left: 0;
+    right: 0;
     top: 0;
 }
 #cy {

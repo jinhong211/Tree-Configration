@@ -1,0 +1,3 @@
+[{ "id" : "demo_child_1", "text" : "Child 1", "children" : [ { "id" : "action1", "text" : "action", "type" : "file" }] },
+  { "id" : "demo_child_2", "text" : "Child 2", "children" : [ { "id" : "demo_child_2", "text" : "One more", "type" : "file" }] }
+]
