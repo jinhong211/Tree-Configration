@@ -379,9 +379,7 @@
           };
 
           function makeEdges( preview, src, tgt ){
-            
-            // console.log('make edges', preview);
-            
+
             var source = src ? src : cy.nodes('.edgehandles-source');
             var targets = tgt ? tgt : cy.nodes('.edgehandles-target');
             var classes = preview ? 'edgehandles-preview' : '';
@@ -613,8 +611,10 @@
                 node.trigger('cyedgehandles.start');
                 
                 function doneMoving(dmEvent){ 
-                  // console.log('doneMoving %s %o', node.id(), node);
-                  
+                   console.log('doneMoving %s %o', node.id(), node);
+
+                  // TODO : Gestion de la création des flèches ici !!
+
                   if( !mdownOnHandle || inForceStart ){
                     return;
                   }

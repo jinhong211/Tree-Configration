@@ -1,5 +1,10 @@
 var elesJson = {
     nodes: [
+        { data: { id: {
+            "id" : "a",
+            "type" : "action"
+        }, name: 'Condition', weight: 100, faveColor: '#6FB1FC', faveShape: 'triangle' } },
+        { data: { id: 'b', name: 'Elaine', weight: 100, faveColor: '#EDA1ED', faveShape: 'ellipse' } }
 
     ],
 
