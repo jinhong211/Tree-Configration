@@ -4,7 +4,7 @@
 ///<reference path="..\typings\jstree\jstree.d.ts"/>
 
 
-class navigationTree {
+class NavigationTree {
 
     private navTree : any;
 

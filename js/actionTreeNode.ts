@@ -10,5 +10,8 @@ class ActionTreeNode extends TreeNode{
         super(n);
     }
 
+    public getType():string {
+        return "action";
+    }
 
 }

@@ -14,4 +14,7 @@ class TreeNode {
         return this.name;
     }
 
+    public getType():string {
+        return "not expected";
+    }
 }
