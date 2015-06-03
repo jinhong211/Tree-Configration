@@ -7,11 +7,11 @@
 
 class ActionTreeNode extends TreeNode{
 
-    private name : string;
+ //   private name : string;
 
     public constructor(n : string) {
-        super();
-        this.name = n;
+        super("test");
+ //       this.name = n;
     }
 
     public getName() {
