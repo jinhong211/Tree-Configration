@@ -33,9 +33,9 @@ class BuildingTree {
 
     public renderAvailableBlocks():string {
         var render:string;
-        render += "<p>";
+        render = "";
         for (var i = 0; i < this.available.length; i++) {
-            //TODO we can do better ?
+            render += "<p>";
             if (this.available[i] instanceof ActionTreeNode) {
                 render += "action";
             } else if (this.available[i] instanceof CompositeTreeNode) {
