@@ -17,9 +17,6 @@ class BuildingTree {
         this.selected = new Array<TreeNode>();
         this.available = new Array<TreeNode>();
     }
-    // TODO
-    render() : void {
-    }
 
     public setBlocksAvailable(nodes:Array<TreeNode>) {
         for (var i = 0; i < nodes.length; i++) {
@@ -51,6 +48,23 @@ class BuildingTree {
             }
             render += " : " + this.available[i].getName() + "</p>";
         }
+        return render;
+    }
+
+    public renderAvailableBlocksMenu():string {
+        var render:string;
+
+        render = "";
+        for (var i = 0; i < this.available.length; i++) {
+            render += "<p>";
+            if (this.available[i] instanceof ActionTreeNode) {
+                render += "action";
+            } else if (this.available[i] instanceof CompositeTreeNode) {
+                render += "composite";
+            }
+            render += " : " + this.available[i].getName() + "</p>";
+        }
+
         return render;
     }
 }

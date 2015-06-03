@@ -29,5 +29,4 @@ class CompositeTreeNode extends TreeNode {
     public getChildrenNodes():Array<TreeNode> {
         return this.childrenNodes;
     }
-
 }
