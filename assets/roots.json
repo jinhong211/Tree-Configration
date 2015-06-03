@@ -1,4 +1,0 @@
-[
-  { "id" : "condition", "text" : "condition", "children" : true, "type" : "root" },
-  { "id" : "action", "text" : "action", "type" : "root" }
-]

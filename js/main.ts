@@ -9,16 +9,17 @@ Controller.getInstance().init(function(n: Array<TreeNode>) {
     mn = n;
     console.log(n);
 
-    var json = [
+    /*  var json = [
         { "id" : "ajson1", "parent" : "#", "text" : "Composit" },
         { "id" : "ajson2", "parent" : "#", "text" : "Action" },
+
         { "id" : "ajson3", "parent" : "ajson2", "text" : mn, "type" : "root" },
         { "id" : "ajson4", "parent" : "ajson2", "text" : "Child 2" },
-    ]
+     ]*/
 
 
-    var navTree = new navigationTree(json);
-    navTree.render();
+    //var navTree = new navigationTree(json);
+    // navTree.render();
 });
 
 

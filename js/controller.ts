@@ -42,14 +42,13 @@ class Controller {
             var nodes:Array<TreeNode>;
             nodes = self.parser.parseBlocks(array);
             self.building.setBlocksAvailable(nodes);
+            self.building.renderAvailableBlocksMenu();
 
-            var doc = document.getElementById("available");
-            doc.innerHTML = self.building.renderAvailableBlocks();
+            // var doc = document.getElementById("available");
+            // doc.innerHTML = self.building.renderAvailableBlocks();
 
             f(self.building.getBlocksAvailable());
         });
-
-        console.log("derp");
     }
 
     public send() {

@@ -32,7 +32,6 @@ class Communication {
         $.get(this.urlSimulator+this.routeGET, function (data) {
             f(data);
         });
-
     }
 
     /**
@@ -52,26 +51,5 @@ class Communication {
         $.post(this.urlSimulator+this.routePOST, xml).done(function (data) {
             alert("Result: " + data);
         });
-    }
-
-    parseOneBlock(datajson : string) : TreeNode {
-
-        var obj = JSON.parse(datajson);
-        return new ActionTreeNode(obj.name);
-    }
-
-    parseBlocks(datajson : string) : Array<TreeNode> {
-        // TODO
-        return new Array();
-    }
-
-    parseXml(racine : TreeNode) : string {
-        var xml = document.createElement("node");
-        var bloc = document.createElement("node");
-        bloc.setAttribute("type","action");
-        //bloc.innerHTML = racine.getName(); // TODO getName si type action
-        xml.appendChild( bloc );
-
-        return xml.innerHTML;
     }
 }

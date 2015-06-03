@@ -30,4 +30,8 @@ class CompositeTreeNode extends TreeNode {
         return this.childrenNodes;
     }
 
+    public getType():string {
+        return "composite";
+    }
+
 }
