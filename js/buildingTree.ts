@@ -27,6 +27,10 @@ class BuildingTree {
         }
     }
 
+    public getBlocksAvailable() : Array<TreeNode> {
+            return this.available;
+    }
+
     public getTree() : Tree {
         return this.tree;
     }

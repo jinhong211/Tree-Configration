@@ -12,7 +12,7 @@ class navigationTree {
         this.navTree = test;
     }
 
-      test():void {
+      render():void {
         var json = this.navTree;
           console.log(json[0]["id"]);
         $('#jstree').jstree({

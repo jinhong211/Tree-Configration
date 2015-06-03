@@ -24,44 +24,26 @@ class Controller {
         this.parser = new Parser();
     }
 
-    public init(f: (n : TreeNode) => void) : void  {
+    public init(f: (n : Array<TreeNode>) => void) : void  {
         var self = this;
         var dataJson : string;
-        this.communication.httpGet(function (s:string, array:Array<JSON> ) {
-            dataJson = s;
+        this.communication.httpGet(function (array:Array<JSON> ) {
+         //   dataJson = s;
             var nodes:Array<TreeNode>;
-            nodes = self.parser.parseBlocks(s);
+            nodes = self.parser.parseBlocks(array);
             self.building.setBlocksAvailable(nodes);
 
             var doc = document.getElementById("available");
             doc.innerHTML = self.building.renderAvailableBlocks();
 
-            self.node = new TreeNode(dataJson);
+    //        self.node = new TreeNode(dataJson);
 
-
-
-            f(self.node);
+            f(self.building.getBlocksAvailable());
         });
-
-    //    var treeNode = this.communication.parseOneBlock(dataJson);
-    //  this.building.setRoot(treeNode);
 
         console.log("derp");
     }
 
-    /**
-     * This function is used to call the http method.
-     *
-     * @param f : anonyme function for the callback.
-     */
-    httpGet(f: (s:string)=>void) : void {
-        var retour : string;
-        $.get("http://10.212.118.128:3000/blocks/all", function (data) {
-            retour = data["name"];
-            f(retour);
-        });
-    }
-    
     public send() {
        // var xml = this.communication.parseXml(this.building.getTree().getRoot());
         var xml = null;

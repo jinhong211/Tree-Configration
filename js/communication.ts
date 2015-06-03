@@ -20,7 +20,7 @@ class Communication {
         this.urlSimulator = url;
         this.routeGET = "/blocks/all";
         this.routePOST = "/bots/1/tree";
-        this.routePOSTOneAction = "/bots/1/tree/action";
+        this.routePOSTOneAction = "/bots/1/action";
     }
     
     /**
