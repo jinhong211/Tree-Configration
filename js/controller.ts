@@ -19,17 +19,15 @@ class Controller {
     }
 
     public init():void {
-        this.communication.httpGet(function (s:string) {
-
+        // Attention quand on est dans un callback et qu'on veut utiliser un this,
+        // penser à le sauvegarder avant
+        var self = this;
+        this.communication.httpGet(function (s:Array<JSON>) {
             var nodes:Array<TreeNode>;
-            nodes = new Array<TreeNode>();
-            console.log(s);
-            console.log(nodes);
-            nodes = this.parser.parseBlocks(s);
-
-            this.building.setBlocksAvailable(nodes);
+            nodes = self.parser.parseBlocks(s);
+            self.building.setBlocksAvailable(nodes);
             var doc = document.getElementById("available");
-            doc.innerHTML = this.building.renderAvailableBlocks();
+            doc.innerHTML = self.building.renderAvailableBlocks();
         });
     }
 

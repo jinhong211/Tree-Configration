@@ -13,23 +13,21 @@
 class Parser {
     public constructor(){}
 
-    parseBlocks(datajson:any):Array<TreeNode> {
-        console.log("hihihi");
-        var listNodeAvailable = new Array<TreeNode>();
-        var jsonObj = JSON.parse(datajson);
-        console.log(jsonObj);
+    parseBlocks(datajson:Array<JSON>):Array<TreeNode> {
+        var listNodeAvailable:Array<TreeNode>;
+        listNodeAvailable = new Array<TreeNode>();
 
-        //todo test !
-        for (var i = 0;i<jsonObj.length;i++){
-            var jsonBloc = jsonObj[i];
+        for (var i = 0; i < datajson.length; i++) {
+            var jsonBloc = datajson[i];
             if (jsonBloc["type"] == "action") {
                 listNodeAvailable.push(new ActionTreeNode(jsonBloc["name"]));
             } else if (jsonBloc["type"] == "composite") {
                 listNodeAvailable.push(new CompositeTreeNode(jsonBloc["name"]));
+            } else {
+                listNodeAvailable.push(new TreeNode(jsonBloc["name"]));
             }
         }
 
-        console.log(listNodeAvailable);
         return listNodeAvailable;
     }
 

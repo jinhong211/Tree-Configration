@@ -28,7 +28,7 @@ class Communication {
      * get blocs available
      * @param f : anonyme function for the callback.
      */
-    httpGet(f: (s:string)=>void) : void {
+    httpGet(f:(s:Array<JSON>)=>void):void {
         $.get(this.urlSimulator+this.routeGET, function (data) {
             f(data);
         });
