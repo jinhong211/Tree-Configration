@@ -20,7 +20,7 @@ class Communication {
         this.urlSimulator = url;
         this.routeGET = "/blocks/all";
         this.routePOST = "/bots/1/tree";
-        this.routePOSTOneAction = "/bots/1/tree/action";
+        this.routePOSTOneAction = "/bots/1/action";
     }
     
     /**
@@ -32,7 +32,6 @@ class Communication {
         $.get(this.urlSimulator+this.routeGET, function (data) {
             f(data);
         });
-
     }
 
     /**
@@ -49,7 +48,7 @@ class Communication {
 
     httpPost(xml:string, f:(s:string)=>void):void {
         // envoyer shout en format xml et afficher le résultat de la requete
-        $.post(this.urlSimulator+this.routePOST, xml).done(function (data) {
+        $.post(this.urlSimulator+this.routePOSTOneAction, xml).done(function (data) {
             alert("Result: " + data);
         });
     }

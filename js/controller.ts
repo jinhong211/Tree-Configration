@@ -6,38 +6,69 @@
 /**
  * @author by Benjamin Lissilour, Anaïs Marongiu, Quentin Cornevin
  */
-
 class Controller {
+
     private communication : Communication;
     private building : BuildingTree;
     private parser:Parser;
+    private node : TreeNode;
+    private url : string;
 
-    public constructor(url : string) {
-        this.communication = new Communication(url);
+    private static instance : Controller;
+
+    /**
+     * Build a constructeur with all the intelligence use the given url
+     * @param url to make the get and post.
+     */
+    public constructor() {
+        this.url = "http://10.212.118.128:3000";
+        this.communication = new Communication(this.url);
         this.building = new BuildingTree();
         this.parser = new Parser();
     }
 
-    public init():void {
-        // Attention quand on est dans un callback et qu'on veut utiliser un this,
-        // penser à le sauvegarder avant
+    public static getInstance() : Controller {
+        if(this.instance == null) {
+            this.instance = new Controller();
+        }
+        return this.instance;
+    }
+
+    public init(f: (n : Array<TreeNode>) => void) : void  {
         var self = this;
-        this.communication.httpGet(function (s:Array<JSON>) {
+        var dataJson : string;
+        this.communication.httpGet(function (array:Array<JSON> ) {
+         //   dataJson = s;
             var nodes:Array<TreeNode>;
-            nodes = self.parser.parseBlocks(s);
+            nodes = self.parser.parseBlocks(array);
             self.building.setBlocksAvailable(nodes);
-            var doc = document.getElementById("available");
-            doc.innerHTML = self.building.renderAvailableBlocks();
+            self.building.renderAvailableBlocksMenu();
+
+            // var doc = document.getElementById("available");
+            // doc.innerHTML = self.building.renderAvailableBlocks();
+
+            f(self.building.getBlocksAvailable());
         });
     }
 
     public send() {
        // var xml = this.communication.parseXml(this.building.getTree().getRoot());
-        var xml = null;
+        console.log(this.building.getSelectedBlocks()[0]);
+        var xml = this.parser.parseXml(this.building.getSelectedBlocks()[0]);
         var retour:string;
-        this.communication.httpPostDirty(xml, function (s:string) {
+        console.log("xml", xml);
+        this.communication.httpPost(xml, function (s:string) {
             retour = s;
             alert("Result : " + retour);
         });
     }
+
+    public getNode() : TreeNode {
+        return this.node;
+    }
+
+    public getBuildingTree() : BuildingTree {
+        return this.building;
+    }
 }
+

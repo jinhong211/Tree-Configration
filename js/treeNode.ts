@@ -13,4 +13,8 @@ class TreeNode {
     public getName() {
         return this.name;
     }
+
+    public getType():string {
+        return "not expected";
+    }
 }
