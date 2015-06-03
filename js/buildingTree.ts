@@ -21,6 +21,7 @@ class BuildingTree {
 
     }
 
+
     public setBlocksAvailable(nodes:Array<TreeNode>) {
         for (var i = 0; i < nodes.length; i++) {
             this.available.push(nodes[i]);
