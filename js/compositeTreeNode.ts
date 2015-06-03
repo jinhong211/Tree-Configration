@@ -10,7 +10,7 @@ class CompositeTreeNode extends TreeNode {
     private childrenNodes : Array<TreeNode>;
 
     public constructor(children : TreeNode[]) {
-        super();
+        super("test");
     }
 
     public addChildNode(node : TreeNode){

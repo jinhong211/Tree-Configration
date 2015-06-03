@@ -24,8 +24,6 @@ c.init(function(n:TreeNode) {
     navTree.test();
 });
 
-var node = new TreeNode("DERP");
-node.getJSON();
 
 declare var elesJson;
 
@@ -34,4 +32,3 @@ myNode = c.getNode();
 //console.log(myNode);
 
 //console.log(elesJson["nodes"]);
-elesJson["nodes"].push(node.getJSON());
