@@ -48,7 +48,10 @@ class Communication {
 
     httpPost(xml:string, f:(s:string)=>void):void {
         // envoyer shout en format xml et afficher le résultat de la requete
-        $.post(this.urlSimulator+this.routePOSTOneAction, xml).done(function (data) {
+        var json = {
+            "xml" : xml.toString()
+        }
+        $.post(this.urlSimulator+this.routePOST, json).done(function (data) {
             alert("Result: " + data);
         });
     }

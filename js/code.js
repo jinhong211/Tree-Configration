@@ -8,7 +8,7 @@ var elesJson = {
     ]
 };
 
-$(function test(){ // on dom ready
+$(function test(){
 
     var cy = window.cy = cytoscape({
         container: document.getElementById('cy'),
@@ -56,12 +56,49 @@ $(function test(){ // on dom ready
                     'opacity': 0.25,
                     'text-opacity': 0
                 }
+            },
+            {
+                selector: '.edgehandles-hover',
+                css: {
+                    'background-color': 'red'
+                }
+            },
+
+            {
+                selector: '.edgehandles-source',
+                css: {
+                    'border-width': 2,
+                    'border-color': 'red'
+                }
+            },
+
+            {
+                selector: '.edgehandles-target',
+                css: {
+                    'border-width': 2,
+                    'border-color': 'red'
+                }
+            },
+
+            {
+                selector: '.edgehandles-preview, .edgehandles-ghost-edge',
+                css: {
+                    'line-color': 'red',
+                    'target-arrow-color': 'red',
+                    'source-arrow-color': 'red'
+                }
             }
+
+
         ],
         layout: {
             name: 'circle',
             padding: 10
         }
+    });
+
+    cy.edgehandles({
+        // options go here
     });
 
 
