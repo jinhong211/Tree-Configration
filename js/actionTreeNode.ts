@@ -4,15 +4,11 @@
  * Created by Benjamin Lissilour, Ana�s Marongiu
  */
 
-
 class ActionTreeNode extends TreeNode{
 
     public constructor(n : string) {
         super(n);
     }
 
-    public getName() {
-        return name;
-    }
 
 }

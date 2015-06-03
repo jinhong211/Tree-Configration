@@ -1,13 +1,17 @@
 /**
- * Created by Benjamin Lissilour, Anaïs Marongiu, Quentin Cornevin
+ * Created by Benjamin Lissilour, Anaïs Marongiu
  */
 
 class TreeNode {
 
     private name : string;
 
-    public constructor(name: string) {
-        this.name = name;
+    public constructor(n : string){
+        this.name = n;
+    }
+
+    public getName() {
+        return this.name;
     }
 
 }

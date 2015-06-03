@@ -14,16 +14,22 @@
     <script src="./cytoscape/cytoscape.min.js"></script>
     <script src="./cytoscape/cytoscape-edgehandles.js"></script>
     <script src="./js/code.js"></script>
+    <script src="./js/compositeTreeNode.js"></script>
+    <script src="./js/actionTreeNode.js"></script>
+    <script src="./js/parser.js"></script>
+
     <title> Arena Tree </title>
 </head>
 <body>
-<h1>Build your tree</h1>
-    <div id="jstree"></div>
-    <div id="blocs"></div>
-    <script src="./js/main.js"></script>
-    <div id="cy"></div>
-<div id="buttons">
-    <button id="envoyer">envoyer</button>
-</div>
+<h1>Build your Arena Tree !!</h1>
+<button onclick="c.send();">Send</button>
+
+<h2>Available blocs</h2>
+
+<div id="available"></div>
+<div id="jstree"></div>
+<div id="cy"></div>
+
+<script src="./js/main.js"></script>
 </body>
 </html>

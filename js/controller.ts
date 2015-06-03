@@ -1,13 +1,17 @@
 ///<reference path=".\communication.ts"/>
 ///<reference path=".\buildingTree.ts"/>
+///<reference path=".\parser.ts"/>
+///<reference path=".\treeNode.ts"/>
 
 /**
  * @author by Benjamin Lissilour, Anaïs Marongiu, Quentin Cornevin
  */
+
 class Controller {
 
     private communication : Communication;
     private building : BuildingTree;
+    private parser:Parser;
     private node : TreeNode;
 
     /**
@@ -17,10 +21,33 @@ class Controller {
     public constructor(url : string) {
         this.communication = new Communication(url);
         this.building = new BuildingTree();
+        this.parser = new Parser();
     }
 
+    public init(f: (n : TreeNode) => void) : void  {
+        var self = this;
+        var dataJson : string;
+        this.communication.httpGet(function (s:string, array:Array<JSON> ) {
+            dataJson = s;
+            var nodes:Array<TreeNode>;
+            nodes = self.parser.parseBlocks(s);
+            self.building.setBlocksAvailable(nodes);
+
+            var doc = document.getElementById("available");
+            doc.innerHTML = self.building.renderAvailableBlocks();
+
+            self.node = new TreeNode(dataJson);
 
 
+
+            f(self.node);
+        });
+
+    //    var treeNode = this.communication.parseOneBlock(dataJson);
+    //  this.building.setRoot(treeNode);
+
+        console.log("derp");
+    }
 
     /**
      * This function is used to call the http method.
@@ -34,28 +61,7 @@ class Controller {
             f(retour);
         });
     }
-
-    /**
-     * This method initialize the list with all the node.
-     */
-    public init(f: (n : TreeNode) => void) : void {
-        var self = this;
-        var dataJson : string;
-        console.log("test");
-        this.communication.httpGet(function (s:string) {
-            dataJson = s;
-            console.log("caca",s);
-            var doc = document.getElementById("blocs");
-            doc.innerHTML = dataJson.toString();
-            self.node = new TreeNode(dataJson);
-            console.log(self.node);
-            f(self.node);
-        });
-
-    //    var treeNode = this.communication.parseOneBlock(dataJson);
-    //  this.building.setRoot(treeNode);
-    }
-
+    
     public send() {
        // var xml = this.communication.parseXml(this.building.getTree().getRoot());
         var xml = null;

@@ -4,7 +4,7 @@
  * @author by Anaïs Marongiu, Quentin Cornevin
  */
 var mn : TreeNode;
-var c = new Controller("http://10.212.118.128:3000/bots/1/tree");
+var c = new Controller("http://10.212.118.128:3000");
 c.init(function(n:TreeNode) {
     mn = n;
     console.log("coucou",mn);
