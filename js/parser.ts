@@ -11,23 +11,25 @@
  */
 
 class Parser {
-
     public constructor(){}
 
-    parseOneBlock(datajson : string) : TreeNode {
-
-        var obj = JSON.parse(datajson);
-        return new ActionTreeNode(obj[0]["name"]);
-    }
-
-    parseBlocks(datajson : string) : Array<TreeNode> {
+    parseBlocks(datajson:any):Array<TreeNode> {
+        console.log("hihihi");
         var listNodeAvailable = new Array<TreeNode>();
         var jsonObj = JSON.parse(datajson);
+        console.log(jsonObj);
 
+        //todo test !
         for (var i = 0;i<jsonObj.length;i++){
             var jsonBloc = jsonObj[i];
-            listNodeAvailable.push(new TreeNode(jsonBloc["name"]));
+            if (jsonBloc["type"] == "action") {
+                listNodeAvailable.push(new ActionTreeNode(jsonBloc["name"]));
+            } else if (jsonBloc["type"] == "composite") {
+                listNodeAvailable.push(new CompositeTreeNode(jsonBloc["name"]));
+            }
         }
+
+        console.log(listNodeAvailable);
         return listNodeAvailable;
     }
 
@@ -35,15 +37,13 @@ class Parser {
         var xml = document.createElement("node");
         var bloc = document.createElement("node");
 
-
-
         if (noeudCourant instanceof ActionTreeNode) {
             bloc.setAttribute("type","action");
             bloc.innerHTML += noeudCourant.getName();
 
         } else if (noeudCourant instanceof CompositeTreeNode) {
             bloc.setAttribute("type","composite");
-            var children = noeudCourant.getChiledrenNodes();
+            var children = noeudCourant.getChildrenNodes();
             for (var i=0; i<children.length; i++) {
                 bloc.innerHTML += this.parseXml(children[i]);
             }

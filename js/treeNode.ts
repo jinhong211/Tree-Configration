@@ -10,7 +10,6 @@ class TreeNode {
         this.name = n;
     }
 
-
     public getName() {
         return this.name;
     }

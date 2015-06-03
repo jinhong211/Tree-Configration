@@ -4,9 +4,7 @@
  * Created by Benjamin Lissilour, Anaïs Marongiu
  */
 
-
 class Tree {
-
     private root : TreeNode;
 
     public constructor(r : TreeNode) {

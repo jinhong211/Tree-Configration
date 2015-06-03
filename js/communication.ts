@@ -11,33 +11,38 @@
  */
 
 class Communication {
-
     private urlSimulator:string;
     private routeGET:string;
     private routePOST:string;
+    private routePOSTOneAction:string;
 
     public constructor(url:string) {
         this.urlSimulator = url;
         this.routeGET = "/blocks/all";
         this.routePOST = "/bots/1/tree";
+        this.routePOSTOneAction = "/bots/1/tree/action";
     }
     
     /**
      * This function is used to call the http method.
-     *
+     * get blocs available
      * @param f : anonyme function for the callback.
      */
     httpGet(f: (s:string)=>void) : void {
-        var retour : string;
         $.get(this.urlSimulator+this.routeGET, function (data) {
-            retour = data["name"];
-            f(retour);
+            f(data);
         });
+
     }
 
+    /**
+     * This function is used to call the http method.
+     * post
+     * @param f : anonyme function for the callback.
+     */
     httpPostDirty(xml:string, f:(s:string)=>void):void {
         // envoyer shout en format json et afficher le résultat de la requete
-        $.post(this.urlSimulator+this.routePOST, {name: "shout"}).done(function (data) {
+        $.post(this.urlSimulator + this.routePOSTOneAction, {name: "shout"}).done(function (data) {
             f(data);
         });
     }
@@ -47,38 +52,5 @@ class Communication {
         $.post(this.urlSimulator+this.routePOST, xml).done(function (data) {
             alert("Result: " + data);
         });
-    }
-
-    parseOneBlock(datajson : string) : TreeNode {
-
-        var obj = JSON.parse(datajson);
-        return new ActionTreeNode(obj.name);
-    }
-
-    parseBlocks(datajson : string) : Array<TreeNode> {
-        // TODO
-        return new Array();
-    }
-
-    parseXml(noeudCourant : TreeNode) : string {
-        var xml = document.createElement("node");
-        var bloc = document.createElement("node");
-
-
-
-        if (noeudCourant instanceof ActionTreeNode) {
-            bloc.setAttribute("type","action");
-            bloc.innerHTML += noeudCourant.getName();
-
-        } else if (noeudCourant instanceof CompositeTreeNode) {
-            bloc.setAttribute("type","composite");
-            var children = noeudCourant.getChiledrenNodes();
-            for (var i=0; i<children.length; i++) {
-                bloc.innerHTML += this.parseXml(children[i]);
-            }
-        }
-        xml.appendChild( bloc );
-
-        return xml.innerHTML;
     }
 }

@@ -1,34 +1,37 @@
 ///<reference path=".\communication.ts"/>
 ///<reference path=".\buildingTree.ts"/>
+///<reference path=".\parser.ts"/>
+///<reference path=".\treeNode.ts"/>
 
 /**
  * @author by Benjamin Lissilour, Anaïs Marongiu, Quentin Cornevin
  */
 
 class Controller {
-
     private communication : Communication;
     private building : BuildingTree;
+    private parser:Parser;
 
     public constructor(url : string) {
         this.communication = new Communication(url);
         this.building = new BuildingTree();
+        this.parser = new Parser();
     }
 
-    public init() {
-        var dataJson : string;
+    public init():void {
         this.communication.httpGet(function (s:string) {
-            dataJson = s;
-            var doc = document.getElementById("blocs");
-            doc.innerHTML = dataJson.toString();
+
+            var nodes:Array<TreeNode>;
+            nodes = new Array<TreeNode>();
+            console.log(s);
+            console.log(nodes);
+            nodes = this.parser.parseBlocks(s);
+
+            this.building.setBlocksAvailable(nodes);
+            var doc = document.getElementById("available");
+            doc.innerHTML = this.building.renderAvailableBlocks();
         });
-
-    //    var treeNode = this.communication.parseOneBlock(dataJson);
-    //  this.building.setRoot(treeNode);
-
-        console.log("derp");
     }
-
 
     public send() {
        // var xml = this.communication.parseXml(this.building.getTree().getRoot());
