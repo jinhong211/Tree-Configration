@@ -22,7 +22,7 @@ class BuildingTree {
     }
 
     public setBlockAvailable(node : TreeNode) {
-        this.available.push(TreeNode);
+      //  this.available.push(TreeNode);
     }
 
     public setBlocksAvailable( nodes : Array<TreeNode>){
