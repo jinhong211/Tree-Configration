@@ -4,8 +4,8 @@
  * @author by Anaïs Marongiu, Quentin Cornevin
  */
 var mn : Array<TreeNode>;
-var c = new Controller("http://10.212.118.128:3000");
-c.init(function(n: Array<TreeNode>) {
+//var c = new Controller("http://10.212.118.128:3000");
+Controller.getInstance().init(function(n: Array<TreeNode>) {
     mn = n;
     console.log(n);
 
@@ -20,6 +20,7 @@ c.init(function(n: Array<TreeNode>) {
     var navTree = new navigationTree(json);
     navTree.render();
 });
+
 
 
 

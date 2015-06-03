@@ -6,22 +6,32 @@
 /**
  * @author by Benjamin Lissilour, Anaïs Marongiu, Quentin Cornevin
  */
-
 class Controller {
 
     private communication : Communication;
     private building : BuildingTree;
     private parser:Parser;
     private node : TreeNode;
+    private url : string;
+
+    private static instance : Controller;
 
     /**
      * Build a constructeur with all the intelligence use the given url
      * @param url to make the get and post.
      */
-    public constructor(url : string) {
-        this.communication = new Communication(url);
+    public constructor() {
+        this.url = "http://10.212.118.128:3000";
+        this.communication = new Communication(this.url);
         this.building = new BuildingTree();
         this.parser = new Parser();
+    }
+
+    public static getInstance() : Controller {
+        if(this.instance == null) {
+            this.instance = new Controller();
+        }
+        return this.instance;
     }
 
     public init(f: (n : Array<TreeNode>) => void) : void  {
@@ -35,8 +45,6 @@ class Controller {
 
             var doc = document.getElementById("available");
             doc.innerHTML = self.building.renderAvailableBlocks();
-
-    //        self.node = new TreeNode(dataJson);
 
             f(self.building.getBlocksAvailable());
         });
@@ -57,4 +65,9 @@ class Controller {
     public getNode() : TreeNode {
         return this.node;
     }
+
+    public getBuildingTree() : BuildingTree {
+        return this.building;
+    }
 }
+

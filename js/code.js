@@ -1,8 +1,6 @@
-
 var elesJson = {
     nodes: [
-        { data: { id: 'a', name: "shout", weight: 65, faveColor: '#6FB1FC' } },
-        { data: { id: 'b', name: 'Elaine', weight: 65, faveColor: '#EDA1ED'} },
+
     ],
 
     edges: [
@@ -93,12 +91,13 @@ $(function test(){ // on dom ready
             }
             if(!t.closest('.jstree').length) {
                 if(t.closest('.drop').length) {
+                    var treeNode = new TreeNode(text);
+                    Controller.getInstance().getBuildingTree().getSelectedBlocks().push(treeNode);
                     cy.add({
                         group: "nodes",
                         data: { name: text, weight: 70, faveColor: '#F5A45D', faveShape: 'rectangle' },
                         position: { x: x + 110, y: y - 180 }
                     });
-
                 }
             }
         });

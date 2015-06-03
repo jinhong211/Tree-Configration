@@ -4,7 +4,7 @@
 ///<reference path="./tree.ts"/>
 
 /**
- * Created by Benjamin Lissilour, Ana�s Marongiu
+ * Created by Benjamin Lissilour, Ana�s Marongiu, Quentin Cornevin
  */
 
 class BuildingTree {
@@ -28,7 +28,11 @@ class BuildingTree {
     }
 
     public getBlocksAvailable() : Array<TreeNode> {
-            return this.available;
+        return this.available;
+    }
+
+    public getSelectedBlocks() : Array<TreeNode> {
+        return this.selected;
     }
 
     public getTree() : Tree {
