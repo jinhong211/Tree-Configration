@@ -3,24 +3,46 @@ body {
     font-size: 14px;
     font: 14px helvetica neue, helvetica, arial, sans-serif;
 }
-#jstree {
-    height: 30%;
-    width: 70%;
-    position: absolute;
-    right: 0;
-    top: 0;
-}
-#cy {
-    height: 70%;
+
+/* le header */
+#header {
+    height: 10%;
     width: 100%;
+}
+
+/* titre principal */
+h1 {
+    opacity: 0.5;
+    font-size: 3em;
+    text-align: center;
+    margin-top: 2px;
+}
+
+/* bouton send */
+#send {
+    height: 3em;
+    top: 1%;
+    right: 1%;
+    position: absolute;
+}
+
+/* le menu des blocs disponible (gauche) */
+
+#jstree {
+    height: 70%;
+    width: 25%;
+    top: 0;
+    right: 0;
+}
+
+/* la zone de construction */
+#cy {
+    height: 90%;
+    width: 75%;
     position: absolute;
     right: 0;
     bottom: 0;
     background-color: #FAEDEF;
-}
-h1 {
-    opacity: 0.5;
-    font-size: 1em;
 }
 
 #buttons {
