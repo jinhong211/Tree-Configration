@@ -1,11 +1,7 @@
 var elesJson = {
     nodes: [
-        { data: { id: 'a', name: 'Condition', weight: 100, faveColor: '#6FB1FC', faveShape: 'triangle', height : 100 } },
-        { data: { id: 'b', name: 'Elaine', weight: 100, faveColor: '#EDA1ED', faveShape: 'ellipse', height : 100 } }
     ],
-
     edges: [
-
     ]
 };
 
@@ -124,18 +120,21 @@ $(function test(){
             var t = $(data.event.target);
             var x, y;
             var text = $('.jstree-clicked').text();
+            console.log($('.jstree-clicked').parent())
             if(!document.all) {
                 x = event.x;
                 y = event.y;
             }
+
             if(!t.closest('.jstree').length) {
                 if(t.closest('.drop').length) {
                     var treeNode = new ActionTreeNode(text);
                     Controller.getInstance().getBuildingTree().getSelectedBlocks().push(treeNode);
+                    var selectedPos = Controller.getInstance().getBuildingTree().getSelectedBlocks().length;
                     cy.add({
                         group: "nodes",
-                        data: { name: text, weight: 70, faveColor: '#F5A45D', faveShape: 'rectangle' },
-                        position: { x: x + 110, y: y - 180 }
+                        data: { name: text, weight: 100, faveColor: '#F5A45D', faveShape: 'rectangle', height : 100, id: selectedPos + ""},
+                        position: { x: x-190, y: y }
                     });
                 }
             }
