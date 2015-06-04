@@ -91,6 +91,8 @@ class Parser {
         var xml = document.createElement("root");
         var bloc;
 
+        console.log("I'm here :)");
+
         if (noeudCourant instanceof ActionTreeNode) {
             bloc = document.createElement("task");
             var type = document.createElement("type");
@@ -114,7 +116,9 @@ class Parser {
                 bloc.appendChild(childrenNode);
             }
         }
-        xml.appendChild(bloc);
+        if (bloc) {
+            xml.appendChild(bloc);
+        }
 
         if (init) {
             var shell = document.createElement("shell");
