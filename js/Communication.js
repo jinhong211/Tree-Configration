@@ -26,6 +26,20 @@ var Communication = (function () {
             f(data);
         });
     };
+    Communication.prototype.httpGetMOCK = function () {
+        var res = [];
+        var bloc1 = {
+            "type": "action",
+            "name": "shout"
+        };
+        var bloc2 = {
+            "type": "composite",
+            "name": "decorator"
+        };
+        res.push(bloc1);
+        res.push(bloc2);
+        return res;
+    };
     /**
      * This function call the http method to post a behaviour tree composed by one action node in JSON format
      * @param f

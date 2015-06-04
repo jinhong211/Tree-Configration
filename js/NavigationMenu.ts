@@ -5,7 +5,6 @@
  * @author Quentin, Hong
  */
 class NavigationMenu {
-
     private navTree:any;
 
     public constructor(test:any) {

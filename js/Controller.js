@@ -33,17 +33,16 @@ var Controller = (function () {
      */
     Controller.prototype.init = function (f) {
         var self = this;
-        this.communication.httpGet(function (array) {
-            // parse the received blocks JSON to our blocks object
-            var nodes;
-            nodes = self.parser.parseBlocks(array);
-            // set the blocks in our modle
-            self.building.setAvailableBlocks(nodes);
-            // display the blocks in the menu
-            self.building.renderAvailableBlocksMenu();
-            // return
-            f(self.building.getAvailableBlocks());
-        });
+        var array = this.communication.httpGetMOCK();
+        // parse the received blocks JSON to our blocks object
+        var nodes;
+        nodes = self.parser.parseBlocks(array);
+        // set the blocks in our modle
+        self.building.setAvailableBlocks(nodes);
+        // display the blocks in the menu
+        self.building.renderAvailableBlocksMenu();
+        // return
+        //f(self.building.getAvailableBlocks());
     };
     /**
      * Method for the sending of the simplified behaviour tree create by the user to a simulator
