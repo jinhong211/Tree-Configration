@@ -1,6 +1,7 @@
 var elesJson = {
     nodes: [
-
+        { data: { id: 'a', name: 'Condition', weight: 100, faveColor: '#6FB1FC', faveShape: 'triangle', height : 100 } },
+        { data: { id: 'b', name: 'Elaine', weight: 100, faveColor: '#EDA1ED', faveShape: 'ellipse', height : 100 } }
     ],
 
     edges: [
@@ -8,7 +9,7 @@ var elesJson = {
     ]
 };
 
-$(function test(){ // on dom ready
+$(function test(){
 
     var cy = window.cy = cytoscape({
         container: document.getElementById('cy'),
@@ -20,8 +21,9 @@ $(function test(){ // on dom ready
                 selector: 'node',
                 css: {
                     'shape': 'rectangle',
-                    'width': 'mapData(weight, 40, 80, 20, 60)',
+                    'width': 'data(weight)',
                     'content': 'data(name)',
+                    'height' : 'data(height)',
                     'text-valign': 'center',
                     'text-outline-width': 2,
                     'background-color': 'data(faveColor)',
@@ -56,12 +58,49 @@ $(function test(){ // on dom ready
                     'opacity': 0.25,
                     'text-opacity': 0
                 }
+            },
+            {
+                selector: '.edgehandles-hover',
+                css: {
+                    'background-color': 'red'
+                }
+            },
+
+            {
+                selector: '.edgehandles-source',
+                css: {
+                    'border-width': 2,
+                    'border-color': 'red'
+                }
+            },
+
+            {
+                selector: '.edgehandles-target',
+                css: {
+                    'border-width': 2,
+                    'border-color': 'red'
+                }
+            },
+
+            {
+                selector: '.edgehandles-preview, .edgehandles-ghost-edge',
+                css: {
+                    'line-color': 'red',
+                    'target-arrow-color': 'red',
+                    'source-arrow-color': 'red'
+                }
             }
+
+
         ],
         layout: {
             name: 'circle',
             padding: 10
         }
+    });
+
+    cy.edgehandles({
+        // options go here
     });
 
 
