@@ -45,6 +45,17 @@ var Controller = (function () {
             f(self.building.getAvailableBlocks());
         });
     };
+    Controller.prototype.initMOCK = function () {
+        var self = this;
+        var array = this.communication.httpGetMOCK();
+        // parse the received blocks JSON to our blocks object
+        var nodes;
+        nodes = self.parser.parseBlocks(array);
+        // set the blocks in our modle
+        self.building.setAvailableBlocks(nodes);
+        // display the blocks in the menu
+        self.building.renderAvailableBlocksMenu();
+    };
     /**
      * Method for the sending of the simplified behaviour tree create by the user to a simulator
      */

@@ -1,7 +1,7 @@
 ///<reference path="..\typings\jquery\jquery.d.ts"/>
-///<reference path=".\TreeNode.ts"/>
+///<reference path="./TreeNode.ts"/>
 ///<reference path="./ActionTreeNode.ts"/>
-///<reference path=".\CompositeTreeNode"/>
+///<reference path="./CompositeTreeNode"/>
 
 /**
  * This class handle the communication with a simulator
@@ -48,6 +48,21 @@ class Communication {
         $.get(this.urlSimulator + this.pathGET, function (data) {
             f(data);
         });
+    }
+
+    httpGetMOCK() : JSON[]{
+        var res = [];
+        var bloc1 = {
+            "type": "action",
+            "name": "shout"
+        };
+        var bloc2 = {
+            "type": "composite",
+            "name": "decorator"
+        };
+        res.push(bloc1);
+        res.push(bloc2);
+        return res;
     }
 
     /**

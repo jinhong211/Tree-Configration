@@ -4,35 +4,38 @@
     <meta charset="UTF-8">
     <link href="style/style.css" rel="stylesheet" />
     <link rel="stylesheet" href="jsTree/dist/themes/default/style.min.css">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="jsTree/dist/jstree.min.js"></script>
-    <script src="js/Communication.js"></script>
-    <script src="js/TreeNode.js"></script>
-    <script src="js/Controller.js"></script>
-    <script src="js/BuilderTree.js"></script>
-    <script src="js/NavigationMenu.js"></script>
+    <script src="./js/TreeNode.js"></script>
+    <script src="./js/Controller.js"></script>
+    <script src="./js/BuilderTree.js"></script>
+    <script src="./js/NavigationMenu.js"></script>
     <script src="./cytoscape/cytoscape.min.js"></script>
     <script src="./cytoscape/cytoscape-edgehandles.js"></script>
-    <script src="js/Interactions.js"></script>
-    <script src="js/CompositeTreeNode.js"></script>
-    <script src="js/ActionTreeNode.js"></script>
-    <script src="js/Parser.js"></script>
+    <script src="./js/Interactions.js"></script>
+    <script src="./js/CompositeTreeNode.js"></script>
+    <script src="./js/ActionTreeNode.js"></script>
+    <script src="./js/Parser.js"></script>
 
     <title> Arena Tree </title>
 </head>
 <body>
-<div id="header">
-    <h1>Arena Tree</h1>
-    <button id="send" onclick="Controller.getInstance().send();">Send</button>
-</div>
+    <!-- header -->
+    <div id="header">
+        <h1>Arena Tree</h1>
+        <button id="send" onclick="Controller.getInstance().send();">Send</button>
+    </div>
 
-<div id="menuLeft">
-    <h2>Available blocs</h2>
+    <!-- navigation menu of available blocks -->
+    <div id="menuLeft">
+        <h2>Available blocs</h2>
+        <div id="jstree"></div>
+    </div>
 
-    <div id="jstree"></div>
-</div>
+    <!-- building zone -->
+    <div id="cy" class="drop"></div>
 
-<div id="cy" class="drop"></div>
-
-<script src="js/Main.js"></script>
+    <!-- script -->
+    <script src="js/Main.js"></script>
 </body>
 </html>

@@ -1,7 +1,7 @@
 ///<reference path="..\typings\jquery\jquery.d.ts"/>
-///<reference path=".\TreeNode.ts"/>
+///<reference path="./TreeNode.ts"/>
 ///<reference path="./ActionTreeNode.ts"/>
-///<reference path=".\CompositeTreeNode"/>
+///<reference path="./CompositeTreeNode"/>
 /**
  * This class handle the communication with a simulator
  * @author Quentin, Anais, Benjamin
@@ -25,6 +25,20 @@ var Communication = (function () {
         $.get(this.urlSimulator + this.pathGET, function (data) {
             f(data);
         });
+    };
+    Communication.prototype.httpGetMOCK = function () {
+        var res = [];
+        var bloc1 = {
+            "type": "action",
+            "name": "shout"
+        };
+        var bloc2 = {
+            "type": "composite",
+            "name": "decorator"
+        };
+        res.push(bloc1);
+        res.push(bloc2);
+        return res;
     };
     /**
      * This function call the http method to post a behaviour tree composed by one action node in JSON format
