@@ -1,4 +1,4 @@
-///<reference path="..\typings\jquery\jquery.d.ts"/>
+///<reference path="../typings/jquery/jquery.d.ts"/>
 ///<reference path="./TreeNode.ts"/>
 ///<reference path="./ActionTreeNode.ts"/>
 ///<reference path="./CompositeTreeNode"/>
@@ -39,7 +39,7 @@ class Communication {
         this.routePOST = "/bots/1/tree";
         this.routePOSTOneAction = "/bots/1/action";
     }
-    
+
     /**
      * This function call the http method to get available blocs in JSON format
      * @param f : anonyme function for the callback.
