@@ -44,6 +44,7 @@ class Communication {
                 f(data);
             },
             error: function(data) {
+                alert("Erreur : echec de chargement des donnees du serveur simulation");
                 var res = [];
                 var bloc1 = {
                     "type" : "action",
