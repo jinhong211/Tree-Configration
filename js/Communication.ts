@@ -93,8 +93,6 @@ class Communication {
                     "name" : "hide"
                 }
 
-
-
                 res.push(bloc1);
                 res.push(bloc2);
                 res.push(bloc3);

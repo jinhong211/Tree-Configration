@@ -15,8 +15,10 @@ var ActionTreeNode = (function (_super) {
      * Constructor
      * @param n
      */
-    function ActionTreeNode(n) {
-        _super.call(this, n);
+    function ActionTreeNode(n, namedisplayed, description) {
+        if (namedisplayed === void 0) { namedisplayed = ""; }
+        if (description === void 0) { description = ""; }
+        _super.call(this, n, namedisplayed, description);
     }
     /**
      * Get the name for the type of the node
