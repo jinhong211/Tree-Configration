@@ -28,10 +28,31 @@ class Communication {
      * get blocs available
      * @param f : anonyme function for the callback.
      */
-    httpGet(f:(s:Array<JSON>)=>void):void {
-        $.get(this.urlSimulator+this.routeGET, function (data) {
-            f(data);
-        });
+
+
+    httpGet(f:(s:Array<JSON>)=>void) : void {
+        $.ajax({
+            url: this.urlSimulator+this.routeGET,
+            type: 'GET',
+            success: function(data){
+                f(data);
+            },
+            error: function(data) {
+                var res = [];
+                var bloc1 = {
+                    "type" : "action",
+                    "name" : "shout"
+                }
+                var bloc2 = {
+                    "type" : "composite",
+                    "name" : "decorator"
+                }
+
+                res.push(bloc1);
+                res.push(bloc2);
+                f(res);
+            }
+        })
     }
 
     /**
