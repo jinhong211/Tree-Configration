@@ -1,5 +1,14 @@
 typings
 .idea
 *.js.map
-
 .xml
+ActionTreeNode.js
+BuilderTree.js
+Communication.js
+CompositeTreeNode.js
+Controller.js
+Main.js
+NavigationMenu.js
+Parser.js
+Tree.js
+TreeNode.js

@@ -14,9 +14,9 @@ class CompositeTreeNode extends TreeNode {
      * Constructor
      * @param n
      */
-    public constructor(n:string) {
+    public constructor(n : string, namedisplayed = "", description = "") {
         this.childrenNodes = [];
-        super(n);
+        super(n,namedisplayed,description);
     }
 
     /**
