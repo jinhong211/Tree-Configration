@@ -129,9 +129,11 @@ class BuilderTree {
                 "id": "" + i,
                 "parent": this.available[i].getType(),
                 "text": this.available[i].getName(),
-                "type" : this.available[i].getType() //TODO : Gérer les types de blocs !
+                "type" : this.available[i].getType()   //TODO : Gérer les types de blocs !
             };
             res.push(j);
+
+            console.log(this.available[i].getType());
         }
 
         this.navigationMenu = new NavigationMenu(res);

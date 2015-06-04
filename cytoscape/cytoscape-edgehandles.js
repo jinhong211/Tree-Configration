@@ -486,7 +486,7 @@
             clearTimeout( hoverTimeout );
             hoverTimeout = setTimeout(function(){
               // TODO target des flèches
-              console.log(target.id());
+        //      console.log(target.id());
               var source = cy.nodes('.edgehandles-source');
               
               var isLoop = node.hasClass('edgehandles-source');
@@ -615,7 +615,7 @@
                 node.trigger('cyedgehandles.start');
                 
                 function doneMoving(dmEvent){ 
-                   console.log('doneMoving %s', node.id());
+                 //  console.log('doneMoving %s', node.id());
 
                   // TODO : Gestion de la création des flèches ici !!
 

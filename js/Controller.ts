@@ -62,7 +62,7 @@ class Controller {
         this.communication.httpGet(function (array:Array<JSON> ) {
             // parse the received blocks JSON to our blocks object
             var nodes:Array<TreeNode>;
-            nodes = self.parser.parseBlocks(array);
+            nodes = self.parser.parseBlocks2(array);
 
             // set the blocks in our modle
             self.building.setAvailableBlocks(nodes);
@@ -95,7 +95,7 @@ class Controller {
      */
     public send() {
         // var xml = this.communication.parseXml(this.building.getTree().getRoot());
-        var xml = this.parser.parseXml(this.building.getSelectedBlocks()[0]);
+        var xml = this.parser.parseXml2(this.building.getSelectedBlocks()[0]);
         var retour:string;
         console.log("xml", xml);
         this.communication.httpPost(xml, function (s:string) {

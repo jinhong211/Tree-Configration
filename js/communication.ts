@@ -49,6 +49,7 @@ class Communication {
             url: this.urlSimulator+this.routeGET,
             type: 'GET',
             success: function(data){
+                console.log(data);
                 f(data);
             },
             error: function(data) {
@@ -106,7 +107,7 @@ class Communication {
         var json = {
             "xml" : xml.toString()
         }
-        $.post(this.urlSimulator+this.routePOSTOneAction, json)
+        $.post(this.urlSimulator+this.routePOST, json)
             .done(function (data) {
                 alert("Result: " + data);
             })

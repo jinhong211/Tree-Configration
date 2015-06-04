@@ -9,7 +9,6 @@ var NavigationMenu = (function () {
     }
     NavigationMenu.prototype.render = function () {
         var json = this.navTree;
-        console.log(json[0]["id"]);
         $('#jstree').jstree({
             "core": {
                 "animation": 0,
@@ -38,13 +37,13 @@ var NavigationMenu = (function () {
                 },
                 "conditions": {
                     "icon": "assets/images/tree_icon.png",
-                    "valid_children": ["condition"]
+                    "valid_children": ["composite"]
                 },
                 "actions": {
                     "icon": "assets/images/tree_icon.png",
                     "valid_children": ["action"]
                 },
-                "condition": {
+                "composite": {
                     "icon": "glyphicon glyphicon-file",
                     "valid_children": []
                 },

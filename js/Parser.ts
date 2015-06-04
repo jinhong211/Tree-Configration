@@ -38,7 +38,6 @@ class Parser {
     parseBlocks2(datajson:Array<JSON>):Array<TreeNode> {
         var listNodeAvailable:Array<TreeNode>;
         listNodeAvailable = new Array<TreeNode>();
-
         for (var i = 0; i < datajson.length; i++) {
             var jsonBloc = datajson[i];
             if (jsonBloc["kind"] == "task") {

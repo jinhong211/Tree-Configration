@@ -97,6 +97,14 @@ $(function test() { // on dom ready
     cy.edgehandles({
         // options go here
     });
+    var r;
+    $('#jstree')
+        .on('changed.jstree', function(e , data) {
+        var i, j = [];
+        for(i = 0, j = data.selected.length; i < j; i++) {
+            r = data.instance.get_node(data.selected[i]).type;
+        }
+    })
     $('.drag')
         .on('mousedown', function (e) {
             return $.vakata.dnd.start(e, {
@@ -121,23 +129,50 @@ $(function test() { // on dom ready
             var t = $(data.event.target);
             var x, y;
             var text = $('.jstree-clicked').text();
-            console.log($('.jstree-clicked').parent())
+            var popo = $('.jstree-clicked');
+            console.log(popo);
+         //   console.log($('.jstree-clicked').parent())
             if(!document.all) {
                 x = event.x;
                 y = event.y;
             }
-
+            console.log(r);
             if(!t.closest('.jstree').length) {
                 if(t.closest('.drop').length) {
-                    var treeNode = new ActionTreeNode(text);
-                    Controller.getInstance().getBuilderTree().getSelectedBlocks().push(treeNode);
-                    var selectedPos = Controller.getInstance().getBuilderTree().getSelectedBlocks().length;
-                    cy.add({
-                        group: "nodes",
-                        data: { name: text, weight: 100, faveColor: '#F5A45D', faveShape: 'rectangle', height : 100, id: selectedPos + ""},
-                        position: { x: x-190, y: y }
+                    if(r=="action") {
+                        var treeNode = new ActionTreeNode(text);
+                        Controller.getInstance().getBuilderTree().getSelectedBlocks().push(treeNode);
+                        var selectedPos = Controller.getInstance().getBuilderTree().getSelectedBlocks().length;
+                        cy.add({
+                            group: "nodes",
+                            data: {
+                                name: text,
+                                weight: 100,
+                                faveColor: '#F5A45D',
+                                faveShape: 'rectangle',
+                                height: 100,
+                                id: selectedPos + ""
+                            },
+                            position: {x: x - 190, y: y}
 
-                    });
+                        });
+                    } else if (r == "composite") {
+                        var treeNode = new CompositeTreeNode(text);
+                        Controller.getInstance().getBuilderTree().getSelectedBlocks().push(treeNode);
+                        var selectedPos = Controller.getInstance().getBuilderTree().getSelectedBlocks().length;
+                        cy.add({
+                            group: "nodes",
+                            data: {
+                                name: text,
+                                weight: 100,
+                                faveColor: '#EDA1ED',
+                                faveShape: 'rectangle',
+                                height: 100,
+                                id: selectedPos + ""
+                            },
+                            position: {x: x - 190, y: y}
+                    })
+                    }
                 }
             }
         });
