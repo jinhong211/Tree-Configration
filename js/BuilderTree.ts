@@ -129,8 +129,7 @@ class BuilderTree {
                 "id": "" + i,
                 "parent": this.available[i].getType(),
                 "text": this.available[i].getName(),
-                "type" : "action" //TODO : Gérer les types de blocs !
-
+                "type" : this.available[i].getType() //TODO : Gérer les types de blocs !
             };
             res.push(j);
         }

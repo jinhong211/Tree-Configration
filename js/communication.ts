@@ -52,7 +52,8 @@ class Communication {
                 f(data);
             },
             error: function(data) {
-                alert("Erreur : echec de chargement des donnees du serveur simulation");
+                alert("Erreur : echec de chargement des donnees du serveur simulation. Nous chargeons des blocs" +
+                " predefinis");
                 var res = [];
                 var bloc1 = {
                     "type" : "action",
@@ -60,7 +61,7 @@ class Communication {
                 }
                 var bloc2 = {
                     "type" : "composite",
-                    "name" : "decorator"
+                    "name" : "sequence"
                 }
 
                 res.push(bloc1);
@@ -112,5 +113,13 @@ class Communication {
             .fail(function () {
                 alert("Error: echec de l'envoi au serveur de simulation")
             });
+    }
+
+    /**
+     * This method set the current url.
+     * @param newUrl
+     */
+    public setUrl(newUrl : string) : void {
+        this.urlSimulator = newUrl;
     }
 }

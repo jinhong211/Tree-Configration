@@ -14,7 +14,6 @@ class NavigationMenu {
 
     render():void {
         var json = this.navTree;
-        console.log(json[0]["id"]);
         $('#jstree').jstree({
             "core": {
                 "animation": 0,

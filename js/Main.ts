@@ -5,6 +5,8 @@
  * @author by Anais, Quentin
  */
 //var c = new Controller("http://10.212.118.128:3000");
+Controller.getInstance().setUrl("http://10.212.118.128:3000");
+console.log(Controller.getInstance().getUrl());
 Controller.getInstance().init(function(n: Array<TreeNode>) {
 });
 

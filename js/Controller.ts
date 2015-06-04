@@ -36,7 +36,7 @@ class Controller {
      * @param url to make the get and post.
      */
     public constructor() {
-        this.url = "http://10.212.118.128:3000";
+        this.url = "";    //"http://10.212.118.128:3000";
         this.communication = new Communication(this.url);
         this.building = new BuilderTree();
         this.parser = new Parser();
@@ -110,6 +110,23 @@ class Controller {
      */
     public getBuilderTree():BuilderTree {
         return this.building;
+    }
+
+    /**
+     * This method set the old url with the given url
+     * @param newUrl
+     */
+    public setUrl(newUrl : string) : void {
+        this.url = newUrl;
+        this.communication.setUrl(newUrl);
+    }
+
+    /**
+     * This method return the actual url of the server.
+     * @returns {string}
+     */
+    public getUrl() : string {
+        return this.url;
     }
 }
 
