@@ -23,7 +23,7 @@ $(function test(){
                     'shape': 'rectangle',
                     'width': 'data(weight)',
                     'content': 'data(name)',
-                    'height' : 'data(height)',
+                    // 'height' : 'data(height)',
                     'text-valign': 'center',
                     'text-outline-width': 2,
                     'background-color': 'data(faveColor)',
