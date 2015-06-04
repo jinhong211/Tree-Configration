@@ -2,99 +2,69 @@
 ///<reference path="./BuilderTree.ts"/>
 ///<reference path="./Parser.ts"/>
 ///<reference path="./TreeNode.ts"/>
-
 /**
  * Class for the controller between the model and the view page
  * @author Benjamin, Anais, Quentin
  */
-class Controller {
-
-    /**
-     * Communication class
-     */
-    private communication : Communication;
-
-    /**
-     * Parser for the communication
-     */
-    private parser:Parser;
-
-    /**
-     * Builder of the tree
-     */
-    private building:BuilderTree;
-
-    private url : string;
-
-    /**
-     * Instance of the class for the singleton pattern
-     */
-    private static instance : Controller;
-
+var Controller = (function () {
     /**
      * Constructor with all the intelligence use the given url
      * @param url to make the get and post.
      */
-    public constructor() {
+    function Controller() {
         this.url = "http://10.212.118.128:3000";
         this.communication = new Communication(this.url);
         this.building = new BuilderTree();
         this.parser = new Parser();
     }
-
     /**
      * GetInstance method for the singleton pattern
      * @returns {Controller}
      */
-    public static getInstance() : Controller {
-        if(this.instance == null) {
+    Controller.getInstance = function () {
+        if (this.instance == null) {
             this.instance = new Controller();
         }
         return this.instance;
-    }
-
+    };
     /**
      * Method for the initialisation of the available bloks
      * @param f
      */
-    public init(f: (n : Array<TreeNode>) => void) : void  {
+    Controller.prototype.init = function (f) {
         var self = this;
-        this.communication.httpGet(function (array:Array<JSON> ) {
+        this.communication.httpGet(function (array) {
             // parse the received blocks JSON to our blocks object
-            var nodes:Array<TreeNode>;
+            var nodes;
             nodes = self.parser.parseBlocks(array);
-
             // set the blocks in our modle
             self.building.setAvailableBlocks(nodes);
-
             // display the blocks in the menu
             self.building.renderAvailableBlocksMenu();
-
             // return
             f(self.building.getAvailableBlocks());
         });
-    }
-
+    };
     /**
      * Method for the sending of the simplified behaviour tree create by the user to a simulator
      */
-    public send() {
-       // var xml = this.communication.parseXml(this.building.getTree().getRoot());
+    Controller.prototype.send = function () {
+        // var xml = this.communication.parseXml(this.building.getTree().getRoot());
         var xml = this.parser.parseXml(this.building.getSelectedBlocks()[0]);
-        var retour:string;
+        var retour;
         console.log("xml", xml);
-        this.communication.httpPost(xml, function (s:string) {
+        this.communication.httpPost(xml, function (s) {
             retour = s;
             alert("Result : " + retour);
         });
-    }
-
+    };
     /**
      * Get the builderTree
      * @returns {BuilderTree}
      */
-    public getBuilderTree():BuilderTree {
+    Controller.prototype.getBuilderTree = function () {
         return this.building;
-    }
-}
-
+    };
+    return Controller;
+})();
+//# sourceMappingURL=Controller.js.map

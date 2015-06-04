@@ -1,18 +1,19 @@
+/**
+ * Class for the IHM interactions in the building zone
+ * @author Hong
+ */
+
 var elesJson = {
-    nodes: [
+    nodes: [],
 
-    ],
-
-    edges: [
-
-    ]
+    edges: []
 };
 
-$(function test(){ // on dom ready
+$(function test() { // on dom ready
 
     var cy = window.cy = cytoscape({
         container: document.getElementById('cy'),
-        ready: function(){
+        ready: function () {
         },
         elements: elesJson,
         style: [
@@ -64,16 +65,19 @@ $(function test(){ // on dom ready
         }
     });
 
-
     $('.drag')
         .on('mousedown', function (e) {
-            return $.vakata.dnd.start(e, { 'jstree' : true, 'obj' : $(this), 'nodes' : [{ id : true, text: $(this).text() }] }, '<div id="jstree-dnd" class="jstree-default"><i class="jstree-icon jstree-er"></i>' + $(this).text() + '</div>');
+            return $.vakata.dnd.start(e, {
+                'jstree': true,
+                'obj': $(this),
+                'nodes': [{id: true, text: $(this).text()}]
+            }, '<div id="jstree-dnd" class="jstree-default"><i class="jstree-icon jstree-er"></i>' + $(this).text() + '</div>');
         });
     $(document)
         .on('dnd_move.vakata', function (e, data) {
             var t = $(data.event.target);
-            if(!t.closest('.jstree').length) {
-                if(t.closest('.drop').length) {
+            if (!t.closest('.jstree').length) {
+                if (t.closest('.drop').length) {
                     data.helper.find('.jstree-icon').removeClass('jstree-er').addClass('jstree-ok');
                 }
                 else {
@@ -85,23 +89,22 @@ $(function test(){ // on dom ready
             var t = $(data.event.target);
             var x, y;
             var text = $('.jstree-clicked').text();
-            if(!document.all) {
+            if (!document.all) {
                 x = event.x;
                 y = event.y;
             }
-            if(!t.closest('.jstree').length) {
-                if(t.closest('.drop').length) {
+            if (!t.closest('.jstree').length) {
+                if (t.closest('.drop').length) {
                     var treeNode = new ActionTreeNode(text);
-                    Controller.getInstance().getBuildingTree().getSelectedBlocks().push(treeNode);
+                    Controller.getInstance().getBuilderTree().getSelectedBlocks().push(treeNode);
                     cy.add({
                         group: "nodes",
-                        data: { name: text, weight: 70, faveColor: '#F5A45D', faveShape: 'rectangle' },
-                        position: { x: x + 110, y: y - 180 }
+                        data: {name: text, weight: 70, faveColor: '#F5A45D', faveShape: 'rectangle'},
+                        position: {x: x + 110, y: y - 180}
                     });
                 }
             }
         });
-
 });
 
 

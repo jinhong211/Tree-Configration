@@ -1,28 +1,23 @@
 ///<reference path="./TreeNode.ts"/>
-
 /**
  * Class for the representation of a simplified behavious tree
  * @author Benjamin, Anais
  */
-class Tree {
-    /**
-     * Root Node
-     */
-    private root : TreeNode;
-
+var Tree = (function () {
     /**
      * Constructor
      * @param r
      */
-    public constructor(r : TreeNode) {
+    function Tree(r) {
         this.root = r;
     }
-
     /**
      * Get the root of the behaviour tree
      * @returns {TreeNode}
      */
-    public getRoot() : TreeNode{
+    Tree.prototype.getRoot = function () {
         return this.root;
-    }
-}
+    };
+    return Tree;
+})();
+//# sourceMappingURL=Tree.js.map

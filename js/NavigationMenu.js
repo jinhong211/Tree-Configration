@@ -1,35 +1,33 @@
-/**
- * Created by Quentin on 03/06/2015.
- */
 ///<reference path="..\typings\jstree\jstree.d.ts"/>
-
-
-class NavigationTree {
-
-    private navTree : any;
-
-    public constructor(test: any) {
+/**
+ * Class for the representation of a menu of navigation to display available blocks
+ * @author Quentin, Hong
+ */
+var NavigationMenu = (function () {
+    function NavigationMenu(test) {
         this.navTree = test;
     }
-
-      render():void {
+    NavigationMenu.prototype.render = function () {
         var json = this.navTree;
-          console.log(json[0]["id"]);
+        console.log(json[0]["id"]);
         $('#jstree').jstree({
             "core": {
                 "animation": 0,
                 "check_callback": true,
-                "themes": {"stripes": true},
+                "themes": { "stripes": true },
                 'data': json
             },
             "crrm": {
                 "move": {
                     "check_move": function (m) {
                         var p = this._get_parent(m.o);
-                        if (!p) return false;
+                        if (!p)
+                            return false;
                         p = p == -1 ? this.get_container() : p;
-                        if (p === m.np) return true;
-                        if (p[0] && m.np[0] && p[0] === m.np[0]) return true;
+                        if (p === m.np)
+                            return true;
+                        if (p[0] && m.np[0] && p[0] === m.np[0])
+                            return true;
                         return false;
                     }
                 }
@@ -57,9 +55,18 @@ class NavigationTree {
                 }
             },
             "plugins": [
-                "themes", "html_data", "crrm", "contextmenu", "dnd", "search",
-                "state", "types", "wholerow"
+                "themes",
+                "html_data",
+                "crrm",
+                "contextmenu",
+                "dnd",
+                "search",
+                "state",
+                "types",
+                "wholerow"
             ]
         });
-    }
-}
+    };
+    return NavigationMenu;
+})();
+//# sourceMappingURL=NavigationMenu.js.map
