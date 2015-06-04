@@ -56,17 +56,51 @@ class Communication {
                 alert("Erreur : echec de chargement des donnees du serveur simulation. Nous chargeons des blocs" +
                 " predefinis");
                 var res = [];
+
                 var bloc1 = {
-                    "type" : "action",
-                    "name" : "shout"
+                    "kind" : "task",
+                    "type" : "FindEnemy",
+                    "name" : "find enemy"
                 }
+
                 var bloc2 = {
-                    "type" : "composite",
+                    "kind" : "composite",
+                    "type" : "Sequence",
                     "name" : "sequence"
                 }
 
+                var bloc3 = {
+                    "kind" : "task",
+                    "type" : "Move",
+                    "name" : "move"
+                }
+
+                var bloc4 = {
+                    "kind" : "task",
+                    "type" : "Shot",
+                    "name" : "shot"
+                }
+
+                var bloc5 = {
+                    "kind" : "composite",
+                    "type" : "Selector",
+                    "name" : "selector"
+                }
+
+                var bloc6 = {
+                    "kind" : "task",
+                    "type" : "Hide",
+                    "name" : "hide"
+                }
+
+
+
                 res.push(bloc1);
                 res.push(bloc2);
+                res.push(bloc3);
+                res.push(bloc4);
+                res.push(bloc5);
+                res.push(bloc6);
                 f(res);
             }
         })
@@ -107,7 +141,7 @@ class Communication {
         var json = {
             "xml" : xml.toString()
         }
-        $.post(this.urlSimulator+this.routePOSTOneAction, json)
+        $.post(this.urlSimulator+this.routePOST, json)
             .done(function (data) {
                 alert("Result: " + data);
             })

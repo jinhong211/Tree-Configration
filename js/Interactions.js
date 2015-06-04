@@ -128,10 +128,8 @@ $(function test() { // on dom ready
         .on('dnd_stop.vakata', function (e, data) {
             var t = $(data.event.target);
             var x, y;
-            var text = $('.jstree-clicked').text();
-            var popo = $('.jstree-clicked');
-            console.log(popo);
-         //   console.log($('.jstree-clicked').parent())
+            var text = $("#jstree").jstree(true).get_node(data.data.nodes[0]).text;
+            r = $("#jstree").jstree(true).get_node(data.data.nodes[0]).type;
             if(!document.all) {
                 x = event.x;
                 y = event.y;
