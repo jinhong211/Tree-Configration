@@ -29,6 +29,12 @@ class Communication {
      * @param f : anonyme function for the callback.
      */
 
+    /*
+    httpGet(f:(s:Array<JSON>)=>void):void {
+        $.get(this.urlSimulator+this.routeGET, function (data) {
+            f(data);
+        });
+    } */
 
     httpGet(f:(s:Array<JSON>)=>void) : void {
         $.ajax({
@@ -69,8 +75,13 @@ class Communication {
 
     httpPost(xml:string, f:(s:string)=>void):void {
         // envoyer shout en format xml et afficher le résultat de la requete
-        $.post(this.urlSimulator+this.routePOSTOneAction, xml).done(function (data) {
-            alert("Result: " + data);
-        });
+        $.post(this.urlSimulator+this.routePOSTOneAction, xml)
+            .done(function (data) {
+                alert("Result: " + data);
+            })
+            .fail(function () {
+                alert("Error: echec de l'envoi au serveur de simulation")
+            });
     }
+
 }
