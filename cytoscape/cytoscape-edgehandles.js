@@ -248,6 +248,7 @@
           }
           
           function makePreview( source, target ){
+
             makeEdges( true );
 
             target.trigger('cyedgehandles.addpreview');
@@ -481,8 +482,11 @@
           function hoverOver( node ){
             var target = node;
 
+
             clearTimeout( hoverTimeout );
             hoverTimeout = setTimeout(function(){
+              // TODO target des flèches
+              console.log(target.id());
               var source = cy.nodes('.edgehandles-source');
               
               var isLoop = node.hasClass('edgehandles-source');
@@ -509,6 +513,7 @@
 
           function hoverOut( node ){
             var target = node;
+
 
             node.removeClass('edgehandles-hover');
 
