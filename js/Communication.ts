@@ -1,4 +1,4 @@
-///<reference path="..\typings\jquery\jquery.d.ts"/>
+///<reference path="../typings/jquery/jquery.d.ts"/>
 ///<reference path="./TreeNode.ts"/>
 ///<reference path="./ActionTreeNode.ts"/>
 ///<reference path="./CompositeTreeNode"/>
@@ -17,17 +17,17 @@ class Communication {
     /**
      * Path to call the Get method
      */
-    private pathGET:string;
+    private routeGET:string;
 
     /**
      * Path to call the Post method
      */
-    private pathPOST:string;
+    private routePOST:string;
 
     /**
      * Path to call the Post method for one action
      */
-    private pathPOSTOneAction:string;
+    private routePOSTOneAction:string;
 
     /**
      * Constructor
@@ -35,19 +35,75 @@ class Communication {
      */
     public constructor(url:string) {
         this.urlSimulator = url;
-        this.pathGET = "/blocks/all";
-        this.pathPOST = "/bots/1/tree";
-        this.pathPOSTOneAction = "/bots/1/action";
+        this.routeGET = "/blocks/all";
+        this.routePOST = "/bots/1/tree";
+        this.routePOSTOneAction = "/bots/1/action";
     }
-    
+
     /**
      * This function call the http method to get available blocs in JSON format
      * @param f : anonyme function for the callback.
      */
-    httpGet(f:(s:Array<JSON>)=>void):void {
-        $.get(this.urlSimulator + this.pathGET, function (data) {
-            f(data);
-        });
+    httpGet(f:(s:Array<JSON>)=>void) : void {
+        $.ajax({
+            url: this.urlSimulator+this.routeGET,
+            type: 'GET',
+            success: function(data){
+                console.log(data);
+                f(data);
+            },
+            error: function(data) {
+                alert("Erreur : echec de chargement des donnees du serveur simulation. Nous chargeons des blocs" +
+                " predefinis");
+                var res = [];
+
+                var bloc1 = {
+                    "kind" : "task",
+                    "type" : "FindEnemy",
+                    "name" : "find enemy"
+                }
+
+                var bloc2 = {
+                    "kind" : "composite",
+                    "type" : "Sequence",
+                    "name" : "sequence"
+                }
+
+                var bloc3 = {
+                    "kind" : "task",
+                    "type" : "Move",
+                    "name" : "move"
+                }
+
+                var bloc4 = {
+                    "kind" : "task",
+                    "type" : "Shot",
+                    "name" : "shot"
+                }
+
+                var bloc5 = {
+                    "kind" : "composite",
+                    "type" : "Selector",
+                    "name" : "selector"
+                }
+
+                var bloc6 = {
+                    "kind" : "task",
+                    "type" : "Hide",
+                    "name" : "hide"
+                }
+
+
+
+                res.push(bloc1);
+                res.push(bloc2);
+                res.push(bloc3);
+                res.push(bloc4);
+                res.push(bloc5);
+                res.push(bloc6);
+                f(res);
+            }
+        })
     }
 
     httpGetMOCK() : JSON[]{
@@ -70,7 +126,7 @@ class Communication {
      * @param f
      */
     httpPostDirty(f:(s:string)=>void):void {
-        $.post(this.urlSimulator + this.pathPOSTOneAction, {name: "shout"}).done(function (data) {
+        $.post(this.urlSimulator + this.routePOSTOneAction, {name: "shout"}).done(function (data) {
             f(data);
         });
     }
@@ -81,9 +137,24 @@ class Communication {
      * @param f
      */
     httpPost(xml:string, f:(s:string)=>void):void {
-        $.post(this.urlSimulator + this.pathPOSTOneAction, xml).done(function (data) {
-            // display the result by the simulator
-            alert("Result : " + data);
-        });
+        // envoyer shout en format xml et afficher le résultat de la requete
+        var json = {
+            "xml" : xml.toString()
+        }
+        $.post(this.urlSimulator+this.routePOST, json)
+            .done(function (data) {
+                alert("Result: " + data);
+            })
+            .fail(function () {
+                alert("Error: echec de l'envoi au serveur de simulation")
+            });
+    }
+
+    /**
+     * This method set the current url.
+     * @param newUrl
+     */
+    public setUrl(newUrl : string) : void {
+        this.urlSimulator = newUrl;
     }
 }
