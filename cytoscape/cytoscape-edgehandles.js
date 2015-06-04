@@ -383,10 +383,10 @@
             var targets = tgt ? tgt : cy.nodes('.edgehandles-target');
             var classes = preview ? 'edgehandles-preview' : '';
             var added = cy.collection();
-            console.log(source);
+            console.log(source.id());
             console.log(targets);
             console.log(classes);
-
+            console.log(cy.$(':selected').id());
 
             if( !src && !tgt && !preview && options().preview ){
               cy.$('.edgehandles-ghost').remove();

@@ -57,7 +57,7 @@ class NavigationTree {
                 }
             },
             "plugins": [
-                "themes", "html_data", "crrm", "contextmenu", "dnd", "search",
+                "themes", "html_data", "crrm","dnd", "search",
                 "state", "types", "wholerow"
             ]
         });
