@@ -1,11 +1,7 @@
 var elesJson = {
     nodes: [
-        { data: { id: {
-            "id" : "a",
-            "type" : "action"
-        }, name: 'Condition', weight: 100, faveColor: '#6FB1FC', faveShape: 'triangle' } },
-        { data: { id: 'b', name: 'Elaine', weight: 100, faveColor: '#EDA1ED', faveShape: 'ellipse' } }
-
+        { data: { id: 'a', name: 'Condition', weight: 100, faveColor: '#6FB1FC', faveShape: 'triangle', height : 100 } },
+        { data: { id: 'b', name: 'Elaine', weight: 100, faveColor: '#EDA1ED', faveShape: 'ellipse', height : 100 } }
     ],
 
     edges: [
@@ -25,8 +21,9 @@ $(function test(){
                 selector: 'node',
                 css: {
                     'shape': 'rectangle',
-                    'width': 'mapData(weight, 40, 80, 20, 60)',
+                    'width': 'data(weight)',
                     'content': 'data(name)',
+                    'height' : 'data(height)',
                     'text-valign': 'center',
                     'text-outline-width': 2,
                     'background-color': 'data(faveColor)',

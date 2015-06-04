@@ -5,7 +5,7 @@
     if( !cytoscape ){ return; } // can't register if cytoscape unspecified
 
     var defaults = {
-      preview: true, // whether to show added edges preview before releasing selection
+      preview: false, // whether to show added edges preview before releasing selection
       handleSize: 10, // the size of the edge handle put on nodes
       handleTouchTargetMult: 3, // effective size of handle on touch (not shown but used to make grabbing the small handle easier)
       handleColor: '#ff0000', // the colour of the handle and the line drawn from it
@@ -379,12 +379,15 @@
           };
 
           function makeEdges( preview, src, tgt ){
-
             var source = src ? src : cy.nodes('.edgehandles-source');
             var targets = tgt ? tgt : cy.nodes('.edgehandles-target');
             var classes = preview ? 'edgehandles-preview' : '';
             var added = cy.collection();
-            
+            console.log(source);
+            console.log(targets);
+            console.log(classes);
+
+
             if( !src && !tgt && !preview && options().preview ){
               cy.$('.edgehandles-ghost').remove();
             }
@@ -611,7 +614,7 @@
                 node.trigger('cyedgehandles.start');
                 
                 function doneMoving(dmEvent){ 
-                   console.log('doneMoving %s %o', node.id(), node);
+                   console.log('doneMoving %s', node.id());
 
                   // TODO : Gestion de la création des flèches ici !!
 
