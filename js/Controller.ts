@@ -94,7 +94,7 @@ class Controller {
      * Method for the sending of the simplified behaviour tree create by the user to a simulator
      */
     public send() {
-       // var xml = this.communication.parseXml(this.building.getTree().getRoot());
+        // var xml = this.communication.parseXml(this.building.getTree().getRoot());
         var xml = this.parser.parseXml(this.building.getSelectedBlocks()[0]);
         var retour:string;
         console.log("xml", xml);

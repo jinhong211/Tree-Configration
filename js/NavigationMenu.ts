@@ -6,9 +6,9 @@
  */
 class NavigationMenu {
 
-    private navTree:any;
+    private navTree : any;
 
-    public constructor(test:any) {
+    public constructor(test: any) {
         this.navTree = test;
     }
 

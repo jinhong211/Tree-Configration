@@ -4,7 +4,7 @@
  * Class for the representation of an action node of a simplified behaviour tree
  * @author Benjamin, Anais
  */
-class ActionTreeNode extends TreeNode{
+class ActionTreeNode extends TreeNode {
 
     /**
      * Constructor

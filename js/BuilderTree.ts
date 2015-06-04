@@ -110,13 +110,15 @@ class BuilderTree {
         var parent1 = {
             "id": "action",
             "parent": "#",
-            "text": "Action"
+            "text": "Action",
+            "type": "actions"
         };
 
         var parent2 = {
             "id": "composite",
             "parent": "#",
-            "text": "Composite"
+            "text": "Composite",
+            "type": "conditions"
         };
 
         res.push(parent1);
@@ -126,7 +128,9 @@ class BuilderTree {
             var j = {
                 "id": "" + i,
                 "parent": this.available[i].getType(),
-                "text": this.available[i].getName()
+                "text": this.available[i].getName(),
+                "type" : "action" //TODO : Gérer les types de blocs !
+
             };
             res.push(j);
         }

@@ -130,8 +130,8 @@ $(function test() { // on dom ready
             if(!t.closest('.jstree').length) {
                 if(t.closest('.drop').length) {
                     var treeNode = new ActionTreeNode(text);
-                    Controller.getInstance().getBuildingTree().getSelectedBlocks().push(treeNode);
-                    var selectedPos = Controller.getInstance().getBuildingTree().getSelectedBlocks().length;
+                    Controller.getInstance().getBuilderTree().getSelectedBlocks().push(treeNode);
+                    var selectedPos = Controller.getInstance().getBuilderTree().getSelectedBlocks().length;
                     cy.add({
                         group: "nodes",
                         data: { name: text, weight: 100, faveColor: '#F5A45D', faveShape: 'rectangle', height : 100, id: selectedPos + ""},
