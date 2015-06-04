@@ -39,8 +39,10 @@ class Parser {
             bloc.setAttribute("type","action");
             bloc.innerHTML += noeudCourant.getName();
 
+
         } else if (noeudCourant instanceof CompositeTreeNode) {
             bloc.setAttribute("type","composite");
+            bloc.setAttribute("name",noeudCourant.getName());
             var children = noeudCourant.getChildrenNodes();
             for (var i=0; i<children.length; i++) {
                 bloc.innerHTML += this.parseXml(children[i]);
