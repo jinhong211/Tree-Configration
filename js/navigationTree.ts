@@ -22,27 +22,40 @@ class NavigationTree {
                 "themes": {"stripes": true},
                 'data': json
             },
-            "crrm": {
-                "move": {
-                    "check_move": function (m) {
-                        var p = this._get_parent(m.o);
-                        if (!p) return false;
-                        p = p == -1 ? this.get_container() : p;
-                        if (p === m.np) return true;
-                        if (p[0] && m.np[0] && p[0] === m.np[0]) return true;
+            "dnd": {
+                "is_draggable" : function(node) {
+                    if (node[0].type == 'root'||node[0].type == 'conditions'||node[0].type == 'actions') {
                         return false;
                     }
-                }
-            },
-            "dnd": {
-                "drop_target": false,
-                "drag_target": false
+                    return true;
+                },
+                "check_callback" : function(operation, node, node_parent, node_position, more) {
+                    return false;
+                },
+                "drop_target" : false,
+                "drag_target" : false
             },
             "types": {
                 "#": {
                     "max_children": 1,
                     "max_depth": 4,
                     "valid_children": ["root"]
+                },
+                "conditions" : {
+                    "icon" : "assets/images/tree_icon.png",
+                    "valid_children" : ["condition"]
+                },
+                "actions" : {
+                    "icon" : "assets/images/tree_icon.png",
+                    "valid_children" : ["action"]
+                },
+                "condition" : {
+                    "icon" : "glyphicon glyphicon-file",
+                    "valid_children" : []
+                },
+                "action" : {
+                    "icon" : "glyphicon glyphicon-file",
+                    "valid_children" : []
                 },
                 "root": {
                     "icon": "assets/images/tree_icon.png",
@@ -57,7 +70,7 @@ class NavigationTree {
                 }
             },
             "plugins": [
-                "themes", "html_data", "crrm","dnd", "search",
+                "themes", "html_data","dnd", "search",
                 "state", "types", "wholerow"
             ]
         });

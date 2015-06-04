@@ -65,13 +65,15 @@ class BuildingTree {
         var parent1 = {
             "id": "action",
             "parent": "#",
-            "text": "Action"
+            "text": "Action",
+            "type": "actions"
         }
 
         var parent2 = {
             "id": "composite",
             "parent": "#",
-            "text": "Composite"
+            "text": "Composite",
+            "type": "conditions"
         }
 
         res.push(parent1);
@@ -81,7 +83,8 @@ class BuildingTree {
             var j = {
                 "id": "" + i,
                 "parent": this.available[i].getType(),
-                "text": this.available[i].getName()
+                "text": this.available[i].getName(),
+                "type" : "action"
             };
             res.push(j);
         }
