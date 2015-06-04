@@ -1,20 +1,20 @@
-/**
- * Created by Quentin on 03/06/2015.
- */
 ///<reference path="..\typings\jstree\jstree.d.ts"/>
 
+/**
+ * Class for the representation of a menu of navigation to display available blocks
+ * @author Quentin, Hong
+ */
+class NavigationMenu {
 
-class NavigationTree {
+    private navTree:any;
 
-    private navTree : any;
-
-    public constructor(test: any) {
+    public constructor(test:any) {
         this.navTree = test;
     }
 
-      render():void {
+    render():void {
         var json = this.navTree;
-          console.log(json[0]["id"]);
+        console.log(json[0]["id"]);
         $('#jstree').jstree({
             "core": {
                 "animation": 0,

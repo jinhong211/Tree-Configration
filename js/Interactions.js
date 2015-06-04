@@ -1,15 +1,14 @@
-var elesJson = {
-    nodes: [
-    ],
-    edges: [
-    ]
-};
+/**
+ * Class for the IHM interactions in the building zone
+ * @author Hong
+ */
+var elesJson = { nodes: [], edges: [] };
 
-$(function test(){
+$(function test() { // on dom ready
 
     var cy = window.cy = cytoscape({
         container: document.getElementById('cy'),
-        ready: function(){
+        ready: function () {
         },
         elements: elesJson,
         style: [
@@ -98,17 +97,19 @@ $(function test(){
     cy.edgehandles({
         // options go here
     });
-
-
     $('.drag')
         .on('mousedown', function (e) {
-            return $.vakata.dnd.start(e, { 'jstree' : true, 'obj' : $(this), 'nodes' : [{ id : true, text: $(this).text() }] }, '<div id="jstree-dnd" class="jstree-default"><i class="jstree-icon jstree-er"></i>' + $(this).text() + '</div>');
+            return $.vakata.dnd.start(e, {
+                'jstree': true,
+                'obj': $(this),
+                'nodes': [{id: true, text: $(this).text()}]
+            }, '<div id="jstree-dnd" class="jstree-default"><i class="jstree-icon jstree-er"></i>' + $(this).text() + '</div>');
         });
     $(document)
         .on('dnd_move.vakata', function (e, data) {
             var t = $(data.event.target);
-            if(!t.closest('.jstree').length) {
-                if(t.closest('.drop').length) {
+            if (!t.closest('.jstree').length) {
+                if (t.closest('.drop').length) {
                     data.helper.find('.jstree-icon').removeClass('jstree-er').addClass('jstree-ok');
                 }
                 else {
@@ -135,11 +136,11 @@ $(function test(){
                         group: "nodes",
                         data: { name: text, weight: 100, faveColor: '#F5A45D', faveShape: 'rectangle', height : 100, id: selectedPos + ""},
                         position: { x: x-190, y: y }
+
                     });
                 }
             }
         });
-
 });
 
 

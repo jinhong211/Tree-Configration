@@ -17,17 +17,17 @@ class Communication {
     /**
      * Path to call the Get method
      */
-    private routeGET:string;
+    private pathGET:string;
 
     /**
      * Path to call the Post method
      */
-    private routePOST:string;
+    private pathPOST:string;
 
     /**
      * Path to call the Post method for one action
      */
-    private routePOSTOneAction:string;
+    private pathPOSTOneAction:string;
 
     /**
      * Constructor
@@ -35,39 +35,19 @@ class Communication {
      */
     public constructor(url:string) {
         this.urlSimulator = url;
-        this.routeGET = "/blocks/all";
-        this.routePOST = "/bots/1/tree";
-        this.routePOSTOneAction = "/bots/1/action";
+        this.pathGET = "/blocks/all";
+        this.pathPOST = "/bots/1/tree";
+        this.pathPOSTOneAction = "/bots/1/action";
     }
     
     /**
      * This function call the http method to get available blocs in JSON format
      * @param f : anonyme function for the callback.
      */
-    httpGet(f:(s:Array<JSON>)=>void) : void {
-        $.ajax({
-            url: this.urlSimulator+this.routeGET,
-            type: 'GET',
-            success: function(data){
-                f(data);
-            },
-            error: function(data) {
-                alert("Erreur : echec de chargement des donnees du serveur simulation");
-                var res = [];
-                var bloc1 = {
-                    "type" : "action",
-                    "name" : "shout"
-                }
-                var bloc2 = {
-                    "type" : "composite",
-                    "name" : "decorator"
-                }
-
-                res.push(bloc1);
-                res.push(bloc2);
-                f(res);
-            }
-        })
+    httpGet(f:(s:Array<JSON>)=>void):void {
+        $.get(this.urlSimulator + this.pathGET, function (data) {
+            f(data);
+        });
     }
 
     httpGetMOCK() : JSON[]{
@@ -90,7 +70,7 @@ class Communication {
      * @param f
      */
     httpPostDirty(f:(s:string)=>void):void {
-        $.post(this.urlSimulator + this.routePOSTOneAction, {name: "shout"}).done(function (data) {
+        $.post(this.urlSimulator + this.pathPOSTOneAction, {name: "shout"}).done(function (data) {
             f(data);
         });
     }
@@ -101,16 +81,9 @@ class Communication {
      * @param f
      */
     httpPost(xml:string, f:(s:string)=>void):void {
-        // envoyer shout en format xml et afficher le résultat de la requete
-        var json = {
-            "xml" : xml.toString()
-        }
-        $.post(this.urlSimulator+this.routePOSTOneAction, json)
-            .done(function (data) {
-                alert("Result: " + data);
-            })
-            .fail(function () {
-                alert("Error: echec de l'envoi au serveur de simulation")
-            });
+        $.post(this.urlSimulator + this.pathPOSTOneAction, xml).done(function (data) {
+            // display the result by the simulator
+            alert("Result : " + data);
+        });
     }
 }
