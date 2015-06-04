@@ -107,7 +107,7 @@ class Communication {
         var json = {
             "xml" : xml.toString()
         }
-        $.post(this.urlSimulator+this.routePOST, json)
+        $.post(this.urlSimulator+this.routePOSTOneAction, json)
             .done(function (data) {
                 alert("Result: " + data);
             })
