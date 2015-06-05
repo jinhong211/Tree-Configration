@@ -85,8 +85,8 @@ class Communication {
 
         var bloc4 = {
             "kind" : "task",
-            "type" : "Shot",
-            "name" : "shot"
+            "type" : "Shoot",
+            "name" : "shoot"
         }
 
         var bloc5 = {

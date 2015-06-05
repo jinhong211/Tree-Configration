@@ -70,7 +70,7 @@ class NavigationMenu {
             },
             "plugins": [
                 "themes", "html_data","dnd", "search",
-                "state", "types", "wholerow"
+                "state", "types"
             ]
         });
     }
