@@ -174,6 +174,10 @@ $(function test() { // on dom ready
                 }
             }
         });
+
+    $('#delete').on('click', function() {
+       cy.$(':selected').remove();
+    });
 });
 
 
