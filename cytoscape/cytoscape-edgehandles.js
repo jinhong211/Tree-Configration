@@ -276,7 +276,7 @@
             // }
 
             ctx.beginPath();
-            ctx.arc(hx, hy, hr, 0 , 2*Math.PI); // TODO la boule est dessiner ici !
+            ctx.arc(hx, hy, hr, 0 , 2*Math.PI); // TODO : Boule
             ctx.closePath();
             ctx.fill();
 
@@ -573,7 +573,9 @@
               hr = options().handleSize/2 * cy.zoom();
               hx = p.x;
               hy = p.y + h/2;
-              
+
+              console.log(node.id());
+              // TODO : On récupère le type avec
               // add new handle
               drawHandle(hx, hy, hr);
 
