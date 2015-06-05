@@ -133,7 +133,7 @@ class BuilderTree {
             };
             res.push(j);
 
-            console.log(this.available[i].getType());
+       //     console.log(this.available[i].getType());
         }
 
         this.navigationMenu = new NavigationMenu(res);

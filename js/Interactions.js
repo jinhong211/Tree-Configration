@@ -134,7 +134,7 @@ $(function test() { // on dom ready
                 x = event.x;
                 y = event.y;
             }
-            console.log(r);
+          //  console.log(r);
             if(!t.closest('.jstree').length) {
                 if(t.closest('.drop').length) {
                     if(r=="action") {
@@ -178,6 +178,12 @@ $(function test() { // on dom ready
     $('#delete').on('click', function() {
        cy.$(':selected').remove();
     });
+
+    $('html').keyup(function(e){
+        if(e.keyCode == 46) {
+            cy.$(':selected').remove();
+        }
+    })
 });
 
 
