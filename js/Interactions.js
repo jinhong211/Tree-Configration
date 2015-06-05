@@ -65,7 +65,7 @@ $(function test() { // on dom ready
                 selector: '.edgehandles-source',
                 css: {
                     'border-width': 2,
-                    'border-color': 'red'
+                    'border-color': 'green'
                 }
             },
 
