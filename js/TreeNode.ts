@@ -39,6 +39,7 @@ class TreeNode {
         this.name = n;
         this.nameDisplayed = namedisplayed;
         this.description = description;
+        this.parentNode = null;
     }
 
     /**
