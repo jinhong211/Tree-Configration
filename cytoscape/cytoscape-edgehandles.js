@@ -398,8 +398,8 @@
             }
 
             idSource = source.id();
-            if (source.id() != "root" && Controller.getInstance().getBuilderTree().getTreeNodeById(idSource).getType() == "action") {
-              // alert("Les actions ne peuvent etre que des feuilles de l'arbre");
+            if (source.id() != "root" && source.data().type == "action") {
+              alert("Les actions ne peuvent etre que des feuilles de l'arbre");
               return;
             }
             
@@ -585,7 +585,7 @@
             cy.on('mouseover tap', 'node', startHandler = function(e){
               var node = this;
               
-              if( disabled() || drawMode || mdownOnHandle || grabbingNode || this.hasClass('edgehandles-preview') || inForceStart || this.hasClass('edgehandles-ghost-node') || node.filter(options().handleNodes).length === 0 ){
+              if( node.data().type=="action"||disabled() || drawMode || mdownOnHandle || grabbingNode || this.hasClass('edgehandles-preview') || inForceStart || this.hasClass('edgehandles-ghost-node') || node.filter(options().handleNodes).length === 0 ){
                 return; // don't override existing handle that's being dragged
                 // also don't trigger when grabbing a node etc
               } 
@@ -612,7 +612,9 @@
 
               // TODO : On r�cup�re le type avec
               // add new handle
-              drawHandle(hx, hy, hr);
+              if(node.data().type!="action") {
+                drawHandle(hx, hy, hr);
+              }
 
               node.trigger('cyedgehandles.showhandle');
               
@@ -691,8 +693,9 @@
                   clearDraws();
                   drawHandle(hx, hy, hr);
                 }
-                drawLine(hx, hy, x, y);
-                
+                if(node.data().type!="action") {
+                  drawLine(hx, hy, x, y);
+                }
                 return false;
               }
 
@@ -777,7 +780,6 @@
               var hr = options().handleSize/2 * cy.zoom();
               var hx = p.x;
               var hy = p.y - h/2;
-
               drawHandle(hx, hy, hr);
 
               node.trigger('cyedgehandles.showhandle');
@@ -806,7 +808,9 @@
                       clearDraws();
                       drawHandle(hx, hy, hr);
                     }
-                    drawLine(hx, hy, x, y);
+                    if(node.data().type!="action") {
+                      drawLine(hx, hy, x, y);
+                    }
                   }
 
                   $container[0].addEventListener('mousemove', moveHandler, true);
@@ -927,6 +931,7 @@
 
               if( ( cxtOk || tapOk ) && sourceNode ){
                 var rpos = e.cyRenderedPosition;
+
 
                 drawLine(hx, hy, rpos.x, rpos.y);
 
