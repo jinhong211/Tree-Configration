@@ -94,42 +94,18 @@ $(function test() { // on dom ready
             padding: 10
         }
     });
+
+    /**
+     * This method handle the right click menu
+     */
     cy.cxtmenu({
         selector: 'node',
 
         commands: [
             {
                 content: 'decorator',
-                select: function(){
-                    var pid = "p" + Math.floor((Math.random() * 1000) + 1);
-                    var currentOffset = $("#cy").offset();
-                    var x = event.pageX - currentOffset.left;
-                    var y = event.pageY - currentOffset.top;
-                    if(!this.isParent()&&!this.isChild()) {
-                        cy.add([{
-                            group: "nodes",
-                            data: {id: pid, weight: 100, faveColor: 'gray'},
-                            renderedPosition: {x: x, y: y}
-                        },
-                            {
-                                group: "nodes",
-                                data: {name: 'decorator', parent: pid, weight: 100, faveColor: 'blue'},
-                                renderedPosition: {x: x, y: y}
-                            }
-                            ,
-                            {
-                                group: "nodes",
-                                data: {
-                                    name: this.data().name,
-                                    parent: pid,
-                                    weight: this.data().weight,
-                                    faveColor: this.data().faveColor
-                                },
-                                renderedPosition: {x: x, y: y + 40}
-                            }
-                        ]);
-                        this.remove();
-                    }
+                select: function() {
+                    decoratorMenu(this);
                 }
             },
             {
@@ -137,9 +113,19 @@ $(function test() { // on dom ready
                 select: function(){
                     this.remove();
                 }
+            },
+            {
+                content: 'variable',
+                select: function() {
+                    variableMenu();
+                }
             }
         ]
     });
+
+    /**
+     * This function handle all the draw of the edge
+     */
     cy.edgehandles({
         // options go here
     });
