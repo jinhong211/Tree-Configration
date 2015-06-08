@@ -94,7 +94,52 @@ $(function test() { // on dom ready
             padding: 10
         }
     });
+    cy.cxtmenu({
+        selector: 'node',
 
+        commands: [
+            {
+                content: 'decorator',
+                select: function(){
+                    var pid = "p" + Math.floor((Math.random() * 1000) + 1);
+                    var currentOffset = $("#cy").offset();
+                    var x = event.pageX - currentOffset.left;
+                    var y = event.pageY - currentOffset.top;
+                    if(!this.isParent()&&!this.isChild()) {
+                        cy.add([{
+                            group: "nodes",
+                            data: {id: pid, weight: 100, faveColor: 'gray'},
+                            renderedPosition: {x: x, y: y}
+                        },
+                            {
+                                group: "nodes",
+                                data: {name: 'decorator', parent: pid, weight: 100, faveColor: 'blue'},
+                                renderedPosition: {x: x, y: y}
+                            }
+                            ,
+                            {
+                                group: "nodes",
+                                data: {
+                                    name: this.data().name,
+                                    parent: pid,
+                                    weight: this.data().weight,
+                                    faveColor: this.data().faveColor
+                                },
+                                renderedPosition: {x: x, y: y + 40}
+                            }
+                        ]);
+                        this.remove();
+                    }
+                }
+            },
+            {
+                content: 'delete',
+                select: function(){
+                    this.remove();
+                }
+            }
+        ]
+    });
     cy.edgehandles({
         // options go here
     });
@@ -200,6 +245,7 @@ function addRoots() {
  * @param selectedPos : position in the selected block of the builderTree.
  */
 function addAction(x,y,text, selectedPos)  {
+    var currentOffset = $("#cy").offset();
     cy.add({
         group: "nodes",
         data: {
@@ -210,7 +256,7 @@ function addAction(x,y,text, selectedPos)  {
             height: 100,
             id: selectedPos + ""
         },
-        renderedPosition: {x: x - 195, y: y - 60}
+        renderedPosition: {x: x - currentOffset.left, y: y - currentOffset.top}
     });
 }
 
@@ -223,6 +269,7 @@ function addAction(x,y,text, selectedPos)  {
  * @param selectedPos : position in the selected block of the builderTree.
  */
 function addComposite(x, y, text, selectedPos) {
+    var currentOffset = $("#cy").offset();
     cy.add({
         group: "nodes",
         data: {
@@ -233,7 +280,7 @@ function addComposite(x, y, text, selectedPos) {
             height: 100,
             id: selectedPos + ""
         },
-        renderedPosition: {x: x - 195, y: y - 60}
+        renderedPosition: {x: x - currentOffset.left, y: y - currentOffset.top}
     });
 }
 
