@@ -160,7 +160,11 @@ $(function test() { // on dom ready
 
     $('html').keyup(function(e){
         if(e.keyCode == 46) {
-            cy.$(':selected').remove();
+            if(console.log(cy.$(':selected').id() != "root")) {
+                cy.$(':selected').remove();
+            }
+            alert("Supprime pas la racine !!!");
+            // TODO : rendre sa moins aggressif.
         }
     })
 });
