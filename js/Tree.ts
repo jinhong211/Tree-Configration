@@ -1,4 +1,5 @@
 ///<reference path="./TreeNode.ts"/>
+///<reference path="./RootTreeNode.ts"/>
 
 /**
  * Class for the representation of a simplified behavious tree
@@ -8,13 +9,13 @@ class Tree {
     /**
      * Root Node
      */
-    private root : TreeNode;
+    private root : RootTreeNode;
 
     /**
      * Constructor
      * @param r
      */
-    public constructor(r : TreeNode) {
+    public constructor(r : RootTreeNode) {
         this.root = r;
     }
 

@@ -2,7 +2,7 @@
 
 /**
  * Class for the representation of an composite node of a simplified behaviour tree
- * @author Benjamin, Anais
+ * @author Benjamin, Anais, Quentin
  */
 class CompositeTreeNode extends TreeNode {
     /**

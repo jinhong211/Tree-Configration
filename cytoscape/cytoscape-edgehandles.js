@@ -394,10 +394,11 @@
             }
 
             if( source.size() === 0 || targets.size() === 0 ){
-              return; // nothing to do :(
+              return;
             }
 
             idSource = source.id();
+            console.log(idSource);
             if (source.id() != "root" && Controller.getInstance().getBuilderTree().getTreeNodeById(idSource).getType() == "action") {
               // alert("Les actions ne peuvent etre que des feuilles de l'arbre");
               return;
@@ -423,7 +424,7 @@
               if (target.id() == "root"){
                 return;
               }
-
+              console.log(Controller.getInstance().getBuilderTree().getTreeNodeById(target.id()).getParentNode());
 
               console.log(target.id());
               if (Controller.getInstance().getBuilderTree().getTreeNodeById(target.id()).getParentNode() != null) {
@@ -785,7 +786,7 @@
 
               // case: down and drag as normal
               var downHandler = function(e){
-                
+
                 $container[0].removeEventListener('mousedown', downHandler, true);
                 $container[0].removeEventListener('touchstart', downHandler, true);
 
