@@ -5,7 +5,6 @@
 var elesJson = { nodes: [], edges: [] };
 
 $(function test() { // on dom ready
-
     var cy = window.cy = cytoscape({
         container: document.getElementById('cy'),
         ready: function () {
@@ -97,6 +96,7 @@ $(function test() { // on dom ready
     cy.edgehandles({
         // options go here
     });
+
     var r;
     $('#jstree')
         .on('changed.jstree', function(e , data) {
@@ -106,7 +106,7 @@ $(function test() { // on dom ready
         }
     })
     $('.drag')
-        .on('mousedown', function (e) {
+    .on('mousedown', function (e) {
             return $.vakata.dnd.start(e, {
                 'jstree': true,
                 'obj': $(this),
@@ -134,7 +134,6 @@ $(function test() { // on dom ready
                 x = event.x;
                 y = event.y;
             }
-          //  console.log(r);
             if(!t.closest('.jstree').length) {
                 if(t.closest('.drop').length) {
                     if(Controller.getInstance().building.getSelectedBlocks().length == 0) {
@@ -203,7 +202,7 @@ function addAction(x,y,text, selectedPos)  {
             height: 100,
             id: selectedPos + ""
         },
-        position: {x: x - 190, y: y}
+        renderedPosition: {x: x - 195, y: y - 60}
     });
 }
 
@@ -226,6 +225,7 @@ function addComposite(x, y, text, selectedPos) {
             height: 100,
             id: selectedPos + ""
         },
-        position: {x: x - 190, y: y}
+        renderedPosition: {x: x - 195, y: y - 60}
     });
 }
+

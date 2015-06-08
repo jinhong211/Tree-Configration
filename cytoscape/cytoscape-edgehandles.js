@@ -574,7 +574,7 @@
               hx = p.x;
               hy = p.y + h/2;
 
-              console.log(node.id());
+              //console.log(node.id());
               // TODO : On récupère le type avec
               // add new handle
               drawHandle(hx, hy, hr);
