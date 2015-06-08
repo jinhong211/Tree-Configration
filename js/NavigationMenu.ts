@@ -45,7 +45,7 @@ class NavigationMenu {
                     "valid_children" : ["composite"]
                 },
                 "actions" : {
-                    "icon" : "assets/images/tree_icon.png",
+                    "icon" : "assets/images/action_icon.png",
                     "valid_children" : ["action"]
                 },
                 "composite" : {

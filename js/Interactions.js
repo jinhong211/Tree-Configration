@@ -135,46 +135,23 @@ $(function test() { // on dom ready
                 x = event.x;
                 y = event.y;
             }
-          //  console.log(r);
             if(!t.closest('.jstree').length) {
                 if(t.closest('.drop').length) {
+                    if(Controller.getInstance().building.getSelectedBlocks().length == 0) {
+                        addRoots();
+                    }
                     if(r=="action") {
                         var treeNode = new ActionTreeNode(text);
                         treeNode.setId(counter);
                         Controller.getInstance().getBuilderTree().getSelectedBlocks().push(treeNode);
-                        var selectedPos = counter;
-                        counter++;
-                        cy.add({
-                            group: "nodes",
-                            data: {
-                                name: text,
-                                weight: 100,
-                                faveColor: '#F5A45D',
-                                faveShape: 'rectangle',
-                                height: 100,
-                                id: selectedPos + ""
-                            },
-                            position: {x: x - 190, y: y}
-
-                        });
+                        var selectedPos = Controller.getInstance().getBuilderTree().getSelectedBlocks().length;
+                        addAction(x,y, text, selectedPos);
                     } else if (r == "composite") {
                         var treeNode = new CompositeTreeNode(text);
                         treeNode.setId(counter);
                         Controller.getInstance().getBuilderTree().getSelectedBlocks().push(treeNode);
-                        var selectedPos = counter;
-                        counter++;
-                        cy.add({
-                            group: "nodes",
-                            data: {
-                                name: text,
-                                weight: 100,
-                                faveColor: '#EDA1ED',
-                                faveShape: 'rectangle',
-                                height: 100,
-                                id: selectedPos + ""
-                            },
-                            position: {x: x - 190, y: y}
-                    })
+                        var selectedPos = Controller.getInstance().getBuilderTree().getSelectedBlocks().length;
+                        addComposite(x,y,text,selectedPos);
                     }
                 }
             }
@@ -186,12 +163,75 @@ $(function test() { // on dom ready
 
     $('html').keyup(function(e){
         if(e.keyCode == 46) {
-            console.log(cy.$(':selected').id());
-            Controller.getInstance().getBuilderTree().deleteSelectedNode(cy.$(':selected').id());
-            cy.$(':selected').remove();
+            if(console.log(cy.$(':selected').id() != "root")) {
+                Controller.getInstance().getBuilderTree().deleteSelectedNode(cy.$(':selected').id());
+                cy.$(':selected').remove();
+            }
         }
-
     })
 });
 
+/**
+ * This function add a roots if it's the first block add in the building zone
+ */
+function addRoots() {
+    cy.add({
+        group: "nodes",
+        data: {
+            name: "Root",
+            weight: 100,
+            faveColor: '#000000',
+            faveShape: 'rectangle',
+            height: 100,
+            id: "root"
+        },
+        position: {x: 190, y: 150}
+    });
+}
+
+/**
+ * This function add an action block to the system
+ *
+ * @param x : abscissa of the block
+ * @param y : ordinate of the block
+ * @param text : text of the block
+ * @param selectedPos : position in the selected block of the builderTree.
+ */
+function addAction(x,y,text, selectedPos)  {
+    cy.add({
+        group: "nodes",
+        data: {
+            name: text,
+            weight: 100,
+            faveColor: '#F5A45D',
+            faveShape: 'rectangle',
+            height: 100,
+            id: selectedPos + ""
+        },
+        renderedPosition: {x: x - 195, y: y - 60}
+    });
+}
+
+/**
+ * This method add a composite block to the system.
+ *
+ * @param x : abscissa of the block
+ * @param y : ordinate of the block
+ * @param text : text of the block
+ * @param selectedPos : position in the selected block of the builderTree.
+ */
+function addComposite(x, y, text, selectedPos) {
+    cy.add({
+        group: "nodes",
+        data: {
+            name: text,
+            weight: 100,
+            faveColor: '#EDA1ED',
+            faveShape: 'rectangle',
+            height: 100,
+            id: selectedPos + ""
+        },
+        renderedPosition: {x: x - 195, y: y - 60}
+    });
+}
 

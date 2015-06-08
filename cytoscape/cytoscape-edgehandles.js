@@ -393,7 +393,6 @@
               cy.$('.edgehandles-ghost').remove();
             }
 
-
             if( source.size() === 0 || targets.size() === 0 ){
               return; // nothing to do :(
             }
@@ -418,7 +417,7 @@
                 cy.elements('.edgehandles-preview').remove();
               }
             }
-
+            
             for( var i = 0; i < targets.length; i++ ){
               var target = targets[i];
               idTargets.push(target.id());
@@ -455,7 +454,7 @@
                   group: 'edges',
                   data: {
                     source: source.id(),
-                    target: interNode.id(),
+                    target: interNode.id()
                   }
                 }, options().edgeParams(source, target, 0) )).addClass(classes);
                 
@@ -463,7 +462,7 @@
                   group: 'edges',
                   data: {
                     source: interNode.id(),
-                    target: target.id(),
+                    target: target.id()
                   }
                 }, options().edgeParams(source, target, 1) )).addClass(classes);
                 countEdges++;
@@ -514,6 +513,7 @@
             clearTimeout( hoverTimeout );
             hoverTimeout = setTimeout(function(){
               // TODO target des fl�ches
+        //      console.log(target.id());
               var source = cy.nodes('.edgehandles-source');
               
               var isLoop = node.hasClass('edgehandles-source');
@@ -601,7 +601,7 @@
               hx = p.x;
               hy = p.y + h/2;
 
-              // console.log(node.id());
+              console.log(node.id());
               // TODO : On r�cup�re le type avec
               // add new handle
               drawHandle(hx, hy, hr);
