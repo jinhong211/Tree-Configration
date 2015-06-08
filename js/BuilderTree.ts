@@ -178,8 +178,10 @@ class BuilderTree {
                     console.log("enfant de  " + nodeSelect.getName() + " : " + nodeSelect.getChildNode(l).getName());
                 }
             }
-            // console.log("parent de " + nodeSelect.getName() + " : " + nodeSelect.getParentNode().getName());
+            if (nodeSelect.getParentNode() != null) {
+                console.log("parent de " + nodeSelect.getName() + " : " + nodeSelect.getParentNode().getName());
 
+            }
         }
 
     }

@@ -3,7 +3,7 @@
  * @author Hong
  */
 var elesJson = { nodes: [], edges: [] };
-var counter = 0;
+var counter = 1;
 
 $(function test() { // on dom ready
 
@@ -153,6 +153,7 @@ $(function test() { // on dom ready
                         var selectedPos = Controller.getInstance().getBuilderTree().getSelectedBlocks().length;
                         addComposite(x,y,text,selectedPos);
                     }
+                    counter++;
                 }
             }
         });
@@ -163,7 +164,7 @@ $(function test() { // on dom ready
 
     $('html').keyup(function(e){
         if(e.keyCode == 46) {
-            if(console.log(cy.$(':selected').id() != "root")) {
+            if(cy.$(':selected').id() != "root") {
                 Controller.getInstance().getBuilderTree().deleteSelectedNode(cy.$(':selected').id());
                 cy.$(':selected').remove();
             }
