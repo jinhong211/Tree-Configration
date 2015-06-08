@@ -137,6 +137,9 @@ $(function test() { // on dom ready
           //  console.log(r);
             if(!t.closest('.jstree').length) {
                 if(t.closest('.drop').length) {
+                    if(Controller.getInstance().building.getSelectedBlocks().length == 0) {
+                        addRoots();
+                    }
                     if(r=="action") {
                         var treeNode = new ActionTreeNode(text);
                         Controller.getInstance().getBuilderTree().getSelectedBlocks().push(treeNode);
@@ -152,7 +155,6 @@ $(function test() { // on dom ready
                                 id: selectedPos + ""
                             },
                             position: {x: x - 190, y: y}
-
                         });
                     } else if (r == "composite") {
                         var treeNode = new CompositeTreeNode(text);
@@ -185,5 +187,21 @@ $(function test() { // on dom ready
         }
     })
 });
+
+
+function addRoots() {
+    cy.add({
+        group: "nodes",
+        data: {
+            name: "Roots",
+            weight: 100,
+            faveColor: '#000000',
+            faveShape: 'rectangle',
+            height: 100,
+            id: "roots"
+        },
+        position: {x: 190, y: 150}
+    });
+}
 
 
