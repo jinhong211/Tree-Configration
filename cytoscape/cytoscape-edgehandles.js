@@ -424,6 +424,8 @@
                 return;
               }
 
+
+              console.log(target.id());
               if (Controller.getInstance().getBuilderTree().getTreeNodeById(target.id()).getParentNode() != null) {
                 alert("Le noeud a deja un noeud parent");
                 return;
@@ -494,7 +496,7 @@
             }
             if (idSource == "root") {
               if (Controller.getInstance().getBuilderTree().getTree() == null) {
-                Controller.getInstance().getBuilderTree().setRoot(idTargets[0]);
+                Controller.getInstance().getBuilderTree().setRoot(Controller.getInstance().getBuilderTree().getTreeNodeById(idTargets[0]));
               }
             }
 

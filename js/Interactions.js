@@ -144,16 +144,17 @@ $(function test() { // on dom ready
                         var treeNode = new ActionTreeNode(text);
                         treeNode.setId(counter);
                         Controller.getInstance().getBuilderTree().getSelectedBlocks().push(treeNode);
-                        var selectedPos = Controller.getInstance().getBuilderTree().getSelectedBlocks().length;
-                        addAction(x,y, text, selectedPos);
+                        addAction(x,y, text, counter);
                     } else if (r == "composite") {
                         var treeNode = new CompositeTreeNode(text);
                         treeNode.setId(counter);
                         Controller.getInstance().getBuilderTree().getSelectedBlocks().push(treeNode);
                         var selectedPos = Controller.getInstance().getBuilderTree().getSelectedBlocks().length;
-                        addComposite(x,y,text,selectedPos);
+                        addComposite(x,y,text,counter);
                     }
+                    console.log(counter + "");
                     counter++;
+
                 }
             }
         });

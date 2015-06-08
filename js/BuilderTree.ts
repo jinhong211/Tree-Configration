@@ -36,6 +36,7 @@ class BuilderTree {
     public constructor() {
         this.selected = [];
         this.available = [];
+        this.tree = null;
     }
 
 
@@ -79,6 +80,7 @@ class BuilderTree {
      */
     public setRoot(root:TreeNode) {
         this.tree = new Tree(root);
+
     }
 
     /**
@@ -156,6 +158,12 @@ class BuilderTree {
 
         var parentNode = this.getTreeNodeById(id).getParentNode();
         var currentNode = this.getTreeNodeById(id);
+
+        if (currentNode instanceof CompositeTreeNode){
+            for (var l = 0; l < currentNode.getChildrenNodes().length; l++) {
+                currentNode.getChildNode(l).setParentNode(null);
+            }
+        }
         var numb = this.selected.indexOf(this.getTreeNodeById(id));
         this.selected.splice(numb, 1);
 
@@ -164,11 +172,6 @@ class BuilderTree {
             parentNode.removeChildNode(currentNode);
         }
 
-        if (currentNode instanceof CompositeTreeNode){
-            for (var l = 0; l < currentNode.getChildrenNodes().length; l++) {
-                currentNode.getChildNode(l).setParentNode(null);
-            }
-        }
 
 
         for (var i = 0; i < this.selected.length; i++) {
