@@ -33,7 +33,7 @@ class CompositeTreeNode extends TreeNode {
      */
     public removeChildNode(node:TreeNode) {
         var number = this.childrenNodes.indexOf(node);
-        delete this.childrenNodes[number];
+        this.childrenNodes.splice(number, 1);
     }
 
     /**

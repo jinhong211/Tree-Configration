@@ -3,8 +3,10 @@
  * @author Hong
  */
 var elesJson = { nodes: [], edges: [] };
+var counter = 0;
 
 $(function test() { // on dom ready
+
     var cy = window.cy = cytoscape({
         container: document.getElementById('cy'),
         ready: function () {
@@ -96,7 +98,6 @@ $(function test() { // on dom ready
     cy.edgehandles({
         // options go here
     });
-
     var r;
     $('#jstree')
         .on('changed.jstree', function(e , data) {
@@ -106,7 +107,7 @@ $(function test() { // on dom ready
         }
     })
     $('.drag')
-    .on('mousedown', function (e) {
+        .on('mousedown', function (e) {
             return $.vakata.dnd.start(e, {
                 'jstree': true,
                 'obj': $(this),
@@ -141,11 +142,13 @@ $(function test() { // on dom ready
                     }
                     if(r=="action") {
                         var treeNode = new ActionTreeNode(text);
+                        treeNode.setId(counter);
                         Controller.getInstance().getBuilderTree().getSelectedBlocks().push(treeNode);
                         var selectedPos = Controller.getInstance().getBuilderTree().getSelectedBlocks().length;
                         addAction(x,y, text, selectedPos);
                     } else if (r == "composite") {
                         var treeNode = new CompositeTreeNode(text);
+                        treeNode.setId(counter);
                         Controller.getInstance().getBuilderTree().getSelectedBlocks().push(treeNode);
                         var selectedPos = Controller.getInstance().getBuilderTree().getSelectedBlocks().length;
                         addComposite(x,y,text,selectedPos);
@@ -161,6 +164,7 @@ $(function test() { // on dom ready
     $('html').keyup(function(e){
         if(e.keyCode == 46) {
             if(console.log(cy.$(':selected').id() != "root")) {
+                Controller.getInstance().getBuilderTree().deleteSelectedNode(cy.$(':selected').id());
                 cy.$(':selected').remove();
             }
             alert("Supprime pas la racine !!!");

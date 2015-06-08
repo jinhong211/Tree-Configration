@@ -139,4 +139,50 @@ class BuilderTree {
         this.navigationMenu = new NavigationMenu(res);
         this.navigationMenu.render();
     }
+
+    public getTreeNodeById(id : number) : TreeNode {
+        for (var i=0; this.selected.length>i;i++){
+            if (this.selected[i].getId() == id) {
+                return this.selected[i];
+            }
+        }
+        return null;
+    }
+
+
+    // Id du noeud à supprimer
+    public deleteSelectedNode(id : number) {
+        // Suppression du noeud
+
+        var parentNode = this.getTreeNodeById(id).getParentNode();
+        var currentNode = this.getTreeNodeById(id);
+        var numb = this.selected.indexOf(this.getTreeNodeById(id));
+        this.selected.splice(numb, 1);
+
+
+        if (parentNode instanceof CompositeTreeNode) {
+            parentNode.removeChildNode(currentNode);
+        }
+
+        if (currentNode instanceof CompositeTreeNode){
+            for (var l = 0; l < currentNode.getChildrenNodes().length; l++) {
+                currentNode.getChildNode(l).setParentNode(null);
+            }
+        }
+
+
+        for (var i = 0; i < this.selected.length; i++) {
+            var nodeSelect = this.selected[i];
+            if (nodeSelect instanceof CompositeTreeNode) {
+                for (var l = 0; l < nodeSelect.getChildrenNodes().length; l++) {
+                    console.log("enfant de  " + nodeSelect.getName() + " : " + nodeSelect.getChildNode(l).getName());
+                }
+            }
+            // console.log("parent de " + nodeSelect.getName() + " : " + nodeSelect.getParentNode().getName());
+
+        }
+
+    }
+
+
 }
