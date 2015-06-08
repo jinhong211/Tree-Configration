@@ -144,18 +144,7 @@ $(function test() { // on dom ready
                         var treeNode = new ActionTreeNode(text);
                         Controller.getInstance().getBuilderTree().getSelectedBlocks().push(treeNode);
                         var selectedPos = Controller.getInstance().getBuilderTree().getSelectedBlocks().length;
-                        cy.add({
-                            group: "nodes",
-                            data: {
-                                name: text,
-                                weight: 100,
-                                faveColor: '#F5A45D',
-                                faveShape: 'rectangle',
-                                height: 100,
-                                id: selectedPos + ""
-                            },
-                            position: {x: x - 190, y: y}
-                        });
+                        addAction(x,y, text, selectedPos);
                     } else if (r == "composite") {
                         var treeNode = new CompositeTreeNode(text);
                         Controller.getInstance().getBuilderTree().getSelectedBlocks().push(treeNode);
@@ -188,20 +177,37 @@ $(function test() { // on dom ready
     })
 });
 
-
+/**
+ * This function add a roots if it's the first block add in the building zone
+ */
 function addRoots() {
     cy.add({
         group: "nodes",
         data: {
-            name: "Roots",
+            name: "Root",
             weight: 100,
             faveColor: '#000000',
             faveShape: 'rectangle',
             height: 100,
-            id: "roots"
+            id: "root"
         },
         position: {x: 190, y: 150}
     });
 }
 
+
+function addAction(x,y,text, selectedPos)  {
+    cy.add({
+        group: "nodes",
+        data: {
+            name: text,
+            weight: 100,
+            faveColor: '#F5A45D',
+            faveShape: 'rectangle',
+            height: 100,
+            id: selectedPos + ""
+        },
+        position: {x: x - 190, y: y}
+    });
+}
 
