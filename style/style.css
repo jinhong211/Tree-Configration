@@ -28,8 +28,8 @@ h1 {
 
 /* le menu des blocs disponible (gauche) */
 #jstree {
-    height: 70%;
-    width: 25%;
+    height: 200px;
+    width: 200px;
     top: 0;
     right: 0;
 }
