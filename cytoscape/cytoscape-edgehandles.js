@@ -4,6 +4,7 @@
   var register = function( $$, $ ){
     if( !cytoscape ){ return; } // can't register if cytoscape unspecified
 
+    var countEdges = 0;
     var defaults = {
       preview: false, // whether to show added edges preview before releasing selection
       handleSize: 10, // the size of the edge handle put on nodes
@@ -380,6 +381,9 @@
           };
 
           function makeEdges( preview, src, tgt ){
+
+            var idSource;
+            var idTargets = [];
             var source = src ? src : cy.nodes('.edgehandles-source');
             var targets = tgt ? tgt : cy.nodes('.edgehandles-target');
             var classes = preview ? 'edgehandles-preview' : '';
@@ -389,8 +393,16 @@
               cy.$('.edgehandles-ghost').remove();
             }
 
+
             if( source.size() === 0 || targets.size() === 0 ){
               return; // nothing to do :(
+            }
+
+            idSource = source.id();
+
+            if (Controller.getInstance().getBuilderTree().getTreeNodeById(idSource).getType() == "action") {
+              // alert("Les actions ne peuvent etre que des feuilles de l'arbre");
+              return;
             }
             
             // just remove preview class if we already have the edges
@@ -406,12 +418,17 @@
                 cy.elements('.edgehandles-preview').remove();
               }
             }
-            
+
             for( var i = 0; i < targets.length; i++ ){
               var target = targets[i];
-              
+              idTargets.push(target.id());
+
+              if (Controller.getInstance().getBuilderTree().getTreeNodeById(target.id()).getParentNode() != null) {
+                alert("Le noeud a deja un noeud parent");
+                return;
+              }
               switch( options().edgeType( source, target ) ){
-              case 'node':
+                case 'node':
                 
                 var p1 = source.position();
                 var p2 = target.position();
@@ -438,7 +455,7 @@
                   group: 'edges',
                   data: {
                     source: source.id(),
-                    target: interNode.id()
+                    target: interNode.id(),
                   }
                 }, options().edgeParams(source, target, 0) )).addClass(classes);
                 
@@ -446,10 +463,11 @@
                   group: 'edges',
                   data: {
                     source: interNode.id(),
-                    target: target.id()
+                    target: target.id(),
                   }
                 }, options().edgeParams(source, target, 1) )).addClass(classes);
-                
+                countEdges++;
+
                 added = added.add( interNode ).add( source2inter ).add( inter2target );
                 
                 break;
@@ -472,7 +490,17 @@
                 break; // don't add anything
               }
             }
-            
+
+            var sourceNode = Controller.getInstance().getBuilderTree().getTreeNodeById(idSource);
+            if (sourceNode instanceof CompositeTreeNode){
+              for (var i = 0; idTargets.length>i;i++) {
+                var childNode = Controller.getInstance().getBuilderTree().getTreeNodeById(idTargets[i]);
+                sourceNode.addChildNode(childNode);
+                childNode.setParentNode(sourceNode);
+
+              }
+            }
+
             if( !preview ){
               options().complete( source, targets, added );
               source.trigger('cyedgehandles.complete'); 
@@ -485,8 +513,7 @@
 
             clearTimeout( hoverTimeout );
             hoverTimeout = setTimeout(function(){
-              // TODO target des flèches
-        //      console.log(target.id());
+              // TODO target des flï¿½ches
               var source = cy.nodes('.edgehandles-source');
               
               var isLoop = node.hasClass('edgehandles-source');
@@ -574,8 +601,8 @@
               hx = p.x;
               hy = p.y + h/2;
 
-              console.log(node.id());
-              // TODO : On récupère le type avec
+              // console.log(node.id());
+              // TODO : On rï¿½cupï¿½re le type avec
               // add new handle
               drawHandle(hx, hy, hr);
 
@@ -619,7 +646,7 @@
                 function doneMoving(dmEvent){ 
                  //  console.log('doneMoving %s', node.id());
 
-                  // TODO : Gestion de la création des flèches ici !!
+                  // TODO : Gestion de la crï¿½ation des flï¿½ches ici !!
 
                   if( !mdownOnHandle || inForceStart ){
                     return;

@@ -3,6 +3,12 @@
  * @author Benjamin, Anais
  */
 class TreeNode {
+
+    /*
+     * Id of the treeNode display
+     */
+    private id : number;
+
     /**
      * Name of the node
      */
@@ -19,6 +25,11 @@ class TreeNode {
      */
 
     private description : string;
+
+    /**
+     * Parent node of the tree node
+     */
+    private parentNode :  TreeNode;
 
     /**
      * Constructor
@@ -45,4 +56,39 @@ class TreeNode {
     public getType():string {
         return "not expected";
     }
+
+    /**
+     * Set the id for the id of the node
+     * @param id
+     */
+    public setId(id : number) {
+        this.id = id;
+    }
+
+    /**
+     * Get the id of the node
+     * @returns {number}
+     */
+    public getId():number {
+        return this.id;
+    }
+
+    /**
+     * Set the node of the parent node
+     * @param (TreeNode)
+     */
+
+    public setParentNode(node : TreeNode) {
+        this.parentNode = node;
+    }
+
+    /**
+     * Get the parent node of the node
+     * @return (parent node)
+     */
+
+    public getParentNode() : TreeNode {
+        return this.parentNode;
+    }
+
 }

@@ -3,6 +3,7 @@
  * @author Hong
  */
 var elesJson = { nodes: [], edges: [] };
+var counter = 0;
 
 $(function test() { // on dom ready
 
@@ -139,8 +140,10 @@ $(function test() { // on dom ready
                 if(t.closest('.drop').length) {
                     if(r=="action") {
                         var treeNode = new ActionTreeNode(text);
+                        treeNode.setId(counter);
                         Controller.getInstance().getBuilderTree().getSelectedBlocks().push(treeNode);
-                        var selectedPos = Controller.getInstance().getBuilderTree().getSelectedBlocks().length;
+                        var selectedPos = counter;
+                        counter++;
                         cy.add({
                             group: "nodes",
                             data: {
@@ -156,8 +159,10 @@ $(function test() { // on dom ready
                         });
                     } else if (r == "composite") {
                         var treeNode = new CompositeTreeNode(text);
+                        treeNode.setId(counter);
                         Controller.getInstance().getBuilderTree().getSelectedBlocks().push(treeNode);
-                        var selectedPos = Controller.getInstance().getBuilderTree().getSelectedBlocks().length;
+                        var selectedPos = counter;
+                        counter++;
                         cy.add({
                             group: "nodes",
                             data: {
@@ -181,8 +186,11 @@ $(function test() { // on dom ready
 
     $('html').keyup(function(e){
         if(e.keyCode == 46) {
+            console.log(cy.$(':selected').id());
+            Controller.getInstance().getBuilderTree().deleteSelectedNode(cy.$(':selected').id());
             cy.$(':selected').remove();
         }
+
     })
 });
 
