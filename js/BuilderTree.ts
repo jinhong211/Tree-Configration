@@ -3,6 +3,8 @@
 ///<reference path="./CompositeTreeNode.ts"/>
 ///<reference path="./Tree.ts"/>
 ///<reference path="./NavigationMenu.ts"/>
+///<reference path="./Edge.ts"/>
+
 
 /**
  * Class for the building of a simplified behaviour tree with available blocks
@@ -26,6 +28,11 @@ class BuilderTree {
     private available:Array<TreeNode>;
 
     /**
+     * Available nodes in the menu
+     */
+    private edges:Array<Edge>;
+
+    /**
      * Menu of navigation of available nodes
      */
     private navigationMenu:NavigationMenu;
@@ -34,9 +41,10 @@ class BuilderTree {
      * Constructor
      */
     public constructor() {
+        this.edges = [];
         this.selected = [];
         this.available = [];
-        this.tree = null;
+        this.tree = new Tree(null);
     }
 
 
@@ -79,8 +87,24 @@ class BuilderTree {
      * @param root
      */
     public setRoot(root:TreeNode) {
-        this.tree = new Tree(root);
+        this.tree.setRoot(root);
 
+    }
+
+    /**
+     *  Add Edge to the Array Edges
+     *  @param edge
+     */
+    public addEdge(edge : Edge){
+        this.edges.push(edge);
+    }
+
+    /**
+     * Get the Edges
+     * @returns {Array<Edge>}
+     */
+    public getEdges():Array<Edge> {
+        return this.edges;
     }
 
     /**
@@ -143,7 +167,7 @@ class BuilderTree {
     }
 
     public getTreeNodeById(id : number) : TreeNode {
-        for (var i=0; this.selected.length>i;i++){
+        for (var i=0; i<this.selected.length;i++){
             if (this.selected[i].getId() == id) {
                 return this.selected[i];
             }
@@ -151,6 +175,41 @@ class BuilderTree {
         return null;
     }
 
+    public getRootTree() : TreeNode {
+        return this.tree.getRoot();
+    }
+
+    public getEdgeById(id : number) : Edge {
+
+        for (var i=0; i<this.edges.length;i++){
+            if (this.edges[i].getId() == id) {
+                return this.edges[i];
+            }
+        }
+        return null;
+    }
+
+
+
+    public deleteEdgeById(id : number) {
+        var edge = this.getEdgeById(id);
+        var pos = this.edges.indexOf(edge);
+        this.edges.splice(pos,1);
+    }
+
+    public deleteSelectedEdge(id : number) {
+
+        var edge = this.getEdgeById(id);
+        var pos = this.edges.indexOf(edge);
+        this.edges.splice(pos,1);
+        if (edge.getSource() == null) {
+            this.tree.deleteRoot();
+            return;
+        } else {
+            edge.getSource().removeChildNode(edge.getTarget());
+            edge.getTarget().removeParentNode();
+        }
+    }
 
     // Id du noeud à supprimer
     public deleteSelectedNode(id : number) {
@@ -158,6 +217,26 @@ class BuilderTree {
 
         var parentNode = this.getTreeNodeById(id).getParentNode();
         var currentNode = this.getTreeNodeById(id);
+
+        var idEdgeToDelete = [];
+
+        for (var i =0; i< this.edges.length; i++){
+            if (this.edges[i].getSource() != null && this.edges[i].getSource().getId() == id){
+                idEdgeToDelete.push(i);
+            }
+        }
+        for (var i =0; i< this.edges.length; i++){
+            if (this.edges[i].getTarget().getId() == id) {
+                idEdgeToDelete.push(i);
+                if (this.edges[i].getSource() == null) {
+                    this.tree.deleteRoot();
+                }
+            }
+        }
+
+        for (var i =0; i< idEdgeToDelete.length; i++){
+            this.deleteEdgeById(idEdgeToDelete[i]);
+        }
 
         if (currentNode instanceof CompositeTreeNode){
             for (var l = 0; l < currentNode.getChildrenNodes().length; l++) {
@@ -172,20 +251,6 @@ class BuilderTree {
             parentNode.removeChildNode(currentNode);
         }
 
-
-
-        for (var i = 0; i < this.selected.length; i++) {
-            var nodeSelect = this.selected[i];
-            if (nodeSelect instanceof CompositeTreeNode) {
-                for (var l = 0; l < nodeSelect.getChildrenNodes().length; l++) {
-                    console.log("enfant de  " + nodeSelect.getName() + " : " + nodeSelect.getChildNode(l).getName());
-                }
-            }
-            if (nodeSelect.getParentNode() != null) {
-                console.log("parent de " + nodeSelect.getName() + " : " + nodeSelect.getParentNode().getName());
-
-            }
-        }
 
     }
 

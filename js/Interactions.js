@@ -165,12 +165,43 @@ $(function test() { // on dom ready
 
     $('html').keyup(function(e){
         if(e.keyCode == 46) {
-            if(cy.$(':selected').id() != "root") {
-                Controller.getInstance().getBuilderTree().deleteSelectedNode(cy.$(':selected').id());
+            var res = cy.$(':selected').id().split("");
+            if (res[0]=="e") {
+                Controller.getInstance().getBuilderTree().deleteSelectedEdge(cy.$(':selected').id());
                 cy.$(':selected').remove();
             } else {
-                alert("Supprime pas la racine !!!");
-                // TODO : rendre sa moins ggressif.
+                if(cy.$(':selected').id() != "root") {
+                    Controller.getInstance().getBuilderTree().deleteSelectedNode(cy.$(':selected').id());
+                    cy.$(':selected').remove();
+                }
+            }
+
+        }
+
+        if (e.keyCode == 65){
+            console.log("#######################  Affichage etat courant #######################")
+             for (var i = 0; i < Controller.getInstance().getBuilderTree().getSelectedBlocks().length; i++) {
+                 var nodeSelect = Controller.getInstance().getBuilderTree().getSelectedBlocks()[i];
+                 console.log("noeud : " + nodeSelect.getName());
+                 if (nodeSelect instanceof CompositeTreeNode) {
+                 for (var l = 0; l < nodeSelect.getChildrenNodes().length; l++) {
+                 console.log("enfant de  " + nodeSelect.getName() + " : " + nodeSelect.getChildNode(l).getName());
+                 }
+                 }
+                 if (nodeSelect.getParentNode() != null) {
+                 console.log("parent de " + nodeSelect.getName() + " : " + nodeSelect.getParentNode().getName());
+                 }
+             }
+
+            for (var i = 0; i < Controller.getInstance().getBuilderTree().getEdges().length; i++) {
+                var edge = Controller.getInstance().getBuilderTree().getEdges()[i];
+                console.log("edge id : " + edge.getId());
+
+                if (edge.getSource() == null) {
+                    console.log("edge de root" + " a " + edge.getTarget().getName());
+                } else {
+                    console.log("edge de " + edge.getSource().getName() + " a " + edge.getTarget().getName());
+                }
             }
         }
     })
