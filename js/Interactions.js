@@ -149,18 +149,7 @@ $(function test() { // on dom ready
                         var treeNode = new CompositeTreeNode(text);
                         Controller.getInstance().getBuilderTree().getSelectedBlocks().push(treeNode);
                         var selectedPos = Controller.getInstance().getBuilderTree().getSelectedBlocks().length;
-                        cy.add({
-                            group: "nodes",
-                            data: {
-                                name: text,
-                                weight: 100,
-                                faveColor: '#EDA1ED',
-                                faveShape: 'rectangle',
-                                height: 100,
-                                id: selectedPos + ""
-                            },
-                            position: {x: x - 190, y: y}
-                    })
+                        addComposite(x,y,text,selectedPos);
                     }
                 }
             }
@@ -195,7 +184,14 @@ function addRoots() {
     });
 }
 
-
+/**
+ * This function add an action block to the system
+ *
+ * @param x : abscissa of the block
+ * @param y : ordinate of the block
+ * @param text : text of the block
+ * @param selectedPos : position in the selected block of the builderTree.
+ */
 function addAction(x,y,text, selectedPos)  {
     cy.add({
         group: "nodes",
@@ -211,3 +207,25 @@ function addAction(x,y,text, selectedPos)  {
     });
 }
 
+/**
+ * This method add a composite block to the system.
+ *
+ * @param x : abscissa of the block
+ * @param y : ordinate of the block
+ * @param text : text of the block
+ * @param selectedPos : position in the selected block of the builderTree.
+ */
+function addComposite(x, y, text, selectedPos) {
+    cy.add({
+        group: "nodes",
+        data: {
+            name: text,
+            weight: 100,
+            faveColor: '#EDA1ED',
+            faveShape: 'rectangle',
+            height: 100,
+            id: selectedPos + ""
+        },
+        position: {x: x - 190, y: y}
+    });
+}
