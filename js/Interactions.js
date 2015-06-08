@@ -164,7 +164,7 @@ $(function test() { // on dom ready
                 cy.$(':selected').remove();
             }
             alert("Supprime pas la racine !!!");
-            // TODO : rendre sa moins aggressif.
+            // TODO : rendre sa moins ggressif.
         }
     })
 });
