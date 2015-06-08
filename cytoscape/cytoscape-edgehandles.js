@@ -402,6 +402,10 @@
               // alert("Les actions ne peuvent etre que des feuilles de l'arbre");
               return;
             }
+
+            if (source.id() == "root" && Controller.getInstance().getBuilderTree().getRootTree() != null) {
+              return;
+            }
             
             // just remove preview class if we already have the edges
             if( !src && !tgt ){
@@ -424,69 +428,37 @@
                 return;
               }
 
-
-              console.log(target.id());
               if (Controller.getInstance().getBuilderTree().getTreeNodeById(target.id()).getParentNode() != null) {
                 alert("Le noeud a deja un noeud parent");
                 return;
               }
 
               switch( options().edgeType( source, target ) ){
-                case 'node':
-                
-                var p1 = source.position();
-                var p2 = target.position();
-                var p;
-
-                if( source.id() === target.id() ){
-                  p = {
-                    x: p1.x + options().nodeLoopOffset,
-                    y: p1.y + options().nodeLoopOffset
-                  };
-                } else {
-                  p = {
-                    x: (p1.x + p2.x)/2,
-                    y: (p1.y + p2.y)/2
-                  };
-                }
-                          
-                var interNode = cy.add($.extend( true, {
-                  group: 'nodes',
-                  position: p
-                }, options().nodeParams(source, target) )).addClass(classes);
-
-                var source2inter = cy.add($.extend( true, {
-                  group: 'edges',
-                  data: {
-                    source: source.id(),
-                    target: interNode.id()
-                  }
-                }, options().edgeParams(source, target, 0) )).addClass(classes);
-                
-                var inter2target = cy.add($.extend( true, {
-                  group: 'edges',
-                  data: {
-                    source: interNode.id(),
-                    target: target.id()
-                  }
-                }, options().edgeParams(source, target, 1) )).addClass(classes);
-                countEdges++;
-
-                added = added.add( interNode ).add( source2inter ).add( inter2target );
-                
-                break;
               
               case 'flat':
                 var edge = cy.add($.extend( true, {
                   group: 'edges',
                   data: {
+                    id: "ed" +  countEdges,
                     source: source.id(),
                     target: target.id()
                   }
                 }, options().edgeParams(source, target, 0) )).addClass(classes);
-              
+
+                // Si la source est root on met source à null car le bloc root n'est pas représenté dans le modèle
+
+                var sourceNode;
+                var targetNode = Controller.getInstance().getBuilderTree().getTreeNodeById(target.id());
+                if(idSource != "root") {
+                  sourceNode = Controller.getInstance().getBuilderTree().getTreeNodeById(idSource);
+                  Controller.getInstance().getBuilderTree().addEdge(new Edge("ed"+countEdges,sourceNode,targetNode));
+                } else {
+                  Controller.getInstance().getBuilderTree().addEdge(new Edge("ed"+countEdges,null,targetNode));
+                }
+                countEdges++;
+
                 added = added.add( edge );
-              
+
                 break;
 
               default:
@@ -495,7 +467,7 @@
               }
             }
             if (idSource == "root") {
-              if (Controller.getInstance().getBuilderTree().getTree() == null) {
+              if (Controller.getInstance().getBuilderTree().getRootTree() == null) {
                 Controller.getInstance().getBuilderTree().setRoot(Controller.getInstance().getBuilderTree().getTreeNodeById(idTargets[0]));
               }
             }
@@ -506,6 +478,7 @@
                 var childNode = Controller.getInstance().getBuilderTree().getTreeNodeById(idTargets[i]);
                 sourceNode.addChildNode(childNode);
                 childNode.setParentNode(sourceNode);
+
               }
             }
 
@@ -521,8 +494,7 @@
 
             clearTimeout( hoverTimeout );
             hoverTimeout = setTimeout(function(){
-              // TODO target des fl�ches
-        //      console.log(target.id());
+
               var source = cy.nodes('.edgehandles-source');
               
               var isLoop = node.hasClass('edgehandles-source');

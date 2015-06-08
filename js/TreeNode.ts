@@ -78,7 +78,6 @@ class TreeNode {
      * Set the node of the parent node
      * @param (TreeNode)
      */
-
     public setParentNode(node : TreeNode) {
         this.parentNode = node;
     }
@@ -92,4 +91,11 @@ class TreeNode {
         return this.parentNode;
     }
 
+    /**
+     * Remove the parent node of the node
+     *
+     */
+    public removeParentNode() {
+        this.parentNode = null;
+    }
 }
