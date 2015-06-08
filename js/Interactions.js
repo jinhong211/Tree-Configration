@@ -26,7 +26,6 @@ $(function test() { // on dom ready
                     'color': '#fff'
                 }
             },
-
             {
                 selector: 'edge',
                 css: {
@@ -37,7 +36,6 @@ $(function test() { // on dom ready
                     'opacity': 0.8
                 }
             },
-
             {
                 selector: ':selected',
                 css: {
@@ -61,7 +59,6 @@ $(function test() { // on dom ready
                     'background-color': 'red'
                 }
             },
-
             {
                 selector: '.edgehandles-source',
                 css: {
@@ -69,7 +66,6 @@ $(function test() { // on dom ready
                     'border-color': 'green'
                 }
             },
-
             {
                 selector: '.edgehandles-target',
                 css: {
@@ -77,7 +73,6 @@ $(function test() { // on dom ready
                     'border-color': 'red'
                 }
             },
-
             {
                 selector: '.edgehandles-preview, .edgehandles-ghost-edge',
                 css: {
@@ -86,8 +81,6 @@ $(function test() { // on dom ready
                     'source-arrow-color': 'red'
                 }
             }
-
-
         ],
         layout: {
             name: 'circle',
@@ -100,7 +93,6 @@ $(function test() { // on dom ready
      */
     cy.cxtmenu({
         selector: 'node',
-
         commands: [
             {
                 content: 'decorator',

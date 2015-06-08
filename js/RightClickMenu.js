@@ -42,8 +42,7 @@ function decoratorMenu(node) {
 function variableMenu() {
     console.log("derp");
     cy.cxtmenu({
-        selector: 'node',
-
+        selector: 'core',
         commands: [
             {
                 content: 'decorator',
