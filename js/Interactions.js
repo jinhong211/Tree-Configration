@@ -168,9 +168,10 @@ $(function test() { // on dom ready
             if(cy.$(':selected').id() != "root") {
                 Controller.getInstance().getBuilderTree().deleteSelectedNode(cy.$(':selected').id());
                 cy.$(':selected').remove();
+            } else {
+                alert("Supprime pas la racine !!!");
+                // TODO : rendre sa moins ggressif.
             }
-            alert("Supprime pas la racine !!!");
-            // TODO : rendre sa moins ggressif.
         }
     })
 });

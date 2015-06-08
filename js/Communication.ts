@@ -107,6 +107,7 @@ class Communication {
         res.push(bloc4);
         res.push(bloc5);
         res.push(bloc6);
+        console.log(res);
         return res;
     }
 
