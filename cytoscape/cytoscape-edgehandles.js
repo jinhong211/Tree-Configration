@@ -402,7 +402,6 @@
               alert("Les actions ne peuvent etre que des feuilles de l'arbre");
               return;
             }
-            
             // just remove preview class if we already have the edges
             if( !src && !tgt ){
               if( !preview && options().preview ){
@@ -423,9 +422,14 @@
               if (target.id() == "root"){
                 return;
               }
-
-
-              console.log(target.id());
+              var incomers = target.incomers();
+              for( var i = 0; i < incomers.length; i++ ) {
+                var incomer = incomers[i];
+                if (incomer.data().name == source.data().name) {
+                  alert("Les noeuds sont deja lies");
+                  return;
+                }
+              }
               if (target.isChild()) {
                 alert("Le noeud a deja un noeud parent");
                 return;
