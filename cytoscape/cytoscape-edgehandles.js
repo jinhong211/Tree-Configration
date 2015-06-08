@@ -426,7 +426,7 @@
 
 
               console.log(target.id());
-              if (Controller.getInstance().getBuilderTree().getTreeNodeById(target.id()).getParentNode() != null) {
+              if (target.isChild()) {
                 alert("Le noeud a deja un noeud parent");
                 return;
               }
@@ -585,7 +585,7 @@
             cy.on('mouseover tap', 'node', startHandler = function(e){
               var node = this;
               
-              if( node.data().type=="action"||disabled() || drawMode || mdownOnHandle || grabbingNode || this.hasClass('edgehandles-preview') || inForceStart || this.hasClass('edgehandles-ghost-node') || node.filter(options().handleNodes).length === 0 ){
+              if( node.isChild()||node.data().type=="action"||disabled() || drawMode || mdownOnHandle || grabbingNode || this.hasClass('edgehandles-preview') || inForceStart || this.hasClass('edgehandles-ghost-node') || node.filter(options().handleNodes).length === 0 ){
                 return; // don't override existing handle that's being dragged
                 // also don't trigger when grabbing a node etc
               } 

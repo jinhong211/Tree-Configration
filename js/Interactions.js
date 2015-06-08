@@ -232,6 +232,7 @@ function addAction(x,y,text, selectedPos)  {
             faveColor: '#F5A45D',
             faveShape: 'rectangle',
             height: 100,
+            type:'action',
             id: selectedPos + ""
         },
         renderedPosition: {x: x - currentOffset.left, y: y - currentOffset.top}
