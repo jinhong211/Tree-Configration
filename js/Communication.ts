@@ -66,21 +66,21 @@ class Communication {
     httpGetMOCK() : JSON[]{
         var res = [];
         var bloc1 = {
-            "kind" : "task",
-            "type" : "FindEnemy",
-            "name" : "find enemy"
+            kind : "task",
+            type : "FindEnemy",
+            name : "find enemy"
         }
 
         var bloc2 = {
-            "kind" : "composite",
-            "type" : "Sequence",
-            "name" : "sequence"
+            kind : "composite",
+            type : "Sequence",
+            name : "sequence"
         }
 
         var bloc3 = {
-            "kind" : "task",
-            "type" : "Move",
-            "name" : "move"
+            kind : "task",
+            type : "Move",
+            name : "move"
         }
 
         var bloc4 = {

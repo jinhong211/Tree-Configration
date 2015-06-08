@@ -11,6 +11,8 @@ class Tree {
      */
     private root : RootTreeNode;
 
+    private blackboard : Array<JSON>;
+
     /**
      * Constructor
      * @param r
@@ -25,5 +27,13 @@ class Tree {
      */
     public getRoot() : TreeNode{
         return this.root;
+    }
+
+    public getBlackboard() : Array<JSON>{
+        return this.blackboard;
+    }
+
+    public setBlackboard(bb : Array<JSON>) : void {
+        this.blackboard = bb;
     }
 }

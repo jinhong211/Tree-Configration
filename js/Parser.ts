@@ -1,16 +1,18 @@
 ///<reference path="./TreeNode.ts"/>
 ///<reference path="./ActionTreeNode.ts"/>
 ///<reference path="./CompositeTreeNode"/>
+///<reference path="./DecoratorTreeNode"/>
 
 /**
  * Class for the parsing between a simulator and our module
  * We need to parse the blocs received in JSON
  * and we need a tree to send in XML
- * @author Benjamin
+ * @author Benjamin, Anaïs
  */
 class Parser {
+
     /**
-     * Parse blocks received in JSON format
+     * Parse simple blocks received in JSON format (protocole V1)
      * @param datajson
      * @returns {Array<TreeNode>}
      */
@@ -31,25 +33,68 @@ class Parser {
     }
 
     /**
-     * Parse blocks received in JSON format
+     * Parse simple blocks received in JSON format (protocole V2)
      * @param datajson
      * @returns {Array<TreeNode>}
      */
     parseBlocks2(datajson:Array<JSON>):Array<TreeNode> {
-        var listNodeAvailable:Array<TreeNode>;
-        listNodeAvailable = new Array<TreeNode>();
-        for (var i = 0; i < datajson.length; i++) {
-            var jsonBloc = datajson[i];
+    var listNodeAvailable:Array<TreeNode>;
+    listNodeAvailable = new Array<TreeNode>();
+    for (var i = 0; i < datajson.length; i++) {
+        var jsonBloc = datajson[i];
+        if (jsonBloc["kind"] == "task") {
+            listNodeAvailable.push(new ActionTreeNode(jsonBloc["type"],jsonBloc["name"],jsonBloc["desc"]));
+        } else if (jsonBloc["kind"] == "composite") {
+            listNodeAvailable.push(new CompositeTreeNode(jsonBloc["type"],jsonBloc["name"],jsonBloc["desc"]));
+        } else {
+            listNodeAvailable.push(new TreeNode(jsonBloc["type"],jsonBloc["name"],jsonBloc["desc"]));
+        }
+    }
+
+    return listNodeAvailable;
+}
+
+    /**
+     * Parse blocks received in JSON format (protocole V3)
+     * @param datajson
+     * @returns {Array<TreeNode>}
+     */
+    parseBlocks3(datajson:JSON):Array<TreeNode> {
+        // nodes
+        var listNodeAvailable = new Array<TreeNode>();
+
+        for (var i = 0; i < datajson["nodes"].length; i++) {
+            var jsonBloc = datajson["nodes"][i];
             if (jsonBloc["kind"] == "task") {
                 listNodeAvailable.push(new ActionTreeNode(jsonBloc["type"],jsonBloc["name"],jsonBloc["desc"]));
             } else if (jsonBloc["kind"] == "composite") {
                 listNodeAvailable.push(new CompositeTreeNode(jsonBloc["type"],jsonBloc["name"],jsonBloc["desc"]));
-            } else {
-                listNodeAvailable.push(new TreeNode(jsonBloc["type"],jsonBloc["name"],jsonBloc["desc"]));
+            } else if (jsonBloc["kind"] != "decorator") {
+                listNodeAvailable.push(new TreeNode(jsonBloc["type"], jsonBloc["name"], jsonBloc["desc"]));
             }
         }
 
         return listNodeAvailable;
+    }
+
+    parseDecorators3(datajson:JSON):Array<DecoratorTreeNode> {
+        // decorators
+        var listDecoratorsAvailable = new Array<TreeNode>();
+
+        for (var i = 0; i < datajson["nodes"].length; i++) {
+            var jsonBloc = datajson["nodes"][i];
+            if (jsonBloc["kind"] == "decorator") {
+                listDecoratorsAvailable.push(new DecoratorTreeNode(jsonBloc["type"], jsonBloc["name"], jsonBloc["desc"]));
+            }
+        }
+        return listDecoratorsAvailable;
+    }
+
+    //map retour {[variableName: string] : any}
+    parseBlackboard3(datajson:JSON): Array<JSON>{
+        var blackboard = new Array<JSON>();
+        blackboard = datajson["blackboard"];
+        return blackboard;
     }
 
     /**
@@ -80,13 +125,61 @@ class Parser {
     }
 
     /**
+ * Parse a Tree in a XML format to be send to a simulator
+ * This function is recursive.
+ * It must be call with the root node to send the complete tree
+ * @param currentNode
+ * @returns {string}
+ */
+parseXml2(noeudCourant : TreeNode, init = true) : string {
+
+    var xml = document.createElement("root");
+    var bloc;
+
+    if (noeudCourant instanceof ActionTreeNode) {
+        bloc = document.createElement("task");
+        var type = document.createElement("type");
+        type.innerHTML = noeudCourant.getName();
+        bloc.appendChild(type);
+        bloc.appendChild(document.createElement("params"));
+    } else if (noeudCourant instanceof CompositeTreeNode) {
+        bloc = document.createElement("composite");
+        var type = document.createElement("type");
+        type.innerHTML = noeudCourant.getName();
+        bloc.appendChild(type);
+        bloc.appendChild(document.createElement("params"));
+        var children = noeudCourant.getChildrenNodes();
+        var childrenNode = document.createElement("children");
+
+        for (var i=0; i<children.length; i++) {
+            childrenNode.innerHTML += this.parseXml2(children[i],false);
+        }
+
+        if (children.length>0){
+            bloc.appendChild(childrenNode);
+        }
+    }
+    if (bloc) {
+        xml.appendChild(bloc);
+    }
+
+    if (init) {
+        var shell = document.createElement("shell");
+        shell.appendChild(xml);
+        return shell.innerHTML;
+    }
+    else return xml.innerHTML;
+}
+
+    /**
      * Parse a Tree in a XML format to be send to a simulator
+     * included special bloc decorator
      * This function is recursive.
      * It must be call with the root node to send the complete tree
      * @param currentNode
      * @returns {string}
      */
-    parseXml2(noeudCourant : TreeNode, init = true) : string {
+    parseXml3(noeudCourant : TreeNode, init = true) : string {
 
         var xml = document.createElement("root");
         var bloc;

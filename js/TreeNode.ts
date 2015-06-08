@@ -17,13 +17,11 @@ class TreeNode {
     /**
      * Name of the node wich will be displayed
      */
-
     private nameDisplayed : string;
 
     /**
      * Description of the node
      */
-
     private description : string;
 
     /**
@@ -87,7 +85,6 @@ class TreeNode {
      * Get the parent node of the node
      * @return (parent node)
      */
-
     public getParentNode() : TreeNode {
         return this.parentNode;
     }
