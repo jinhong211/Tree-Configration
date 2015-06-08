@@ -398,8 +398,7 @@
             }
 
             idSource = source.id();
-
-            if (Controller.getInstance().getBuilderTree().getTreeNodeById(idSource).getType() == "action") {
+            if (source.id() != "root" && Controller.getInstance().getBuilderTree().getTreeNodeById(idSource).getType() == "action") {
               // alert("Les actions ne peuvent etre que des feuilles de l'arbre");
               return;
             }
@@ -421,11 +420,15 @@
             for( var i = 0; i < targets.length; i++ ){
               var target = targets[i];
               idTargets.push(target.id());
+              if (target.id() == "root"){
+                return;
+              }
 
               if (Controller.getInstance().getBuilderTree().getTreeNodeById(target.id()).getParentNode() != null) {
                 alert("Le noeud a deja un noeud parent");
                 return;
               }
+
               switch( options().edgeType( source, target ) ){
                 case 'node':
                 
@@ -489,6 +492,11 @@
                 break; // don't add anything
               }
             }
+            if (idSource == "root") {
+              if (Controller.getInstance().getBuilderTree().getTree() == null) {
+                Controller.getInstance().getBuilderTree().setRoot(idTargets[0]);
+              }
+            }
 
             var sourceNode = Controller.getInstance().getBuilderTree().getTreeNodeById(idSource);
             if (sourceNode instanceof CompositeTreeNode){
@@ -496,7 +504,6 @@
                 var childNode = Controller.getInstance().getBuilderTree().getTreeNodeById(idTargets[i]);
                 sourceNode.addChildNode(childNode);
                 childNode.setParentNode(sourceNode);
-
               }
             }
 
@@ -601,7 +608,6 @@
               hx = p.x;
               hy = p.y + h/2;
 
-              console.log(node.id());
               // TODO : On r?cup?re le type avec
               // add new handle
 
