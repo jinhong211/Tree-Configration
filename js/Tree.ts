@@ -9,13 +9,13 @@ class Tree {
     /**
      * Root Node
      */
-    private root : RootTreeNode;
+    private root : TreeNode;
 
     /**
      * Constructor
      * @param r
      */
-    public constructor(r : RootTreeNode) {
+    public constructor(r : TreeNode) {
         this.root = r;
     }
 

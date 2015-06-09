@@ -428,8 +428,6 @@
                 return;
               }
 
-
-              console.log(target.id());
               if (Controller.getInstance().getBuilderTree().getTreeNodeById(target.id()).getParentNode() != null) {
                 alert("Le noeud a deja un noeud parent");
                 return;
@@ -497,8 +495,6 @@
             clearTimeout( hoverTimeout );
             hoverTimeout = setTimeout(function(){
 
-              // TODO target des fl?ches
-        //      console.log(target.id());
               var source = cy.nodes('.edgehandles-source');
               
               var isLoop = node.hasClass('edgehandles-source');

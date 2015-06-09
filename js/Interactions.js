@@ -10,6 +10,8 @@ $(function test() { // on dom ready
     var cy = window.cy = cytoscape({
         container: document.getElementById('cy'),
         ready: function () {
+            cy.zoom(1.5);
+            cy.pan({ x: -200, y:-500 });
         },
         elements: elesJson,
         style: [
@@ -94,7 +96,6 @@ $(function test() { // on dom ready
             padding: 10
         }
     });
-
     cy.edgehandles({
         // options go here
     });
@@ -137,9 +138,6 @@ $(function test() { // on dom ready
             }
             if(!t.closest('.jstree').length) {
                 if(t.closest('.drop').length) {
-                    if(Controller.getInstance().building.getSelectedBlocks().length == 0) {
-                        addRoots();
-                    }
                     if(r=="action") {
                         var treeNode = new ActionTreeNode(text);
                         treeNode.setId(counter);
@@ -152,7 +150,6 @@ $(function test() { // on dom ready
                         var selectedPos = Controller.getInstance().getBuilderTree().getSelectedBlocks().length;
                         addComposite(x,y,text,counter);
                     }
-                    console.log(counter + "");
                     counter++;
 
                 }
@@ -164,49 +161,80 @@ $(function test() { // on dom ready
     });
 
     $('html').keyup(function(e){
-        if(e.keyCode == 46) {
-            var res = cy.$(':selected').id().split("");
-            if (res[0]=="e") {
-                Controller.getInstance().getBuilderTree().deleteSelectedEdge(cy.$(':selected').id());
-                cy.$(':selected').remove();
-            } else {
-                if(cy.$(':selected').id() != "root") {
-                    Controller.getInstance().getBuilderTree().deleteSelectedNode(cy.$(':selected').id());
+
+        switch (e.keyCode){
+            // key suppr
+            case 46 :
+                // delete
+                var res = cy.$(':selected').id().split("");
+                if (res[0]=="e") {
+                    Controller.getInstance().getBuilderTree().deleteSelectedEdge(cy.$(':selected').id());
                     cy.$(':selected').remove();
-                }
-            }
-
-        }
-
-        if (e.keyCode == 65){
-            console.log("#######################  Affichage etat courant #######################")
-             for (var i = 0; i < Controller.getInstance().getBuilderTree().getSelectedBlocks().length; i++) {
-                 var nodeSelect = Controller.getInstance().getBuilderTree().getSelectedBlocks()[i];
-                 console.log("noeud : " + nodeSelect.getName());
-                 if (nodeSelect instanceof CompositeTreeNode) {
-                 for (var l = 0; l < nodeSelect.getChildrenNodes().length; l++) {
-                 console.log("enfant de  " + nodeSelect.getName() + " : " + nodeSelect.getChildNode(l).getName());
-                 }
-                 }
-                 if (nodeSelect.getParentNode() != null) {
-                 console.log("parent de " + nodeSelect.getName() + " : " + nodeSelect.getParentNode().getName());
-                 }
-             }
-
-            for (var i = 0; i < Controller.getInstance().getBuilderTree().getEdges().length; i++) {
-                var edge = Controller.getInstance().getBuilderTree().getEdges()[i];
-                console.log("edge id : " + edge.getId());
-
-                if (edge.getSource() == null) {
-                    console.log("edge de root" + " a " + edge.getTarget().getName());
                 } else {
-                    console.log("edge de " + edge.getSource().getName() + " a " + edge.getTarget().getName());
+                    if(cy.$(':selected').id() != "root") {
+                        Controller.getInstance().getBuilderTree().deleteSelectedNode(cy.$(':selected').id());
+                        cy.$(':selected').remove();
+                    }
                 }
-            }
+                break;
+            // key a
+            case 65 :
+                displayTreeConsole();
+                break;
+            // key space
+            case 32:
+                recenterOnRoot()
+                break;
+            // key +
+            case 107:
+                cy.zoom(cy.zoom()*1.25);
+                break;
+            // key -
+            case 109:
+                cy.zoom(cy.zoom()*0.8);
+                break;
+            case 66 :
+                break;
         }
+
     })
+    //cy.zoomingEnabled(false);
+    addRoots();
+    cy.maxZoom(2);
+
 });
 
+function recenterOnRoot(){
+    cy.zoom(1.5);
+    cy.pan({ x: -200, y:-500 });
+}
+
+function displayTreeConsole(){
+    console.log("#######################  Affichage etat courant #######################")
+    for (var i = 0; i < Controller.getInstance().getBuilderTree().getSelectedBlocks().length; i++) {
+        var nodeSelect = Controller.getInstance().getBuilderTree().getSelectedBlocks()[i];
+        console.log("noeud : " + nodeSelect.getName());
+        if (nodeSelect instanceof CompositeTreeNode) {
+            for (var l = 0; l < nodeSelect.getChildrenNodes().length; l++) {
+                console.log("enfant de  " + nodeSelect.getName() + " : " + nodeSelect.getChildNode(l).getName());
+            }
+        }
+        if (nodeSelect.getParentNode() != null) {
+            console.log("parent de " + nodeSelect.getName() + " : " + nodeSelect.getParentNode().getName());
+        }
+    }
+
+    for (var i = 0; i < Controller.getInstance().getBuilderTree().getEdges().length; i++) {
+        var edge = Controller.getInstance().getBuilderTree().getEdges()[i];
+        console.log("edge id : " + edge.getId());
+
+        if (edge.getSource() == null) {
+            console.log("edge de root" + " a " + edge.getTarget().getName());
+        } else {
+            console.log("edge de " + edge.getSource().getName() + " a " + edge.getTarget().getName());
+        }
+    }
+}
 /**
  * This function add a roots if it's the first block add in the building zone
  */
@@ -221,7 +249,8 @@ function addRoots() {
             height: 100,
             id: "root"
         },
-        position: {x: 190, y: 150}
+        position: {x: 190, y: 150},
+        grabbable: false
     });
 }
 

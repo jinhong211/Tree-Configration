@@ -40,6 +40,7 @@ class Controller {
         this.communication = new Communication(this.url);
         this.building = new BuilderTree();
         this.parser = new Parser();
+
     }
 
     /**
@@ -95,7 +96,7 @@ class Controller {
      */
     public send() {
         // var xml = this.communication.parseXml(this.building.getTree().getRoot());
-        var xml = this.parser.parseXml2(this.building.getSelectedBlocks()[0]);
+        var xml = this.parser.parseXml2(this.building.getRootTree());
         var retour:string;
         console.log("xml", xml);
         this.communication.httpPost(xml, function (s:string) {

@@ -10,5 +10,4 @@ console.log(Controller.getInstance().getUrl());
 Controller.getInstance().init(function(n: Array<TreeNode>) {
 });
 
-
 //Controller.getInstance().initMOCK();
