@@ -254,6 +254,19 @@ function displayTreeConsole(){
         }
     }
 }
+
+function changeColorOnEdgeCreation(currentNode,root){
+    var idPossibleTargetsNodes = [];
+
+    var listNode = Controller.getInstance().getBuilderTree().getAvailableBlocks();
+    for (var i=0;listNode.length;i++){
+       var node = listNode[i];
+       if (node.getParentNode()== null && node != Controller.getInstance().getBuilderTree().getRootTree()){
+           idPossibleTargetsNodes.push(node.getId());
+       }
+    }
+
+}
 /**
  * This function add a roots if it's the first block add in the building zone
  */

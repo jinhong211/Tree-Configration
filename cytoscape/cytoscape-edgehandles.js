@@ -488,7 +488,6 @@
           function hoverOver( node ){
             var target = node;
 
-
             clearTimeout( hoverTimeout );
             hoverTimeout = setTimeout(function(){
 
@@ -519,7 +518,6 @@
           function hoverOut( node ){
             var target = node;
 
-
             node.removeClass('edgehandles-hover');
 
             clearTimeout(hoverTimeout);
@@ -539,7 +537,7 @@
             lastZoomingEnabled = cy.zoomingEnabled();
             lastBoxSelectionEnabled = cy.boxSelectionEnabled();
 
-            // console.log('handles on ready')
+            console.log('handles on ready')
 
             var lastActiveId;
 
@@ -702,6 +700,7 @@
             }).on('drag position', 'node', dragNodeHandler = function(){
               if( drawMode ){ return; }
 
+              // TODO
               var node = this;
 
               if( !node.hasClass('edgehandles-ghost') ){
