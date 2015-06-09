@@ -4,14 +4,14 @@
  */
 var elesJson = { nodes: [], edges: [] };
 var counter = 1;
+var countEdges = 0;
 
 $(function test() { // on dom ready
 
     var cy = window.cy = cytoscape({
         container: document.getElementById('cy'),
         ready: function () {
-            cy.zoom(1.5);
-            cy.pan({ x: -200, y:-500 });
+            recenterOnRoot();
         },
         elements: elesJson,
         style: [
@@ -25,7 +25,7 @@ $(function test() { // on dom ready
                     'text-valign': 'center',
                     'text-outline-width': 2,
                     'background-color': 'data(faveColor)',
-                    'color': '#fff'
+                    'color': '#fff',
                 }
             },
             {
@@ -35,16 +35,18 @@ $(function test() { // on dom ready
                     'target-arrow-color': '#F2B1BA',
                     'width': 2,
                     'target-arrow-shape': 'triangle',
-                    'opacity': 0.8
+                    'opacity': 0.8,
                 }
             },
             {
                 selector: ':selected',
                 css: {
-                    'background-color': 'black',
-                    'line-color': 'black',
-                    'target-arrow-color': 'black',
-                    'source-arrow-color': 'black',
+                    'border-width': 4,
+                    'border-color':'#727272',
+                    'background-color': 'data(faveColor)',
+                    'line-color': 'grey',
+                    'target-arrow-color': 'grey',
+                    'source-arrow-color': 'grey',
                     'opacity': 1
                 }
             },
@@ -58,7 +60,8 @@ $(function test() { // on dom ready
             {
                 selector: '.edgehandles-hover',
                 css: {
-                    'background-color': 'red'
+                    'background-color': 'red',
+                    'line-color': 'red'
                 }
             },
             {
@@ -169,6 +172,23 @@ $(function test() { // on dom ready
                         var selectedPos = Controller.getInstance().getBuilderTree().getSelectedBlocks().length;
                         addComposite(x,y,text,counter);
                     }
+
+                    if (Controller.getInstance().getBuilderTree().getSelectedBlocks().length == 1){
+                        targetId = counter;
+                        cy.add({
+                            group: 'edges',
+                            data: {
+                                id: "ed" +  countEdges,
+                                source: "root",
+                                target: targetId
+                            }
+                        });
+
+                        var targetNode = Controller.getInstance().getBuilderTree().getTreeNodeById(targetId);
+                        Controller.getInstance().getBuilderTree().addEdge(new Edge("ed"+countEdges,null,targetNode));
+                        Controller.getInstance().getBuilderTree().setRoot(targetNode);
+                        countEdges++;
+                    }
                     counter++;
 
                 }
@@ -217,7 +237,6 @@ $(function test() { // on dom ready
         }
 
     })
-    //cy.zoomingEnabled(false);
     addRoots();
     cy.maxZoom(2);
 
@@ -225,7 +244,7 @@ $(function test() { // on dom ready
 
 function recenterOnRoot(){
     cy.zoom(1.5);
-    cy.pan({ x: -200, y:-500 });
+    cy.pan({ x: -250, y:-350 });
 }
 
 function displayTreeConsole(){
@@ -254,6 +273,19 @@ function displayTreeConsole(){
         }
     }
 }
+
+function changeColorOnEdgeCreation(currentNode,root){
+    var idPossibleTargetsNodes = [];
+
+    var listNode = Controller.getInstance().getBuilderTree().getAvailableBlocks();
+    for (var i=0;listNode.length;i++){
+       var node = listNode[i];
+       if (node.getParentNode()== null && node != Controller.getInstance().getBuilderTree().getRootTree()){
+           idPossibleTargetsNodes.push(node.getId());
+       }
+    }
+
+}
 /**
  * This function add a roots if it's the first block add in the building zone
  */
@@ -262,10 +294,10 @@ function addRoots() {
         group: "nodes",
         data: {
             name: "Root",
-            weight: 100,
+            weight: 105,
             faveColor: '#000000',
             faveShape: 'rectangle',
-            height: 100,
+            height: 105,
             id: "root"
         },
         position: {x: 190, y: 150},
@@ -287,11 +319,11 @@ function addAction(x,y,text, selectedPos)  {
         group: "nodes",
         data: {
             name: text,
-            weight: 100,
+            weight: 105,
             faveColor: '#F5A45D',
             faveShape: 'rectangle',
-            height: 100,
             type:'action',
+            height: 105,
             id: selectedPos + ""
         },
         renderedPosition: {x: x - currentOffset.left, y: y - currentOffset.top}
@@ -312,10 +344,10 @@ function addComposite(x, y, text, selectedPos) {
         group: "nodes",
         data: {
             name: text,
-            weight: 100,
+            weight: 105,
             faveColor: '#EDA1ED',
             faveShape: 'rectangle',
-            height: 100,
+            height: 105,
             id: selectedPos + ""
         },
         renderedPosition: {x: x - currentOffset.left, y: y - currentOffset.top}
