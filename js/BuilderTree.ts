@@ -3,7 +3,7 @@
 ///<reference path="./CompositeTreeNode.ts"/>
 ///<reference path="./Tree.ts"/>
 ///<reference path="./NavigationMenu.ts"/>
-///<reference path="./DecoratorTreeNode.ts"/>
+///<reference path="./Decorator.ts"/>
 
 /**
  * Class for the building of a simplified behaviour tree with available blocks
@@ -34,7 +34,7 @@ class BuilderTree {
     /**
      * Decorator nodes available (not displayed in the menu)
      */
-    private decorators:Array<DecoratorTreeNode>;
+    private decorators:Array<Decorator>;
 
 
     /**
@@ -78,15 +78,15 @@ class BuilderTree {
      * Set the available decorators
      * @param decos
      */
-    public setDecorators(decos:Array<DecoratorTreeNode>) {
+    public setDecorators(decos:Array<Decorator>) {
         this.decorators=decos;
     }
 
     /**
      * Get the available decorators
-     * @returns {Array<DecoratorTreeNode>}
+     * @returns {Array<Decorator>}
      */
-    public getDecorators():Array<DecoratorTreeNode>{
+    public getDecorators():Array<Decorator>{
         return this.decorators;
     }
 

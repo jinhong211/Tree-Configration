@@ -1,10 +1,12 @@
+///<reference path="./Decorator"/>
+
 /**
  * Class for the representation of a node of a simplified behaviour tree
  * @author Benjamin, Anais
  */
 class TreeNode {
 
-    /*
+    /**
      * Id of the treeNode display
      */
     private id : number;
@@ -30,6 +32,11 @@ class TreeNode {
     private parentNode :  TreeNode;
 
     /**
+     * List of decorators for this node
+     */
+    private decorators : Decorator[];
+
+    /**
      * Constructor
      * @param n
      */
@@ -38,6 +45,7 @@ class TreeNode {
         this.nameDisplayed = namedisplayed;
         this.description = description;
         this.parentNode = null;
+        this.decorators = null;
     }
 
     /**
@@ -89,4 +97,20 @@ class TreeNode {
         return this.parentNode;
     }
 
+    /**
+     * Add a decorator to a node
+     * @param d
+     */
+    public addDecorator(d: Decorator) {
+        this.decorators.push(d);
+    }
+
+    /**
+     * Remove a decorator of a node
+     * @param d
+     */
+    public removeDecorator(d: Decorator) {
+        var number = this.decorators.indexOf(d);
+        this.decorators.splice(number, 1);
+    }
 }

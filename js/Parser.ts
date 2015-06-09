@@ -1,7 +1,7 @@
 ///<reference path="./TreeNode.ts"/>
 ///<reference path="./ActionTreeNode.ts"/>
 ///<reference path="./CompositeTreeNode"/>
-///<reference path="./DecoratorTreeNode"/>
+///<reference path="./Decorator"/>
 
 /**
  * Class for the parsing between a simulator and our module
@@ -80,16 +80,16 @@ class Parser {
     /**
      * Parse decorators received in JSON format (protocole V3)
      * @param datajson
-     * @returns {Array<DecoratorTreeNode>}
+     * @returns {Array<Decorator>}
      */
-    parseDecorators3(datajson:JSON):Array<DecoratorTreeNode> {
+    parseDecorators3(datajson:JSON):Array<Decorator> {
         // decorators
         var listDecoratorsAvailable = [];
 
         for (var i = 0; i < datajson["nodes"].length; i++) {
             var jsonBloc = datajson["nodes"][i];
             if (jsonBloc["kind"] == "decorator") {
-                listDecoratorsAvailable.push(new DecoratorTreeNode(jsonBloc["type"], jsonBloc["name"], jsonBloc["desc"]));
+                listDecoratorsAvailable.push(new Decorator(jsonBloc["type"], jsonBloc["name"], jsonBloc["desc"]));
             }
         }
         return listDecoratorsAvailable;
@@ -191,6 +191,7 @@ class Parser {
      * @returns {string}
      */
     parseXml3(currentNode : TreeNode, init = true) : string {
+        // TODO faire le parsage avec le protocole V3
         var xml = document.createElement("root");
         var bloc;
 
@@ -200,7 +201,6 @@ class Parser {
             type.innerHTML = currentNode.getName();
             bloc.appendChild(type);
             bloc.appendChild(document.createElement("params"));
-
 
         } else if (currentNode instanceof CompositeTreeNode) {
             bloc = document.createElement("composite");
@@ -212,7 +212,7 @@ class Parser {
             var childrenNode = document.createElement("children");
 
             for (var i=0; i<children.length; i++) {
-                childrenNode.innerHTML += this.parseXml2(children[i],false);
+                childrenNode.innerHTML += this.parseXml3(children[i],false);
             }
 
             if (children.length>0){
@@ -228,6 +228,8 @@ class Parser {
             shell.appendChild(xml);
             return shell.innerHTML;
         }
-        else return xml.innerHTML;
+        else {
+            return xml.innerHTML;
+        }
     }
 }

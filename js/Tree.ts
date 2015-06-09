@@ -1,5 +1,4 @@
 ///<reference path="./TreeNode.ts"/>
-///<reference path="./RootTreeNode.ts"/>
 
 /**
  * Class for the representation of a simplified behavious tree
@@ -9,7 +8,7 @@ class Tree {
     /**
      * Root Node
      */
-    private root : RootTreeNode;
+    private root : TreeNode;
 
     private blackboard : Array<JSON>;
 
@@ -21,7 +20,7 @@ class Tree {
         return this.root;
     }
 
-    public setRoot(r:RootTreeNode) {
+    public setRoot(r:TreeNode) {
         this.root = r;
     }
 

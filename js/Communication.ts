@@ -52,8 +52,8 @@ class Communication {
             success: function(data){
                 console.log(data);
                 var res = self.httpGetMOCK3();
-                console.log("RESS"+res);
                 f(res);
+
                 //f(data);
             },
             error: function(data) {
@@ -132,14 +132,14 @@ class Communication {
                     params:[{name :"target", type :"blackboard"}]
                 },
                 {kind:"composite",
-                    type:"selector",
+                    type:"Selector",
                     name:"Selector",
                     desc:"Try until success",
                     category:"",
                     params:[]
                 },
                 {kind:"composite",
-                    type:"sequence",
+                    type:"Sequence",
                     name:"Sequence",
                     desc:"Try until fail",
                     category:"",

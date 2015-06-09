@@ -64,7 +64,7 @@ class Controller {
             var nodes:Array<TreeNode>;
             nodes = self.parser.parseBlocks3(array);
 
-            var decorators:Array<DecoratorTreeNode>;
+            var decorators:Array<Decorator>;
             decorators = self.parser.parseDecorators3(array);
 
             var blackboard:Array<JSON>;
