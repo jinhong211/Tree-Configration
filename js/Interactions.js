@@ -25,17 +25,17 @@ $(function test() { // on dom ready
                     'text-valign': 'center',
                     'text-outline-width': 2,
                     'background-color': 'data(faveColor)',
-                    'color': '#fff',
+                    'color': '#fff'
                 }
             },
             {
                 selector: 'edge',
                 css: {
-                    'line-color': '#F2B1BA',
-                    'target-arrow-color': '#F2B1BA',
+                    'line-color': '#FFFFFF',
+                    'target-arrow-color': '#FFFFFF',
                     'width': 2,
                     'target-arrow-shape': 'triangle',
-                    'opacity': 0.8,
+                    'opacity': 0.8
                 }
             },
             {
@@ -320,7 +320,7 @@ function addAction(x,y,text, selectedPos)  {
         data: {
             name: text,
             weight: 105,
-            faveColor: '#F5A45D',
+            faveColor: '#57BCD7',
             faveShape: 'rectangle',
             type:'action',
             height: 105,
@@ -345,7 +345,7 @@ function addComposite(x, y, text, selectedPos) {
         data: {
             name: text,
             weight: 105,
-            faveColor: '#EDA1ED',
+            faveColor: '#5656E2',
             faveShape: 'rectangle',
             height: 105,
             id: selectedPos + ""

@@ -429,6 +429,9 @@
               for( var i = 0; i < incomers.length; i++ ) {
                 var incomer = incomers[i];
                 if (incomer.data().name == source.data().name) {
+                  // TODO : Bug selection multiplace.
+                 // console.log("incomer",incomer.data().name);
+                 // console.log("source",source.data().name);
                   alert("Les noeuds sont deja lies");
                   return;
                 }

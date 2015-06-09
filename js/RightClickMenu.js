@@ -12,6 +12,7 @@ function decoratorMenu(node, value) {
     var currentOffset = $("#cy").offset();
     var x = event.pageX - currentOffset.left;
     var y = event.pageY - currentOffset.top;
+    console.log(node.data().name)
     if(!node.isParent() &&  !node.isChild()) {
         cy.add([{
             group: "nodes",
@@ -20,7 +21,7 @@ function decoratorMenu(node, value) {
         },
             {
                 group: "nodes",
-                data: {name: value, parent: pid, weight: 100, faveColor: 'blue'},
+                data: {name: value, parent: pid, weight: 105, faveColor: '#9B9BBE'},
                 renderedPosition: {x: x, y: y}
             }
             ,
@@ -35,6 +36,7 @@ function decoratorMenu(node, value) {
                 renderedPosition: {x: x, y: y + 40}
             }
         ]);
+
         node.remove();
     }
 }
