@@ -115,7 +115,7 @@
           marginLeft: rx1 - r * 0.33,
           marginTop: -ry1 -r * 0.33
         });
-        
+
         var $content = $('<div class="cxtmenu-content">' + command.content + '</div>');
         $content.css({
           'width': r * 0.66,
@@ -265,15 +265,14 @@
 
         bindings
           .on('cxttapstart taphold', options.selector, function(e){
+
             target = this; // Remember which node the context menu is for
             var ele = this;
             var isCy = this === cy;
-
             grabbable = target.grabbable &&  target.grabbable();
             if( grabbable ){
               target.ungrabify();
             }
-
             var rp, rw, rh;
             if( !isCy && ele.isNode() ){
               rp = ele.renderedPosition();
@@ -291,7 +290,7 @@
 
             ctrx = rp.x;
             ctry = rp.y;
-
+           // console.log($parent);
             $parent.show().css({
               'left': rp.x - r + 'px',
               'top': rp.y - r + 'px'
@@ -338,6 +337,8 @@
             }
 
             var commands = options.commands;
+          //      console.log(commands);
+
             var dtheta = 2*Math.PI/(commands.length);
             var theta1 = commands.length % 2 !== 0 ? Math.PI/2 : 0;
             var theta2 = theta1 + dtheta;
@@ -353,7 +354,6 @@
 
               if( inThisCommand ){
                 // console.log('in command ' + i)
-                
                 c2d.fillStyle = options.activeFillColor;
                 c2d.strokeStyle = 'black';
                 c2d.lineWidth = 1;
@@ -400,13 +400,14 @@
           .on('tapdrag', dragHandler)
 
           .on('cxttapend tapend', options.selector, function(e){
+                console.log("derp");
             var ele = this;
             $parent.hide();
 
             if( activeCommandI !== undefined ){
               var select = options.commands[ activeCommandI ].select;
-
               if( select ){
+                  //ICI on applique la fonction
                 select.apply( ele );
                 activeCommandI = undefined;
               }

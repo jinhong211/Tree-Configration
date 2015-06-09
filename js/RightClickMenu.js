@@ -40,26 +40,5 @@ function decoratorMenu(node) {
 }
 
 function variableMenu() {
-    console.log("derp");
-    cy.cxtmenu({
-        selector: 'core',
-        commands: [
-            {
-                content: 'decorator',
-                select: function() {
-                    decoratorMenu(this);
-                }
-            },
-            {
-                content: 'delete',
-                select: function(){
-                    this.remove();
-                }
-            },
-            {
-                content: 'variable'
-
-            }
-        ]
-    });
+    addDomListeners();
 }
