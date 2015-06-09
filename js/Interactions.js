@@ -107,12 +107,6 @@ $(function test() { // on dom ready
                 select: function(){
                     decoratorMenu(this, "decorator2");
                 }
-            },
-            {
-                content: "delete",
-                select: function() {
-                    this.remove();
-                }
             }
         ]
     });
