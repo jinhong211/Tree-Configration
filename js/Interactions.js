@@ -12,6 +12,148 @@ $(function test() { // on dom ready
         container: document.getElementById('cy'),
         ready: function () {
             recenterOnRoot();
+            cy.toolbar({
+                toolbarClass: "cy-overall-toolbar",
+                position: 'top',
+                tools: [
+                    [
+                        {
+                            icon: 'fa fa-location-arrow',
+                            event: ['tap'],
+                            selector: 'cy',
+                            options: {
+                                cy: {
+                                    zoom: 0.1,
+                                    minZoom: 0.1,
+                                    maxZoom: 10,
+                                    zoomDelay: 45
+                                }
+                            },
+                            bubbleToCore: false,
+                            tooltip: 'Mouse',
+                            action: []
+                        }
+                    ],
+                    [
+                        {
+                            icon: 'fa fa-search-plus',
+                            event: ['tap'],
+                            selector: 'cy',
+                            options: {
+                                cy: {
+                                    zoom: 0.1,
+                                    minZoom: 0.1,
+                                    maxZoom: 10,
+                                    zoomDelay: 45
+                                }
+                            },
+                            bubbleToCore: false,
+                            tooltip: 'Zoom In',
+                            action: [performZoomIn]
+                        }
+                    ],
+                    [
+                        {
+                            icon: 'fa fa-search-minus',
+                            event: ['tap'],
+                            selector: 'cy',
+                            options: {
+                                cy: {
+                                    zoom: -0.1,
+                                    minZoom: 0.1,
+                                    maxZoom: 10,
+                                    zoomDelay: 45
+                                }
+                            },
+                            bubbleToCore: false,
+                            tooltip: 'Zoom Out',
+                            action: [performZoomOut]
+                        }
+                    ],
+                    [
+                        {
+                            icon: 'fa fa-arrow-right',
+                            event: ['tap'],
+                            selector: 'cy',
+                            options: {
+                                cy: {
+                                    distance: -80,
+                                }
+                            },
+                            bubbleToCore: true,
+                            tooltip: 'Pan Right',
+                            action: [performPanRight]
+                        }
+                    ],
+                    [
+                        {
+                            icon: 'fa fa-arrow-down',
+                            event: ['tap'],
+                            selector: 'cy',
+                            options: {
+                                cy: {
+                                    distance: -80,
+                                }
+                            },
+                            bubbleToCore: true,
+                            tooltip: 'Pan Down',
+                            action: [performPanDown]
+                        }
+                    ],
+                    [
+                        {
+                            icon: 'fa fa-arrow-left',
+                            event: ['tap'],
+                            selector: 'cy',
+                            options: {
+                                cy: {
+                                    distance: 80,
+                                }
+                            },
+                            bubbleToCore: true,
+                            tooltip: 'Pan Left',
+                            action: [performPanLeft]
+                        }
+                    ],
+                    [
+                        {
+                            icon: 'fa fa-arrow-up',
+                            event: ['tap'],
+                            selector: 'cy',
+                            options: {
+                                cy: {
+                                    distance: 80,
+                                }
+                            },
+                            bubbleToCore: true,
+                            tooltip: 'Pan Up',
+                            action: [performPanUp]
+                        }
+                    ],
+                    [
+                        {
+                            icon: 'fa fa-pencil-square-o',
+                            event: ['tap'],
+                            selector: 'node',
+                            bubbleToCore: false,
+                            tooltip: 'Edit Parameter',
+                            action: [EditDecorator]
+                        }
+                    ],
+                    [
+                        {
+                            icon: 'fa fa-trash-o',
+                            event: ['tap'],
+                            selector: 'edge,node',
+                            bubbleToCore: false,
+                            tooltip: 'Remove Node/Edge',
+                            action: [performRemove]
+                        }
+                    ]
+
+                ],
+                appendTools: false
+            });
         },
         elements: elesJson,
         style: [
