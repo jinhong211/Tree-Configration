@@ -44,19 +44,22 @@ class Communication {
      * This function call the http method to get available blocs in JSON format
      * @param f : anonyme function for the callback.
      */
-    httpGet(f:(s:Array<JSON>)=>void) : void {
+    httpGet(f:(s:JSON)=>void) : void {
         var self = this;
         $.ajax({
             url: this.urlSimulator+this.routeGET,
             type: 'GET',
             success: function(data){
                 console.log(data);
-                f(data);
+                var res = self.httpGetMOCK3();
+                console.log("RESS"+res);
+                f(res);
+                //f(data);
             },
             error: function(data) {
                 alert("Erreur : echec de chargement des donnees du serveur simulation. Nous chargeons des blocs" +
                 " predefinis");
-                var res = self.httpGetMOCK();
+                var res = self.httpGetMOCK3();
                 f(res);
 
             }
@@ -66,40 +69,40 @@ class Communication {
     httpGetMOCK() : JSON[]{
         var res = [];
         var bloc1 = {
-            kind : "task",
-            type : "FindEnemy",
-            name : "find enemy"
-        }
+            "kind" : "task",
+            "type" : "FindEnemy",
+            "name" : "find enemy"
+        };
 
         var bloc2 = {
-            kind : "composite",
-            type : "Sequence",
-            name : "sequence"
-        }
+            "kind" : "composite",
+            "type" : "Sequence",
+            "name" : "sequence"
+        };
 
         var bloc3 = {
-            kind : "task",
-            type : "Move",
-            name : "move"
-        }
+            "kind" : "task",
+            "type" : "Move",
+            "name" : "move"
+        };
 
         var bloc4 = {
             "kind" : "task",
             "type" : "Shoot",
             "name" : "shoot"
-        }
+        };
 
         var bloc5 = {
             "kind" : "composite",
             "type" : "Selector",
             "name" : "selector"
-        }
+        };
 
         var bloc6 = {
             "kind" : "task",
             "type" : "Hide",
             "name" : "hide"
-        }
+        };
 
         res.push(bloc1);
         res.push(bloc2);
@@ -108,6 +111,42 @@ class Communication {
         res.push(bloc5);
         res.push(bloc6);
         return res;
+    }
+
+    httpGetMOCK3() : any {
+        return {
+            blackboard : [{name:"enemyTarget", type:"object", desc:""}],
+            nodes : [
+                {kind: "task",
+                    type:"Shout",
+                    name:"Shout Action...",
+                    desc:"Your bot shouts a message.",
+                    category: "Basic Action",
+                    params:[{name:"message", type:"string", defaultValue:"Hello World!"}]
+                },
+                {kind:"task",
+                    type:"MoveTo",
+                    name:"Move To",
+                    desc:"Your bot move to a target.",
+                    category:"Move Action",
+                    params:[{name :"target", type :"blackboard"}]
+                },
+                {kind:"composite",
+                    type:"selector",
+                    name:"Selector",
+                    desc:"Try until success",
+                    category:"",
+                    params:[]
+                },
+                {kind:"composite",
+                    type:"sequence",
+                    name:"Sequence",
+                    desc:"Try until fail",
+                    category:"",
+                    params:[]
+                }
+            ]
+        };
     }
 
     /**
@@ -129,7 +168,7 @@ class Communication {
         // envoyer shout en format xml et afficher le résultat de la requete
         var json = {
             "xml" : xml.toString()
-        }
+        };
         $.post(this.urlSimulator+this.routePOST, json)
             .done(function (data) {
                 alert("Result: " + data);

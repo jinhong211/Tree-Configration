@@ -14,19 +14,15 @@ class Tree {
     private blackboard : Array<JSON>;
 
     /**
-     * Constructor
-     * @param r
-     */
-    public constructor(r : RootTreeNode) {
-        this.root = r;
-    }
-
-    /**
      * Get the root of the behaviour tree
      * @returns {TreeNode}
      */
     public getRoot() : TreeNode{
         return this.root;
+    }
+
+    public setRoot(r:RootTreeNode) {
+        this.root = r;
     }
 
     public getBlackboard() : Array<JSON>{

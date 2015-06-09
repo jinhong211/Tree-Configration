@@ -43,7 +43,7 @@ class BuilderTree {
     public constructor() {
         this.selected = [];
         this.available = [];
-        this.tree = null;
+        this.tree = new Tree();
     }
 
 
@@ -98,13 +98,6 @@ class BuilderTree {
         return this.tree;
     }
 
-    /**
-     * Construct the tree in setting the root node
-     * @param root
-     */
-    public setRoot(root:TreeNode) {
-        this.tree = new Tree(root);
-    }
 
     /**
      * Generate a textual display of the available blocks

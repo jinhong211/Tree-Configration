@@ -43,5 +43,4 @@ class RootTreeNode extends TreeNode {
         return true;
     }
 
-
 }

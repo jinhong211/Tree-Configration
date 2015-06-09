@@ -13,11 +13,12 @@ class Parser {
 
     /**
      * Parse simple blocks received in JSON format (protocole V1)
+     * @deprecated
      * @param datajson
      * @returns {Array<TreeNode>}
      */
     parseBlocks(datajson:Array<JSON>):Array<TreeNode> {
-        var listNodeAvailable =  new Array<TreeNode>();
+        var listNodeAvailable = [];
 
         for (var i = 0; i < datajson.length; i++) {
             var jsonBloc = datajson[i];
@@ -34,12 +35,12 @@ class Parser {
 
     /**
      * Parse simple blocks received in JSON format (protocole V2)
+     * @deprecated
      * @param datajson
      * @returns {Array<TreeNode>}
      */
     parseBlocks2(datajson:Array<JSON>):Array<TreeNode> {
-    var listNodeAvailable:Array<TreeNode>;
-    listNodeAvailable = new Array<TreeNode>();
+    var listNodeAvailable = [];
     for (var i = 0; i < datajson.length; i++) {
         var jsonBloc = datajson[i];
         if (jsonBloc["kind"] == "task") {
@@ -61,7 +62,7 @@ class Parser {
      */
     parseBlocks3(datajson:JSON):Array<TreeNode> {
         // nodes
-        var listNodeAvailable = new Array<TreeNode>();
+        var listNodeAvailable = [];
 
         for (var i = 0; i < datajson["nodes"].length; i++) {
             var jsonBloc = datajson["nodes"][i];
@@ -73,13 +74,17 @@ class Parser {
                 listNodeAvailable.push(new TreeNode(jsonBloc["type"], jsonBloc["name"], jsonBloc["desc"]));
             }
         }
-
         return listNodeAvailable;
     }
 
+    /**
+     * Parse decorators received in JSON format (protocole V3)
+     * @param datajson
+     * @returns {Array<DecoratorTreeNode>}
+     */
     parseDecorators3(datajson:JSON):Array<DecoratorTreeNode> {
         // decorators
-        var listDecoratorsAvailable = new Array<TreeNode>();
+        var listDecoratorsAvailable = [];
 
         for (var i = 0; i < datajson["nodes"].length; i++) {
             var jsonBloc = datajson["nodes"][i];
@@ -90,17 +95,20 @@ class Parser {
         return listDecoratorsAvailable;
     }
 
-    //map retour {[variableName: string] : any}
+    /**
+     * Parse blackboard received in JSON format (protocole V3)
+     * @param datajson
+     * @returns {Array<JSON>}
+     */
     parseBlackboard3(datajson:JSON): Array<JSON>{
-        var blackboard = new Array<JSON>();
-        blackboard = datajson["blackboard"];
-        return blackboard;
+        return datajson["blackboard"];
     }
 
     /**
-     * Parse a Tree in a XML format to be send to a simulator
+     * Parse a Tree with one block in a XML format to be send to a simulator
      * This function is recursive.
      * It must be call with the root node to send the complete tree
+     * @deprecated
      * @param currentNode
      * @returns {string}
      */
@@ -125,30 +133,32 @@ class Parser {
     }
 
     /**
- * Parse a Tree in a XML format to be send to a simulator
- * This function is recursive.
- * It must be call with the root node to send the complete tree
- * @param currentNode
- * @returns {string}
- */
-parseXml2(noeudCourant : TreeNode, init = true) : string {
+     * Parse a Tree with simple blocs in a XML format to be send to a simulator
+     * This function is recursive.
+     * It must be call with the root node to send the complete tre
+     * @deprecated
+     * @param currentNode
+     * @param init
+     * @returns {string}
+     */
+    parseXml2(currentNode : TreeNode, init = true) : string {
 
     var xml = document.createElement("root");
     var bloc;
 
-    if (noeudCourant instanceof ActionTreeNode) {
+    if (currentNode instanceof ActionTreeNode) {
         bloc = document.createElement("task");
         var type = document.createElement("type");
-        type.innerHTML = noeudCourant.getName();
+        type.innerHTML = currentNode.getName();
         bloc.appendChild(type);
         bloc.appendChild(document.createElement("params"));
-    } else if (noeudCourant instanceof CompositeTreeNode) {
+    } else if (currentNode instanceof CompositeTreeNode) {
         bloc = document.createElement("composite");
         var type = document.createElement("type");
-        type.innerHTML = noeudCourant.getName();
+        type.innerHTML = currentNode.getName();
         bloc.appendChild(type);
         bloc.appendChild(document.createElement("params"));
-        var children = noeudCourant.getChildrenNodes();
+        var children = currentNode.getChildrenNodes();
         var childrenNode = document.createElement("children");
 
         for (var i=0; i<children.length; i++) {
@@ -172,31 +182,33 @@ parseXml2(noeudCourant : TreeNode, init = true) : string {
 }
 
     /**
-     * Parse a Tree in a XML format to be send to a simulator
+     * Parse a complex Tree in a XML format to be send to a simulator
      * included special bloc decorator
      * This function is recursive.
      * It must be call with the root node to send the complete tree
      * @param currentNode
+     * @param init
      * @returns {string}
      */
-    parseXml3(noeudCourant : TreeNode, init = true) : string {
-
+    parseXml3(currentNode : TreeNode, init = true) : string {
         var xml = document.createElement("root");
         var bloc;
 
-        if (noeudCourant instanceof ActionTreeNode) {
+        if (currentNode instanceof ActionTreeNode) {
             bloc = document.createElement("task");
             var type = document.createElement("type");
-            type.innerHTML = noeudCourant.getName();
+            type.innerHTML = currentNode.getName();
             bloc.appendChild(type);
             bloc.appendChild(document.createElement("params"));
-        } else if (noeudCourant instanceof CompositeTreeNode) {
+
+
+        } else if (currentNode instanceof CompositeTreeNode) {
             bloc = document.createElement("composite");
             var type = document.createElement("type");
-            type.innerHTML = noeudCourant.getName();
+            type.innerHTML = currentNode.getName();
             bloc.appendChild(type);
             bloc.appendChild(document.createElement("params"));
-            var children = noeudCourant.getChildrenNodes();
+            var children = currentNode.getChildrenNodes();
             var childrenNode = document.createElement("children");
 
             for (var i=0; i<children.length; i++) {
