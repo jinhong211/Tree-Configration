@@ -25,7 +25,7 @@ $(function test() { // on dom ready
                     'text-valign': 'center',
                     'text-outline-width': 2,
                     'background-color': 'data(faveColor)',
-                    'color': '#fff'
+                    'color': '#fff',
                 }
             },
 
@@ -36,17 +36,19 @@ $(function test() { // on dom ready
                     'target-arrow-color': '#F2B1BA',
                     'width': 2,
                     'target-arrow-shape': 'triangle',
-                    'opacity': 0.8
+                    'opacity': 0.8,
                 }
             },
 
             {
                 selector: ':selected',
                 css: {
-                    'background-color': 'black',
-                    'line-color': 'black',
-                    'target-arrow-color': 'black',
-                    'source-arrow-color': 'black',
+                    'border-width': 4,
+                    'border-color':'#727272',
+                    'background-color': 'data(faveColor)',
+                    'line-color': 'grey',
+                    'target-arrow-color': 'grey',
+                    'source-arrow-color': 'grey',
                     'opacity': 1
                 }
             },
@@ -60,7 +62,8 @@ $(function test() { // on dom ready
             {
                 selector: '.edgehandles-hover',
                 css: {
-                    'background-color': 'red'
+                    'background-color': 'red',
+                    'line-color': 'red'
                 }
             },
 
@@ -259,10 +262,10 @@ function addRoots() {
         group: "nodes",
         data: {
             name: "Root",
-            weight: 100,
+            weight: 105,
             faveColor: '#000000',
             faveShape: 'rectangle',
-            height: 100,
+            height: 105,
             id: "root"
         },
         position: {x: 190, y: 150},
@@ -283,10 +286,10 @@ function addAction(x,y,text, selectedPos)  {
         group: "nodes",
         data: {
             name: text,
-            weight: 100,
+            weight: 105,
             faveColor: '#F5A45D',
             faveShape: 'rectangle',
-            height: 100,
+            height: 105,
             id: selectedPos + ""
         },
         renderedPosition: {x: x - 195, y: y - 60}
@@ -306,10 +309,10 @@ function addComposite(x, y, text, selectedPos) {
         group: "nodes",
         data: {
             name: text,
-            weight: 100,
+            weight: 105,
             faveColor: '#EDA1ED',
             faveShape: 'rectangle',
-            height: 100,
+            height: 105,
             id: selectedPos + ""
         },
         renderedPosition: {x: x - 195, y: y - 60}
