@@ -95,25 +95,26 @@ $(function test() { // on dom ready
         selector: 'node',
         commands: [
             {
-                content: 'decorator',
+                content: 'decorator1',
                 select: function() {
-                    decoratorMenu(this);
+                    decoratorMenu(this, "decorator1");
                 }
             },
             {
-                content: 'delete',
+                content: 'decorator2',
                 select: function(){
-                    this.remove();
+                    decoratorMenu(this, "decorator2");
                 }
             },
             {
-                content: 'variable',
+                content: "delete",
                 select: function() {
-                    variableMenu();
+                    this.remove();
                 }
             }
         ]
     });
+
 
     /**
      * This function handle all the draw of the edge

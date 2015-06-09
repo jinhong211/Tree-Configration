@@ -522,7 +522,6 @@
           function hoverOver( node ){
             var target = node;
 
-
             clearTimeout( hoverTimeout );
             hoverTimeout = setTimeout(function(){
               // TODO target des fl�ches

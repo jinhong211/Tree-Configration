@@ -5,9 +5,9 @@
 /***
  *  This function call the decorator menu
  *
- * @param node gthat represent the menu.
+ * @param node that represent the menu.
  */
-function decoratorMenu(node) {
+function decoratorMenu(node, value) {
     var pid = "p" + Math.floor((Math.random() * 1000) + 1);
     var currentOffset = $("#cy").offset();
     var x = event.pageX - currentOffset.left;
@@ -20,7 +20,7 @@ function decoratorMenu(node) {
         },
             {
                 group: "nodes",
-                data: {name: 'decorator', parent: pid, weight: 100, faveColor: 'blue'},
+                data: {name: value, parent: pid, weight: 100, faveColor: 'blue'},
                 renderedPosition: {x: x, y: y}
             }
             ,
