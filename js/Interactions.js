@@ -10,8 +10,7 @@ $(function test() { // on dom ready
     var cy = window.cy = cytoscape({
         container: document.getElementById('cy'),
         ready: function () {
-            cy.zoom(1.5);
-            cy.pan({ x: -200, y:-500 });
+            recenterOnRoot();
         },
         elements: elesJson,
         style: [
@@ -206,7 +205,7 @@ $(function test() { // on dom ready
 
 function recenterOnRoot(){
     cy.zoom(1.5);
-    cy.pan({ x: -200, y:-500 });
+    cy.pan({ x: -250, y:-350 });
 }
 
 function displayTreeConsole(){
