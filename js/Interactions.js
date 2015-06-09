@@ -28,7 +28,6 @@ $(function test() { // on dom ready
                     'color': '#fff'
                 }
             },
-
             {
                 selector: 'edge',
                 css: {
@@ -39,7 +38,6 @@ $(function test() { // on dom ready
                     'opacity': 0.8
                 }
             },
-
             {
                 selector: ':selected',
                 css: {
@@ -63,7 +61,6 @@ $(function test() { // on dom ready
                     'background-color': 'red'
                 }
             },
-
             {
                 selector: '.edgehandles-source',
                 css: {
@@ -71,7 +68,6 @@ $(function test() { // on dom ready
                     'border-color': 'green'
                 }
             },
-
             {
                 selector: '.edgehandles-target',
                 css: {
@@ -79,7 +75,6 @@ $(function test() { // on dom ready
                     'border-color': 'red'
                 }
             },
-
             {
                 selector: '.edgehandles-preview, .edgehandles-ghost-edge',
                 css: {
@@ -88,14 +83,44 @@ $(function test() { // on dom ready
                     'source-arrow-color': 'red'
                 }
             }
-
-
         ],
         layout: {
             name: 'circle',
             padding: 10
         }
     });
+
+    /**
+     * This method handle the right click menu
+     */
+    cy.cxtmenu({
+        selector: 'node',
+        commands: [
+            {
+                content: 'decorator1',
+                select: function() {
+                    decoratorMenu(this, "decorator1");
+                }
+            },
+            {
+                content: 'decorator2',
+                select: function(){
+                    decoratorMenu(this, "decorator2");
+                }
+            },
+            {
+                content: "delete",
+                select: function() {
+                    this.remove();
+                }
+            }
+        ]
+    });
+
+
+    /**
+     * This function handle all the draw of the edge
+     */
     cy.edgehandles({
         // options go here
     });
@@ -263,6 +288,7 @@ function addRoots() {
  * @param selectedPos : position in the selected block of the builderTree.
  */
 function addAction(x,y,text, selectedPos)  {
+    var currentOffset = $("#cy").offset();
     cy.add({
         group: "nodes",
         data: {
@@ -271,9 +297,10 @@ function addAction(x,y,text, selectedPos)  {
             faveColor: '#F5A45D',
             faveShape: 'rectangle',
             height: 100,
+            type:'action',
             id: selectedPos + ""
         },
-        renderedPosition: {x: x - 195, y: y - 60}
+        renderedPosition: {x: x - currentOffset.left, y: y - currentOffset.top}
     });
 }
 
@@ -286,6 +313,7 @@ function addAction(x,y,text, selectedPos)  {
  * @param selectedPos : position in the selected block of the builderTree.
  */
 function addComposite(x, y, text, selectedPos) {
+    var currentOffset = $("#cy").offset();
     cy.add({
         group: "nodes",
         data: {
@@ -296,7 +324,7 @@ function addComposite(x, y, text, selectedPos) {
             height: 100,
             id: selectedPos + ""
         },
-        renderedPosition: {x: x - 195, y: y - 60}
+        renderedPosition: {x: x - currentOffset.left, y: y - currentOffset.top}
     });
 }
 

@@ -3,6 +3,7 @@
 <head lang="en">
     <meta charset="UTF-8">
     <link href="style/style.css" rel="stylesheet" />
+    <link href="assets/font-awesome-4.0.3/css/font-awesome.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="jsTree/dist/themes/default/style.min.css">
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="jsTree/dist/jstree.min.js"></script>
@@ -13,12 +14,14 @@
     <script src="./js/NavigationMenu.js"></script>
     <script src="./cytoscape/cytoscape.min.js"></script>
     <script src="./cytoscape/cytoscape-edgehandles.js"></script>
+    <script src="./cytoscape/cytoscape-cxtmenu.js"></script>
+    <script src="./js/Interactions.js"></script>
     <script src="./js/CompositeTreeNode.js"></script>
     <script src="./js/ActionTreeNode.js"></script>
     <script src="./js/Parser.js"></script>
     <script src="./js/Tree.js"></script>
+    <script src="./js/RightClickMenu.js"></script>
     <script src="./js/Edge.js"></script>
-    <script src="./js/Interactions.js"></script>
 
 
     <title> Arena Tree </title>
@@ -30,7 +33,6 @@
         <button id="send" onclick="Controller.getInstance().send();">Send</button>
    <!--     <button id="delete">Delete</button> -->
     </div>
-
 
     <!-- navigation menu of available blocks -->
     <div id="menuLeft">
