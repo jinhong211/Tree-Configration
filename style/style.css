@@ -41,7 +41,8 @@ h1 {
     position: absolute;
     right: 0;
     bottom: 0;
-    background-color: #FAEDEF;
+    background-color : #FAEDEF;
+    background-image:url("BG2.png");
 }
 
 #buttons {

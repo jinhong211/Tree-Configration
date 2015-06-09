@@ -9,5 +9,3 @@ Controller.getInstance().setUrl("http://46.105.18.34:8080");   // 46.105.18.34:8
 console.log(Controller.getInstance().getUrl());
 Controller.getInstance().init(function(n: Array<TreeNode>) {
 });
-
-//Controller.getInstance().initMOCK();

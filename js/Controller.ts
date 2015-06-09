@@ -60,13 +60,21 @@ class Controller {
      */
     public init(f: (n : Array<TreeNode>) => void) : void  {
         var self = this;
-        this.communication.httpGet(function (array:Array<JSON> ) {
+        this.communication.httpGet(function (array:JSON) {
             // parse the received blocks JSON to our blocks object
             var nodes:Array<TreeNode>;
-            nodes = self.parser.parseBlocks2(array);
+            nodes = self.parser.parseBlocks3(array);
 
-            // set the blocks in our modle
+            var decorators:Array<Decorator>;
+            decorators = self.parser.parseDecorators3(array);
+
+            var blackboard:Array<JSON>;
+            blackboard = self.parser.parseBlackboard3(array);
+
+            // set the datas in our model
             self.building.setAvailableBlocks(nodes);
+            self.building.setDecorators(decorators);
+            self.building.getTree().setBlackboard(blackboard);
 
             // display the blocks in the menu
             self.building.renderAvailableBlocksMenu();

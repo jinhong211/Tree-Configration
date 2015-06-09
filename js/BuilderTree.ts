@@ -4,6 +4,7 @@
 ///<reference path="./Tree.ts"/>
 ///<reference path="./NavigationMenu.ts"/>
 ///<reference path="./Edge.ts"/>
+///<reference path="./Decorator.ts"/>
 
 
 /**
@@ -38,13 +39,19 @@ class BuilderTree {
     private navigationMenu:NavigationMenu;
 
     /**
+     * Decorator nodes available (not displayed in the menu)
+     */
+    private decorators:Array<Decorator>;
+
+
+    /**
      * Constructor
      */
     public constructor() {
         this.edges = [];
         this.selected = [];
         this.available = [];
-        this.tree = new Tree(null);
+        this.tree = new Tree();
     }
 
 
@@ -73,7 +80,7 @@ class BuilderTree {
     public getSelectedBlocks():Array<TreeNode> {
         return this.selected;
     }
-
+    
     /**
      * Get the tree (every node link by a the root)
      * @returns {Tree}
@@ -83,12 +90,24 @@ class BuilderTree {
     }
 
     /**
-     * Construct the tree in setting the root node
-     * @param root
+     * Set the available decorators
+     * @param decos
      */
+    public setDecorators(decos:Array<Decorator>) {
+        this.decorators=decos;
+    }
+
+ 
     public setRoot(root:TreeNode) {
         this.tree.setRoot(root);
+    }
 
+    /**
+     * Get the available decorators
+     * @returns {Array<Decorator>}
+     */
+    public getDecorators():Array<Decorator>{
+        return this.decorators;
     }
 
     /**
