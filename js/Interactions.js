@@ -4,6 +4,7 @@
  */
 var elesJson = { nodes: [], edges: [] };
 var counter = 1;
+var countEdges = 0;
 
 $(function test() { // on dom ready
 
@@ -149,6 +150,23 @@ $(function test() { // on dom ready
                         var selectedPos = Controller.getInstance().getBuilderTree().getSelectedBlocks().length;
                         addComposite(x,y,text,counter);
                     }
+
+                    if (Controller.getInstance().getBuilderTree().getSelectedBlocks().length == 1){
+                        targetId = counter;
+                        cy.add({
+                            group: 'edges',
+                            data: {
+                                id: "ed" +  countEdges,
+                                source: "root",
+                                target: targetId
+                            }
+                        });
+
+                        var targetNode = Controller.getInstance().getBuilderTree().getTreeNodeById(targetId);
+                        Controller.getInstance().getBuilderTree().addEdge(new Edge("ed"+countEdges,null,targetNode));
+                        Controller.getInstance().getBuilderTree().setRoot(targetNode);
+                        countEdges++;
+                    }
                     counter++;
 
                 }
@@ -197,7 +215,6 @@ $(function test() { // on dom ready
         }
 
     })
-    //cy.zoomingEnabled(false);
     addRoots();
     cy.maxZoom(2);
 

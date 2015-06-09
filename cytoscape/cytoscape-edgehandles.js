@@ -3,8 +3,6 @@
   // registers the extension on a cytoscape lib ref
   var register = function( $$, $ ){
     if( !cytoscape ){ return; } // can't register if cytoscape unspecified
-
-    var countEdges = 0;
     var defaults = {
       preview: false, // whether to show added edges preview before releasing selection
       handleSize: 10, // the size of the edge handle put on nodes
@@ -446,7 +444,6 @@
                 }, options().edgeParams(source, target, 0) )).addClass(classes);
 
                 // Si la source est root on met source à null car le bloc root n'est pas représenté dans le modèle
-
                 var sourceNode;
                 var targetNode = Controller.getInstance().getBuilderTree().getTreeNodeById(target.id());
                 if(idSource != "root") {
