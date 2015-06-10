@@ -70,10 +70,10 @@ class Controller {
 
             var blackboard:Array<JSON>;
             blackboard = self.parser.parseBlackboard3(array);
-
             // set the datas in our model
             self.building.setAvailableBlocks(nodes);
             self.building.setDecorators(decorators);
+            initRightClick();
             self.building.getTree().setBlackboard(blackboard);
 
             // display the blocks in the menu

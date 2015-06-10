@@ -119,4 +119,5 @@ class TreeNode {
         var number = this.decorators.indexOf(d);
         this.decorators.splice(number, 1);
     }
+
 }

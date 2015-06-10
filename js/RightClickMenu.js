@@ -8,6 +8,7 @@
  * @param node that represent the menu.
  */
 function decoratorMenu(node, value) {
+    console.log("decoratormenu",value);
     var pid = "p" + Math.floor((Math.random() * 1000) + 1);
     var currentOffset = $("#cy").offset();
     var x = event.pageX - currentOffset.left;
@@ -21,7 +22,7 @@ function decoratorMenu(node, value) {
         },
             {
                 group: "nodes",
-                data: {name: value, parent: pid, weight: 105, faveColor: '#9B9BBE'},
+                data: {name: value, parent: pid, weight: 105, faveColor: 'blue',type:'decorator'},
                 renderedPosition: {x: x, y: y}
             }
             ,
@@ -40,6 +41,27 @@ function decoratorMenu(node, value) {
         node.remove();
     }
 }
+
+function EditDecorator(e) {
+    if (!e.data.canPerform(e, EditDecorator)) {
+        return;
+    }
+    if(e.cyTarget.data().type=="decorator") {
+        alertWin("Edit", '', 300, 150, e.cyTarget)
+    }
+}
+//#endregion
+
+
+//#region Remove
+function performRemove(e) {
+    if (!e.data.canPerform(e, performRemove)) {
+        return;
+    }
+
+    cy.remove(e.cyTarget);
+}
+//#endregion
 
 function variableMenu() {
     addDomListeners();

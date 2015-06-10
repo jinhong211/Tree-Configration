@@ -5,6 +5,10 @@
 var elesJson = { nodes: [], edges: [] };
 var counter = 1;
 var countEdges = 0;
+var noneTargetable = false;
+var colorAction = '#5656E2';
+var colorComposite = '#57BCD7';
+var colorRoot = '#000000';
 
 $(function test() { // on dom ready
 
@@ -12,6 +16,148 @@ $(function test() { // on dom ready
         container: document.getElementById('cy'),
         ready: function () {
             recenterOnRoot();
+            cy.toolbar({
+                toolbarClass: "cy-overall-toolbar",
+                position: 'top',
+                tools: [
+                    [
+                        {
+                            icon: 'fa fa-location-arrow',
+                            event: ['tap'],
+                            selector: 'cy',
+                            options: {
+                                cy: {
+                                    zoom: 0.1,
+                                    minZoom: 0.1,
+                                    maxZoom: 10,
+                                    zoomDelay: 45
+                                }
+                            },
+                            bubbleToCore: false,
+                            tooltip: 'Mouse',
+                            action: []
+                        }
+                    ],
+                    [
+                        {
+                            icon: 'fa fa-search-plus',
+                            event: ['tap'],
+                            selector: 'cy',
+                            options: {
+                                cy: {
+                                    zoom: 0.1,
+                                    minZoom: 0.1,
+                                    maxZoom: 10,
+                                    zoomDelay: 45
+                                }
+                            },
+                            bubbleToCore: false,
+                            tooltip: 'Zoom In',
+                            action: [performZoomIn]
+                        }
+                    ],
+                    [
+                        {
+                            icon: 'fa fa-search-minus',
+                            event: ['tap'],
+                            selector: 'cy',
+                            options: {
+                                cy: {
+                                    zoom: -0.1,
+                                    minZoom: 0.1,
+                                    maxZoom: 10,
+                                    zoomDelay: 45
+                                }
+                            },
+                            bubbleToCore: false,
+                            tooltip: 'Zoom Out',
+                            action: [performZoomOut]
+                        }
+                    ],
+                    [
+                        {
+                            icon: 'fa fa-arrow-right',
+                            event: ['tap'],
+                            selector: 'cy',
+                            options: {
+                                cy: {
+                                    distance: -80,
+                                }
+                            },
+                            bubbleToCore: true,
+                            tooltip: 'Pan Right',
+                            action: [performPanRight]
+                        }
+                    ],
+                    [
+                        {
+                            icon: 'fa fa-arrow-down',
+                            event: ['tap'],
+                            selector: 'cy',
+                            options: {
+                                cy: {
+                                    distance: -80,
+                                }
+                            },
+                            bubbleToCore: true,
+                            tooltip: 'Pan Down',
+                            action: [performPanDown]
+                        }
+                    ],
+                    [
+                        {
+                            icon: 'fa fa-arrow-left',
+                            event: ['tap'],
+                            selector: 'cy',
+                            options: {
+                                cy: {
+                                    distance: 80,
+                                }
+                            },
+                            bubbleToCore: true,
+                            tooltip: 'Pan Left',
+                            action: [performPanLeft]
+                        }
+                    ],
+                    [
+                        {
+                            icon: 'fa fa-arrow-up',
+                            event: ['tap'],
+                            selector: 'cy',
+                            options: {
+                                cy: {
+                                    distance: 80,
+                                }
+                            },
+                            bubbleToCore: true,
+                            tooltip: 'Pan Up',
+                            action: [performPanUp]
+                        }
+                    ],
+                    [
+                        {
+                            icon: 'fa fa-pencil-square-o',
+                            event: ['tap'],
+                            selector: 'node',
+                            bubbleToCore: false,
+                            tooltip: 'Edit Parameter',
+                            action: [EditDecorator]
+                        }
+                    ],
+                    [
+                        {
+                            icon: 'fa fa-trash-o',
+                            event: ['tap'],
+                            selector: 'edge,node',
+                            bubbleToCore: false,
+                            tooltip: 'Remove Node/Edge',
+                            action: [performRemove]
+                        }
+                    ]
+
+                ],
+                appendTools: false
+            });
         },
         elements: elesJson,
         style: [
@@ -24,8 +170,11 @@ $(function test() { // on dom ready
                     // 'height' : 'data(height)',
                     'text-valign': 'center',
                     'text-outline-width': 2,
+                    'border-color': 'data(faveColor)',
+
                     'background-color': 'data(faveColor)',
-                    'color': '#fff'
+                    'border-width': 5,
+                    'color': '#fff',
                 }
             },
             {
@@ -58,24 +207,30 @@ $(function test() { // on dom ready
                 }
             },
             {
-                selector: '.edgehandles-hover',
+                selector: '.edgehandles-hover-ontarget-targetable',
+                css: {
+                    'background-color': 'green',
+                    'border-color': 'green'
+                }
+            },
+            {
+                selector: '.edgehandles-hover-ontarget-untargetable',
                 css: {
                     'background-color': 'red',
-                    'line-color': 'red'
+                    'border-color': 'red'
+                }
+            },
+            {
+                selector: '.edgehandles-targetable',
+                css: {
+                    'border-color': 'green'
                 }
             },
             {
                 selector: '.edgehandles-source',
                 css: {
-                    'border-width': 2,
-                    'border-color': 'green'
-                }
-            },
-            {
-                selector: '.edgehandles-target',
-                css: {
-                    'border-width': 2,
-                    'border-color': 'red'
+                    'border-width': 5,
+                    'border-color': 'data(faveColor)'
                 }
             },
             {
@@ -85,6 +240,20 @@ $(function test() { // on dom ready
                     'target-arrow-color': 'red',
                     'source-arrow-color': 'red'
                 }
+            },
+            {
+                selector: '.nodeAction',
+                css: {
+                    'border-color': colorAction,
+                    'background-color': colorAction
+                }
+            },
+            {
+                selector: '.nodeComposite',
+                css: {
+                    'border-color': colorComposite,
+                    'background-color': colorComposite
+                }
             }
         ],
         layout: {
@@ -93,26 +262,6 @@ $(function test() { // on dom ready
         }
     });
 
-    /**
-     * This method handle the right click menu
-     */
-    cy.cxtmenu({
-        selector: 'node',
-        commands: [
-            {
-                content: 'decorator1',
-                select: function() {
-                    decoratorMenu(this, "decorator1");
-                }
-            },
-            {
-                content: 'decorator2',
-                select: function(){
-                    decoratorMenu(this, "decorator2");
-                }
-            }
-        ]
-    });
 
 
     /**
@@ -249,6 +398,13 @@ function recenterOnRoot(){
 
 function displayTreeConsole(){
     console.log("#######################  Affichage etat courant #######################")
+
+    if(Controller.getInstance().getBuilderTree().existSourceTree()){
+        console.log("La racine existe et est : " + Controller.getInstance().getBuilderTree().getRootTree().getName());
+    } else {
+        console.log("Il n'y a pas de bloc relie a root");
+    }
+
     for (var i = 0; i < Controller.getInstance().getBuilderTree().getSelectedBlocks().length; i++) {
         var nodeSelect = Controller.getInstance().getBuilderTree().getSelectedBlocks()[i];
         console.log("noeud : " + nodeSelect.getName());
@@ -274,16 +430,38 @@ function displayTreeConsole(){
     }
 }
 
-function changeColorOnEdgeCreation(currentNode,root){
-    var idPossibleTargetsNodes = [];
+function changeColorOnEdgeCreation(idNode) {
+    var listNode = Controller.getInstance().getBuilderTree().getSelectedBlocks();
 
-    var listNode = Controller.getInstance().getBuilderTree().getAvailableBlocks();
-    for (var i=0;listNode.length;i++){
-       var node = listNode[i];
-       if (node.getParentNode()== null && node != Controller.getInstance().getBuilderTree().getRootTree()){
-           idPossibleTargetsNodes.push(node.getId());
-       }
+
+    if (Controller.getInstance().getBuilderTree().existSourceTree() && idNode == "root") {
+        console.log("coucou");
+        noneTargetable = true;
+        return;
     }
+
+    for (var i = 0; i < listNode.length; i++) {
+        var node = listNode[i];
+
+        if (node.getParentNode() == null && idNode != node.getId()) {
+            if (node != Controller.getInstance().getBuilderTree().getRootTree()) {
+                cy.getElementById(node.getId()).addClass('edgehandles-targetable');
+            }
+
+        }
+    }
+}
+
+function resetColorOnEdgeCreation(){
+    var listNode = Controller.getInstance().getBuilderTree().getSelectedBlocks();
+
+    for (var i=0;i<listNode.length;i++){
+        var node = listNode[i];
+        cy.getElementById(node.getId()).removeClass('edgehandles-hover-ontarget-targetable')
+            .removeClass('edgehandles-hover-ontarget-untargetable')
+            .removeClass('edgehandles-targetable');
+    }
+    noneTargetable = false;
 
 }
 /**
@@ -295,7 +473,7 @@ function addRoots() {
         data: {
             name: "Root",
             weight: 105,
-            faveColor: '#000000',
+            faveColor: colorRoot,
             faveShape: 'rectangle',
             height: 105,
             id: "root"
@@ -320,7 +498,7 @@ function addAction(x,y,text, selectedPos)  {
         data: {
             name: text,
             weight: 105,
-            faveColor: '#57BCD7',
+            faveColor: colorAction,
             faveShape: 'rectangle',
             type:'action',
             height: 105,
@@ -345,7 +523,7 @@ function addComposite(x, y, text, selectedPos) {
         data: {
             name: text,
             weight: 105,
-            faveColor: '#5656E2',
+            faveColor: colorComposite,
             faveShape: 'rectangle',
             height: 105,
             id: selectedPos + ""
@@ -354,3 +532,33 @@ function addComposite(x, y, text, selectedPos) {
     });
 }
 
+
+/**
+ * This method handle the right click menu
+ */
+function initRightClick() {
+    cy.cxtmenu({
+        selector: 'node',
+        commands:getDecorator()
+    });
+}
+
+/**
+ * This function
+ * @returns {Array}
+ */
+function getDecorator() {
+    var decoratorArray = [];
+    for(var i = 0; i < Controller.getInstance().getBuilderTree().getDecorators().length; i++) {
+        var nameDisplayed = Controller.getInstance().getBuilderTree().getDecorators()[i].nameDisplayed;
+        console.log("name", i ,nameDisplayed);
+        decoratorArray.push({
+            content:nameDisplayed,
+            select: function() {
+                decoratorMenu(this, nameDisplayed)
+            }
+        });
+    }
+    console.log("conteent", decoratorArray);
+    return decoratorArray;
+}
