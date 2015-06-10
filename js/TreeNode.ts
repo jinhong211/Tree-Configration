@@ -37,15 +37,21 @@ class TreeNode {
     private decorators : Decorator[];
 
     /**
+     * Params
+     */
+    private params : Array<JSON>;
+
+    /**
      * Constructor
      * @param n
      */
-    public constructor(n : string, namedisplayed = "", description = ""){
+    public constructor(n : string, namedisplayed = "", description = "", para = []){
         this.name = n;
         this.nameDisplayed = namedisplayed;
         this.description = description;
         this.parentNode = null;
         this.decorators = null;
+        this.params = para;
     }
 
     /**
@@ -118,6 +124,14 @@ class TreeNode {
     public removeDecorator(d: Decorator) {
         var number = this.decorators.indexOf(d);
         this.decorators.splice(number, 1);
+    }
+
+    public getDecorators() {
+        return this.decorators;
+    }
+
+    public getParams(): Array<JSON> {
+        return this.params;
     }
 
 }

@@ -192,8 +192,8 @@ class Parser {
      * @param init
      * @returns {string}
      */
+    //TODO PAS TESTE ATTENTION !
     parseXml3(currentNode : TreeNode, init = true) : string {
-        // TODO faire le parsage avec le protocole V3
         var xml = document.createElement("root");
         var bloc;
 
@@ -202,7 +202,17 @@ class Parser {
             var type = document.createElement("type");
             type.innerHTML = currentNode.getName();
             bloc.appendChild(type);
-            bloc.appendChild(document.createElement("params"));
+
+            // params
+            var params = document.createElement("params");
+            for(var j=0; j<currentNode.getParams().length; j++) {
+
+                //TODO ça compile pas !
+                var pa = document.createElement(currentNode.getParams()[i].get("name"));
+                pa.innerHTML = currentNode.getParams()[i].toString();
+                params.appendChild(pa);
+            }
+            bloc.appendChild(params);
 
         } else if (currentNode instanceof CompositeTreeNode) {
             bloc = document.createElement("composite");
@@ -221,6 +231,30 @@ class Parser {
                 bloc.appendChild(childrenNode);
             }
         }
+
+        // decorators
+        if(currentNode.getDecorators().length != 0) {
+            var decs = document.createElement("decorators");
+            for(var i=0; i<currentNode.getDecorators().length; i++) {
+                var dec = document.createElement("decorator");
+                var t = document.createElement("type");
+                t.innerHTML = currentNode.getDecorators()[i].getType();
+                var ps = document.createElement("params");
+
+                // params du decorator
+                for(var j=0; j<currentNode.getDecorators().length; j++) {
+                    var p = document.createElement(currentNode.getDecorators()[i].getName());
+                    p.innerHTML = currentNode.getDecorators()[i].getParams()[i].toString();
+                    ps.appendChild(p);
+                }
+
+                dec.appendChild(t);
+                dec.appendChild(p);
+                decs.appendChild(dec);
+            }
+            bloc.appendChild(decs);
+        }
+
         if (bloc) {
             xml.appendChild(bloc);
         }
