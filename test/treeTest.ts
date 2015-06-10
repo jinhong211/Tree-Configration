@@ -8,7 +8,7 @@
 var chai: Chai.ChaiStatic = require('chai');
 
 import Tree = require('../js/Tree');
-import ActionTreeNode = require('../js/ActionTreeNode');
+//import ActionTreeNode = require('../js/ActionTreeNode');
 
 var assert = chai.assert;
 
