@@ -5,6 +5,7 @@
 var elesJson = { nodes: [], edges: [] };
 var counter = 1;
 var countEdges = 0;
+var noneTargetable = false;
 var colorAction = '#5656E2';
 var colorComposite = '#57BCD7';
 var colorRoot = '#000000';
@@ -206,10 +207,23 @@ $(function test() { // on dom ready
                 }
             },
             {
-                selector: '.edgehandles-hover',
+                selector: '.edgehandles-hover-ontarget-targetable',
                 css: {
-                    'background-color': 'data(faveColor)',
-                    'line-color': 'red'
+                    'background-color': 'green',
+                    'border-color': 'green'
+                }
+            },
+            {
+                selector: '.edgehandles-hover-ontarget-untargetable',
+                css: {
+                    'background-color': 'red',
+                    'border-color': 'red'
+                }
+            },
+            {
+                selector: '.edgehandles-targetable',
+                css: {
+                    'border-color': 'green'
                 }
             },
             {
@@ -220,18 +234,25 @@ $(function test() { // on dom ready
                 }
             },
             {
-                selector: '.edgehandles-target',
-                css: {
-                    'border-width': 2,
-                    'border-color': 'red'
-                }
-            },
-            {
                 selector: '.edgehandles-preview, .edgehandles-ghost-edge',
                 css: {
                     'line-color': 'red',
                     'target-arrow-color': 'red',
                     'source-arrow-color': 'red'
+                }
+            },
+            {
+                selector: '.nodeAction',
+                css: {
+                    'border-color': colorAction,
+                    'background-color': colorAction
+                }
+            },
+            {
+                selector: '.nodeComposite',
+                css: {
+                    'border-color': colorComposite,
+                    'background-color': colorComposite
                 }
             }
         ],
@@ -410,25 +431,23 @@ function displayTreeConsole(){
 }
 
 function changeColorOnEdgeCreation(idNode) {
-    var idPossibleTargetsNodes = [];
     var listNode = Controller.getInstance().getBuilderTree().getSelectedBlocks();
 
 
     if (Controller.getInstance().getBuilderTree().existSourceTree() && idNode == "root") {
+        console.log("coucou");
+        noneTargetable = true;
         return;
     }
 
     for (var i = 0; i < listNode.length; i++) {
         var node = listNode[i];
-        //    ça passe : son parent est null et son idDNode esst pas égal a la source
-        //    ça passe pas si : (le parent est null et je suis pas un sourceTree) a part si je suis différent de null
 
         if (node.getParentNode() == null && idNode != node.getId()) {
             if (node != Controller.getInstance().getBuilderTree().getRootTree()) {
-                idPossibleTargetsNodes.push(node.getId());
-                cy.getElementById(node.getId()).style('border-width', 5);
-                cy.getElementById(node.getId()).style('border-color', 'green');
+                cy.getElementById(node.getId()).addClass('edgehandles-targetable');
             }
+
         }
     }
 }
@@ -438,14 +457,12 @@ function resetColorOnEdgeCreation(){
 
     for (var i=0;i<listNode.length;i++){
         var node = listNode[i];
-        if (node.getType() == "action"){
-            cy.getElementById(node.getId()).style('border-width',5);
-            cy.getElementById(node.getId()).style('border-color', colorAction);
-        } else if(node.getType() == "composite"){
-            cy.getElementById(node.getId()).style('border-width',5);
-            cy.getElementById(node.getId()).style('border-color',colorComposite);
-        }
+        cy.getElementById(node.getId()).removeClass('edgehandles-hover-ontarget-targetable')
+            .removeClass('edgehandles-hover-ontarget-untargetable')
+            .removeClass('edgehandles-targetable');
     }
+    noneTargetable = false;
+
 }
 /**
  * This function add a roots if it's the first block add in the building zone
