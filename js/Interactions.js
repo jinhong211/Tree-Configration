@@ -5,8 +5,8 @@
 var elesJson = { nodes: [], edges: [] };
 var counter = 1;
 var countEdges = 0;
-var colorAction = '#F5A45D';
-var colorComposite = '#EDA1ED';
+var colorAction = '#5656E2';
+var colorComposite = '#57BCD7';
 var colorRoot = '#000000';
 
 $(function test() { // on dom ready
@@ -429,28 +429,29 @@ function displayTreeConsole(){
     }
 }
 
-function changeColorOnEdgeCreation(idNode){
+function changeColorOnEdgeCreation(idNode) {
     var idPossibleTargetsNodes = [];
     var listNode = Controller.getInstance().getBuilderTree().getSelectedBlocks();
 
 
-    if (Controller.getInstance().getBuilderTree().existSourceTree() && idNode == "root"){
+    if (Controller.getInstance().getBuilderTree().existSourceTree() && idNode == "root") {
         return;
     }
 
-    for (var i=0;i<listNode.length;i++){
-       var node = listNode[i];
-    //    ça passe : son parent est null et son idDNode esst pas égal a la source
-    //    ça passe pas si : (le parent est null et je suis pas un sourceTree) a part si je suis différent de null
+    for (var i = 0; i < listNode.length; i++) {
+        var node = listNode[i];
+        //    ça passe : son parent est null et son idDNode esst pas égal a la source
+        //    ça passe pas si : (le parent est null et je suis pas un sourceTree) a part si je suis différent de null
 
-        if (node.getParentNode() == null &&  idNode != node.getId()){
-            if (node !=  Controller.getInstance().getBuilderTree().getRootTree()){
+        if (node.getParentNode() == null && idNode != node.getId()) {
+            if (node != Controller.getInstance().getBuilderTree().getRootTree()) {
                 idPossibleTargetsNodes.push(node.getId());
-                cy.getElementById(node.getId()).style('border-width',5);
-                cy.getElementById(node.getId()).style('border-color','green');
+                cy.getElementById(node.getId()).style('border-width', 5);
+                cy.getElementById(node.getId()).style('border-color', 'green');
             }
         }
     }
+}
 
 function resetColorOnEdgeCreation(){
     var listNode = Controller.getInstance().getBuilderTree().getSelectedBlocks();
