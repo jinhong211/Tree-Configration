@@ -5,6 +5,9 @@
 var elesJson = { nodes: [], edges: [] };
 var counter = 1;
 var countEdges = 0;
+var colorAction = '#F5A45D';
+var colorComposite = '#EDA1ED';
+var colorRoot = '#000000';
 
 $(function test() { // on dom ready
 
@@ -166,8 +169,11 @@ $(function test() { // on dom ready
                     // 'height' : 'data(height)',
                     'text-valign': 'center',
                     'text-outline-width': 2,
+                    'border-color': 'data(faveColor)',
+
                     'background-color': 'data(faveColor)',
-                    'color': '#fff'
+                    'border-width': 5,
+                    'color': '#fff',
                 }
             },
             {
@@ -202,15 +208,15 @@ $(function test() { // on dom ready
             {
                 selector: '.edgehandles-hover',
                 css: {
-                    'background-color': 'red',
+                    'background-color': 'data(faveColor)',
                     'line-color': 'red'
                 }
             },
             {
                 selector: '.edgehandles-source',
                 css: {
-                    'border-width': 2,
-                    'border-color': 'green'
+                    'border-width': 5,
+                    'border-color': 'data(faveColor)'
                 }
             },
             {
@@ -391,6 +397,13 @@ function recenterOnRoot(){
 
 function displayTreeConsole(){
     console.log("#######################  Affichage etat courant #######################")
+
+    if(Controller.getInstance().getBuilderTree().existSourceTree()){
+        console.log("La racine existe et est : " + Controller.getInstance().getBuilderTree().getRootTree().getName());
+    } else {
+        console.log("Il n'y a pas de bloc relie a root");
+    }
+
     for (var i = 0; i < Controller.getInstance().getBuilderTree().getSelectedBlocks().length; i++) {
         var nodeSelect = Controller.getInstance().getBuilderTree().getSelectedBlocks()[i];
         console.log("noeud : " + nodeSelect.getName());
@@ -416,17 +429,42 @@ function displayTreeConsole(){
     }
 }
 
-function changeColorOnEdgeCreation(currentNode,root){
+function changeColorOnEdgeCreation(idNode){
     var idPossibleTargetsNodes = [];
+    var listNode = Controller.getInstance().getBuilderTree().getSelectedBlocks();
 
-    var listNode = Controller.getInstance().getBuilderTree().getAvailableBlocks();
-    for (var i=0;listNode.length;i++){
-       var node = listNode[i];
-       if (node.getParentNode()== null && node != Controller.getInstance().getBuilderTree().getRootTree()){
-           idPossibleTargetsNodes.push(node.getId());
-       }
+
+    if (Controller.getInstance().getBuilderTree().existSourceTree() && idNode == "root"){
+        return;
     }
 
+    for (var i=0;i<listNode.length;i++){
+       var node = listNode[i];
+    //    ça passe : son parent est null et son idDNode esst pas égal a la source
+    //    ça passe pas si : (le parent est null et je suis pas un sourceTree) a part si je suis différent de null
+
+        if (node.getParentNode() == null &&  idNode != node.getId()){
+            if (node !=  Controller.getInstance().getBuilderTree().getRootTree()){
+                idPossibleTargetsNodes.push(node.getId());
+                cy.getElementById(node.getId()).style('border-width',5);
+                cy.getElementById(node.getId()).style('border-color','green');
+            }
+        }
+    }
+
+function resetColorOnEdgeCreation(){
+    var listNode = Controller.getInstance().getBuilderTree().getSelectedBlocks();
+
+    for (var i=0;i<listNode.length;i++){
+        var node = listNode[i];
+        if (node.getType() == "action"){
+            cy.getElementById(node.getId()).style('border-width',5);
+            cy.getElementById(node.getId()).style('border-color', colorAction);
+        } else if(node.getType() == "composite"){
+            cy.getElementById(node.getId()).style('border-width',5);
+            cy.getElementById(node.getId()).style('border-color',colorComposite);
+        }
+    }
 }
 /**
  * This function add a roots if it's the first block add in the building zone
@@ -437,7 +475,7 @@ function addRoots() {
         data: {
             name: "Root",
             weight: 105,
-            faveColor: '#000000',
+            faveColor: colorRoot,
             faveShape: 'rectangle',
             height: 105,
             id: "root"
@@ -462,7 +500,7 @@ function addAction(x,y,text, selectedPos)  {
         data: {
             name: text,
             weight: 105,
-            faveColor: '#57BCD7',
+            faveColor: colorAction,
             faveShape: 'rectangle',
             type:'action',
             height: 105,
@@ -487,7 +525,7 @@ function addComposite(x, y, text, selectedPos) {
         data: {
             name: text,
             weight: 105,
-            faveColor: '#5656E2',
+            faveColor: colorComposite,
             faveShape: 'rectangle',
             height: 105,
             id: selectedPos + ""

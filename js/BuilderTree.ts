@@ -80,7 +80,24 @@ class BuilderTree {
     public getSelectedBlocks():Array<TreeNode> {
         return this.selected;
     }
-    
+
+    public getBlockById(id : number) : TreeNode {
+        for (var i = 0; i < this.selected.length; i++){
+            if(this.selected[i].getId()==id){
+                return this.selected[i];
+            }
+        }
+        return null;
+    }
+
+    public existSourceTree() : Boolean {
+        for (var i = 0; i < this.selected.length; i++) {
+            if(this.selected[i]==this.tree.getRoot()){
+                return true;
+            }
+        }
+        return false;
+    }
     /**
      * Get the tree (every node link by a the root)
      * @returns {Tree}
@@ -228,6 +245,26 @@ class BuilderTree {
             edge.getSource().removeChildNode(edge.getTarget());
             edge.getTarget().removeParentNode();
         }
+    }
+
+    /*
+    ** Test si un un noeud peut être la target d'une fleche (edge)
+     */
+    public isTargetable(idNode : number) : boolean{
+        // Test si le noeud target a un parent
+        var node = this.getBlockById(idNode);
+        if (node.getParentNode() != null){
+            return false;
+        }
+
+        // Test si la target est la racine (relié à root)
+        if (this.existSourceTree()) {
+            if (idNode == this.getRootTree().getId()) {
+                return false;
+            }
+        }
+        return true;
+
     }
 
     // Id du noeud à supprimer
