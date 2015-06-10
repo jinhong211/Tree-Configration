@@ -508,7 +508,6 @@
               if( isGhost || noEdge ){ return; }
 
               if( !isLoop || (isLoop && loopAllowed) ){
-                console.log(noneTargetable);
                 if (Controller.getInstance().getBuilderTree().isTargetable(node.id()) && !noneTargetable){
                   if (node.hasClass('edgehandles-hover-ontarget-targetable')){
                     node.removeClass('edgehandles-hover-ontarget-targetable')

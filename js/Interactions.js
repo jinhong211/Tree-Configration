@@ -169,12 +169,11 @@ $(function test() { // on dom ready
                     'content': 'data(name)',
                     // 'height' : 'data(height)',
                     'text-valign': 'center',
-                    'text-outline-width': 2,
                     'border-color': 'data(faveColor)',
 
                     'background-color': 'data(faveColor)',
                     'border-width': 5,
-                    'color': '#fff',
+                    'color': '#fff'
                 }
             },
             {
@@ -435,7 +434,6 @@ function changeColorOnEdgeCreation(idNode) {
 
 
     if (Controller.getInstance().getBuilderTree().existSourceTree() && idNode == "root") {
-        console.log("coucou");
         noneTargetable = true;
         return;
     }
