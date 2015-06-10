@@ -388,6 +388,7 @@
             var classes = preview ? 'edgehandles-preview' : '';
             var added = cy.collection();
 
+
             if( !src && !tgt && !preview && options().preview ){
               cy.$('.edgehandles-ghost').remove();
             }
@@ -423,6 +424,10 @@
             for( var i = 0; i < targets.length; i++ ){
               var target = targets[i];
 
+              if (target.isChild()){
+                console.log(target.parent().id());
+                target = target.parent();
+              }
               // Test si la target est le bloc root
               if (target.id() == "root"){;
                 break;
@@ -508,18 +513,23 @@
               if( isGhost || noEdge ){ return; }
 
               if( !isLoop || (isLoop && loopAllowed) ){
-                if (Controller.getInstance().getBuilderTree().isTargetable(node.id()) && !noneTargetable){
-                  if (node.hasClass('edgehandles-hover-ontarget-targetable')){
-                    node.removeClass('edgehandles-hover-ontarget-targetable')
+
+                if (!node.isChild()) {
+                  if (Controller.getInstance().getBuilderTree().isTargetable(node.id()) && !noneTargetable) {
+                    if (node.hasClass('edgehandles-hover-ontarget-targetable')) {
+                      node.removeClass('edgehandles-hover-ontarget-targetable')
+                    } else {
+                      node.addClass('edgehandles-hover-ontarget-targetable');
+                    }
                   } else {
-                    node.addClass('edgehandles-hover-ontarget-targetable');
+                    if (node.hasClass('edgehandles-hover-ontarget-untargetable')) {
+                      node.removeClass('edgehandles-hover-ontarget-untargetable')
+                    } else {
+                      node.addClass('edgehandles-hover-ontarget-untargetable');
+                    }
                   }
                 } else {
-                  if (node.hasClass('edgehandles-hover-ontarget-untargetable')){
-                    node.removeClass('edgehandles-hover-ontarget-untargetable')
-                  } else {
-                    node.addClass('edgehandles-hover-ontarget-untargetable');
-                  }
+
                 }
                 node.toggleClass('edgehandles-target');
                 

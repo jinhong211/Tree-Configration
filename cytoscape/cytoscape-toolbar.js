@@ -1,17 +1,17 @@
 ﻿// zooming
 function performZoomIn(e) {
-	console.log("performing zoom in");
+	//console.log("performing zoom in");
 	performZoom(e, performZoomIn);
 }
 
 function performZoomOut(e) {
-	console.log("performing zoom out");
+	//console.log("performing zoom out");
 	performZoom(e, performZoomOut);
 }
 
 function performZoom(e, action) {
 	if (!e.data.canPerform(e, action)) {
-		console.log("could not perform zoom");
+		//console.log("could not perform zoom");
 
 		return;
 	}
@@ -23,8 +23,8 @@ function performZoom(e, action) {
 }
 
 function zoomGraph(core, x, y, factors) {
-	console.log("zooming:");
-	console.log({ x : x, y : y, factors : factors });
+	//console.log("zooming:");
+	//console.log({ x : x, y : y, factors : factors });
 
 	var factor = 1 + factors.zoom;
 
@@ -60,32 +60,32 @@ function zoomTo(core, x, y, level) {
 
 // panning
 function performPanRight(e) {
-	console.log("performing pan right");
+	//console.log("performing pan right");
 	performPan(e, performPanRight, 0);
 }
 
 function performPanDown(e) {
-	console.log("performing pan down");
+	//console.log("performing pan down");
 	performPan(e, performPanDown, 1);
 }
 
 function performPanLeft(e) {
-	console.log("performing pan left");
+	//console.log("performing pan left");
 	performPan(e, performPanLeft, 2);
 }
 
 function performPanUp(e) {
-	console.log("performing pan up");
+	//console.log("performing pan up");
 	performPan(e, performPanUp, 3);
 }
 
 function performPan(e, action, direction) {
 	if (!e.data.canPerform(e, action)) {
-	console.log("could not perform pan");
+	//console.log("could not perform pan");
 		return;
 	}
 
-	console.log("performing pan");
+	//console.log("performing pan");
 
 	var toolIndexes = e.data.data.selectedTool;
 	var tool = e.data.data.options.tools[toolIndexes[0]][toolIndexes[1]];
@@ -218,13 +218,13 @@ function pan(core, direction, factors) {
 		longClickTime: 325 // time until a multi-tool list will present other tools
 	};
 
-	console.log("creating cytoscape-toolbar with defaults:");
-	console.log(defaults);
+	//console.log("creating cytoscape-toolbar with defaults:");
+	//console.log(defaults);
 
 	// registers the extension on a cytoscape lib ref
 	var register = function( cytoscape, $ ) {
 		if( !cytoscape ) {
-			console.log("cytoscape is not defined");
+			//console.log("cytoscape is not defined");
 
 			return;
 		} // can't register if cytoscape unspecified
@@ -232,8 +232,8 @@ function pan(core, direction, factors) {
 		cytoscape('core', 'toolbar', function(params) {
 		    var options = $.extend(true, {}, defaults, params);
 
-		    console.log("final cytoscape-toolbar options:");
-		    console.log(options);
+		    //console.log("final cytoscape-toolbar options:");
+		    //console.log(options);
 
 		    if (params) {
 		    	if (params.tools === undefined) { params.tools = defaults.tools; }
@@ -547,7 +547,7 @@ function pan(core, direction, factors) {
 
 								if (toolElement.event.length != toolElement.action.length) {
 									var tooltip = (toolElement.tooltip) ? toolElement.tooltip : "<no tooltip>";
-									console.log("Unequal lengths for event and action variables on " + index + "-" + tooltip);
+									//console.log("Unequal lengths for event and action variables on " + index + "-" + tooltip);
 									unequalsLengths = true;
 								}
 
