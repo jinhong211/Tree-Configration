@@ -18087,7 +18087,7 @@ this.cytoscape = cytoscape;
       context.rotate(-theta);
       context.translate(-rs.labelX, -rs.labelY);
     } else {
-      this.drawText(context, edge, rs.labelX, rs.labelY);
+        this.drawText(context, edge, rs.labelX, rs.labelY);
     }
 
   };
@@ -18095,7 +18095,6 @@ this.cytoscape = cytoscape;
   // Draw node text
   CRp.drawNodeText = function(context, node) {
     var text = node._private.style['content'].strValue;
-
     if ( !text || text.match(/^\s+$/) ) {
       return;
     }
@@ -18139,8 +18138,8 @@ this.cytoscape = cytoscape;
       default: // e.g. center
         context.textBaseline = 'middle';
     }
-
-    this.drawText(context, node, rs.labelX, rs.labelY);
+        // TODO : C'est ici qu'on ecrit tous notre text en noir et en blanc
+     this.drawText(context, node, rs.labelX, rs.labelY);
   };
 
   CRp.getFontCache = function(context){
@@ -18227,186 +18226,47 @@ this.cytoscape = cytoscape;
 
   // Draw text
   CRp.drawText = function(context, element, textX, textY) {
-    var _p = element._private;
-    var style = _p.style;
-    var rstyle = _p.rstyle;
-    var rscratch = _p.rscratch;
-    var parentOpacity = element.effectiveOpacity();
-    if( parentOpacity === 0 || style["text-opacity"].value === 0){ return; }
+      var style = element._private.style;
+      var parentOpacity = element.effectiveOpacity();
+      if( parentOpacity === 0 ){ return; }
 
-    var text = this.setupTextStyle( context, element );
-    var halign = style["text-halign"].value;
-    var valign = style["text-valign"].value;
+      var text = this.setupTextStyle( context, element );
 
-    if( element.isEdge() ){
-      halign = 'center';
-      valign = 'center';
-    }
-
-    if ( text != null && !isNaN(textX) && !isNaN(textY)) {
-      var backgroundOpacity = style["text-background-opacity"].value;
-      if ((style["text-background-color"] && style["text-background-color"].value != "none" || style["text-border-width"].pxValue > 0) && backgroundOpacity > 0) {
-        var textBorderWidth = style["text-border-width"].pxValue;
-        var margin = 4 + textBorderWidth/2;
-
-        if (element.isNode()) {
-          //Move textX, textY to include the background margins
-          if (valign == "top") {
-            textY -=margin;
-          } else if (valign == "bottom") {
-            textY +=margin;
-          }
-          if (halign == "left") {
-            textX -=margin;
-          } else if (halign == "right") {
-            textX +=margin;
-          }
-        }
-
-        var bgWidth = rstyle.labelWidth;
-        var bgHeight = rstyle.labelHeight;
-        var bgX = textX;
-
-        if (halign) {
-          if (halign == "center") {
-            bgX = bgX - bgWidth / 2;
-          } else if (halign == "left") {
-            bgX = bgX- bgWidth;
-          }
-        }
-
-        var bgY = textY;
-
-        if (element.isNode()) {
-          if (valign == "top") {
-             bgY = bgY - bgHeight;
-          } else if (valign == "center") {
-            bgY = bgY- bgHeight / 2;
-          }
-        } else {
-          bgY = bgY - bgHeight / 2;
-        }
-
-        if (style['edge-text-rotation'].strValue === 'autorotate') {
-          textY = 0;
-          bgWidth += 4;
-          bgX = textX - bgWidth / 2;
-          bgY = textY - bgHeight / 2;
-        } else {
-          // Adjust with border width & margin
-          bgX -= margin;
-          bgY -= margin;
-          bgHeight += margin*2;
-          bgWidth += margin*2;
-        }
-
-        if (style["text-background-color"]) {
-          var textFill = context.fillStyle;
-          var textBackgroundColor = style["text-background-color"].value;
-
-          context.fillStyle = "rgba(" + textBackgroundColor[0] + "," + textBackgroundColor[1] + "," + textBackgroundColor[2] + "," + backgroundOpacity * parentOpacity + ")";
-          var styleShape = style['text-background-shape'].strValue;
-          if (styleShape == "roundrectangle") {
-            roundRect(context, bgX, bgY, bgWidth, bgHeight, 2);
-          } else {
-            context.fillRect(bgX,bgY,bgWidth,bgHeight);
-          }
-          context.fillStyle = textFill;
-        }
-
-        if (textBorderWidth > 0) {
-          var textStroke = context.strokeStyle;
-          var textLineWidth = context.lineWidth;
-          var textBorderColor = style["text-border-color"].value;
-          var textBorderStyle = style['text-border-style'].value;
-
-          context.strokeStyle = "rgba(" + textBorderColor[0] + "," + textBorderColor[1] + "," + textBorderColor[2] + "," + backgroundOpacity * parentOpacity + ")";
-          context.lineWidth = textBorderWidth;
-
-          if( context.setLineDash ){ // for very outofdate browsers
-            switch( textBorderStyle ){
-              case 'dotted':
-                context.setLineDash([ 1, 1 ]);
-                break;
-              case 'dashed':
-                context.setLineDash([ 4, 2 ]);
-                break;
-              case 'double':
-                context.lineWidth = textBorderWidth/4; // 50% reserved for white between the two borders
-                context.setLineDash([ ]);
-                break;
-              case 'solid':
-                context.setLineDash([ ]);
-                break;
-            }
+      if ( text != undefined && !isNaN(textX) && !isNaN(textY) ) {
+          var lineWidth = 2  * style['text-outline-width'].value; // *2 b/c the stroke is drawn centred on the middle
+          if (lineWidth > 0) {
+              context.lineWidth = lineWidth;
+              context.strokeText(text, textX, textY);
           }
 
-          context.strokeRect(bgX,bgY,bgWidth,bgHeight);
 
-          if( textBorderStyle === 'double' ){
-            var whiteWidth = textBorderWidth/2;
+          var lines = text.split('\n'),
+              rstyle = element._private.rstyle,
+              computedSize = element._private.style['font-size'].pxValue * element.cy().zoom();
 
-            context.strokeRect(bgX+whiteWidth,bgY+whiteWidth,bgWidth-whiteWidth*2,bgHeight-whiteWidth*2);
+          for (var i = 0; i < lines.length; i++) {
+              var words = lines[i].split(' '),
+                  line = '';
+
+              for (var n = 0; n < words.length; n++) {
+                  var testLine = line + words[n] + ' ',
+                      metrics = context.measureText(testLine),
+                      testWidth = metrics.width;
+
+                  if (testWidth > rstyle.labelWidth && n > 0) {
+                      context.fillText(line, textX, textY);
+                      line = words[n] + ' ';
+                      textY += computedSize;
+                  } else {
+                      line = testLine;
+                  }
+              }
+
+              context.fillText(line, textX, textY);
+              textY += computedSize;
           }
-
-          if( context.setLineDash ){ // for very outofdate browsers
-            context.setLineDash([ ]);
-          }
-          context.lineWidth = textLineWidth;
-          context.strokeStyle = textStroke;
-        }
 
       }
-
-      var lineWidth = 2  * style['text-outline-width'].pxValue; // *2 b/c the stroke is drawn centred on the middle
-
-      if( lineWidth > 0 ){
-        context.lineWidth = lineWidth;
-      }
-
-      if( style['text-wrap'].value === 'wrap' ){ //console.log('draw wrap');
-        var lines = rscratch.labelWrapCachedLines;
-        var lineHeight = rstyle.labelHeight / lines.length;
-
-        //console.log('lines', lines);
-
-        switch( valign ){
-          case 'top':
-            textY -= (lines.length - 1) * lineHeight;
-            break;
-
-          case 'bottom':
-            // nothing required
-            break;
-
-          default:
-          case 'center':
-            textY -= (lines.length - 1) * lineHeight / 2;
-        }
-
-        for( var l = 0; l < lines.length; l++ ){
-          if( lineWidth > 0 ){
-            context.strokeText( lines[l], textX, textY );
-          }
-
-          context.fillText( lines[l], textX, textY );
-
-          textY += lineHeight;
-        }
-
-        // var fontSize = style['font-size'].pxValue;
-        // wrapText(context, text, textX, textY, style['text-max-width'].pxValue, fontSize + 1);
-      } else {
-        if( lineWidth > 0 ){
-          context.strokeText( text, textX, textY );
-        }
-
-        context.fillText( text, textX, textY );
-      }
-
-
-      this.shadowStyle(context, 'transparent', 0); // reset for next guy
-    }
   };
 
 

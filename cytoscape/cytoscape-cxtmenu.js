@@ -345,7 +345,6 @@
 
             for( var i = 0; i < commands.length; i++ ){
               var command = commands[i];
-              // console.log(i, theta1, theta, theta2);
 
               var inThisCommand = theta1 <= theta && theta <= theta2
                 || theta1 <= theta + 2*Math.PI && theta + 2*Math.PI <= theta2;
@@ -398,8 +397,7 @@
           .on('tapdrag', dragHandler)
 
           .on('cxttapend tapend', options.selector, function(e){
-                //console.log("derp");
-              var ele = this;
+            var ele = this;
             $parent.hide();
 
             if( activeCommandI !== undefined ){
