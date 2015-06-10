@@ -145,6 +145,30 @@ class Communication {
                     desc:"Try until fail",
                     category:"",
                     params:[]
+                },
+                {
+                    kind: "decorator",
+                    type: "checkDistance",
+                    name: "checkDisance",
+                    desc: "derp herp",
+                    params: [
+                        {
+                            name: "distance",
+                            type: "number"
+                        }
+                    ]
+                },
+                {
+                    kind: "decorator",
+                    type: "TimeLimit",
+                    name: "TimeLimit",
+                    desc: "derp herp",
+                    params: [
+                        {
+                            name: "limit",
+                            type: "string"
+                        }
+                    ]
                 }
             ]
         };
