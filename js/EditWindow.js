@@ -79,11 +79,11 @@ function alertWin(title, msg, w, h,node) {
     var msgBox = table.insertRow(-1).insertCell(-1);
     msgBox.style.cssText = "font:10pt;";
     msgBox.colSpan = 2;
-    msgBox.innerHTML = msg;
+    msgBox.innerHTML = "Change " + msg;
     var nameBox = table.insertRow(-1);
     var nameLable = nameBox.insertCell(-1);
     nameLable.style.cssText = "font:12pt;text-align:center;";
-    nameLable.innerHTML = "<br/>enter parameter:<br/>";
+    nameLable.innerHTML = "<br/>"+ msg +":<br/>";
     var nametext = nameBox.insertCell(-1);
     nametext.style.cssText = "font:12pt;text-align:Left; margin-left:0px";
     nametext.innerHTML = "<br/><input type='text' id='modalName'/>   <br/>";
@@ -93,11 +93,12 @@ function alertWin(title, msg, w, h,node) {
     submitBtn.colSpan = 2;
     submitBtn.innerHTML = "<br/><input type='Button' value='Enter' id='saveHeader' /><br/>";
     submitBtn.onclick = function(){
-        console.log(node.data().name);
-        console.log(document.getElementById("modalName").value);
         var change = document.getElementById("modalName").value;
-        node.data().name = change;
-        console.log(node.data().name);
+        if(node.data().type=='action'){
+            node.data().option = change;
+        }else {
+            node.data().name = change;
+        }
         node.unselect();
         document.body.removeChild(bgObj);
         document.body.removeChild(msgObj);
