@@ -247,6 +247,26 @@ class BuilderTree {
         }
     }
 
+    public findEdgesId(sourceId : string, targetId : string) : number{
+        if (sourceId == "root") {
+            for (var i = 0; i < this.edges.length;i++){
+                if (this.edges[i].getTarget().getId() == +targetId) {
+                    return this.edges[i].getId();
+                }
+            }
+        }
+        else {
+            for (var i = 0; i < this.edges.length; i++) {
+                if (this.edges[i].getSource() != null) {
+                    if (this.edges[i].getSource().getId() == +sourceId && this.edges[i].getTarget().getId() == +targetId) {
+                        return this.edges[i].getId();
+                    }
+                }
+            }
+        }
+        return -1;
+    }
+
     /*
     ** Test si un un noeud peut être la target d'une fleche (edge)
      */

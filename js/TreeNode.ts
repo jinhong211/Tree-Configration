@@ -50,8 +50,8 @@ class TreeNode {
         this.nameDisplayed = namedisplayed;
         this.description = description;
         this.parentNode = null;
-        this.decorators = null;
         this.params = para;
+        this.decorators = [];
     }
 
     /**

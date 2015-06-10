@@ -7,10 +7,21 @@
  *
  * @param node that represent the menu.
  */
+var decoratorCounter = 0;
 function decoratorMenu(node, value) {
     //console.log("decoratormenu",value);
-    var pid = "p" + Math.floor((Math.random() * 1000) + 1);
+    var pid = node.id();
+    if (pid == "root" ){
+        return;
+    }
+    node.remove();
+
+    var nodeModel = Controller.getInstance().getBuilderTree().getBlockById(pid);
+    nodeModel.addDecorator(new Decorator(value,null,value,""));
+
     var currentOffset = $("#cy").offset();
+
+
     var x = event.pageX - currentOffset.left;
     var y = event.pageY - currentOffset.top;
     //console.log(node.data().name)
@@ -37,7 +48,57 @@ function decoratorMenu(node, value) {
             }
         ]);
 
-        node.remove();
+
+        // Ajout des fleches qui ont été supprimé par la création du decorator
+
+        // Ajout de la fleche parent
+        var parent;
+        if ((parent = nodeModel.getParentNode())!=null){
+            var parentId = parent.getId();
+            var idEdge = Controller.getInstance().getBuilderTree().findEdgesId(parentId,pid);
+
+            cy.add([{
+                group: 'edges',
+                data: {
+                    id: idEdge,
+                    source: parentId,
+                    target: pid
+                }
+            }
+            ]);
+        }
+
+        if ((Controller.getInstance().getBuilderTree().getRootTree().getId() == pid)){
+            var idEdge = Controller.getInstance().getBuilderTree().findEdgesId("root",pid);
+            cy.add([{
+                group: 'edges',
+                data: {
+                    id: idEdge,
+                    source: "root",
+                    target: pid
+                }
+            }
+            ]);
+        }
+
+        // Ajout des fleches vers les enfants du nouveau decorator
+        if (nodeModel instanceof CompositeTreeNode ){
+            var children = nodeModel.getChildrenNodes();
+            for (var i = 0; i< nodeModel.getChildrenNodes().length;i++){
+                var idTarget = children[i].getId();
+                var idEdge = Controller.getInstance().getBuilderTree().findEdgesId(pid,idTarget);
+                cy.add([{
+                    group: 'edges',
+                    data: {
+                        id: idEdge,
+                        source: pid,
+                        target: idTarget
+                    }
+                }
+                ]);
+            }
+        }
+
     }
 }
 
