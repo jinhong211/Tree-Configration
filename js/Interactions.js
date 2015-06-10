@@ -262,6 +262,20 @@ $(function test() { // on dom ready
         ]
     });
 
+    cy.elements().qtip({
+        content: '123',
+        position: {
+            my: 'top center',
+            at: 'bottom center'
+        },
+        style: {
+            classes: 'qtip-bootstrap',
+            tip: {
+                width: 16,
+                height: 8
+            }
+        }
+    });
 
     /**
      * This function handle all the draw of the edge
@@ -440,8 +454,8 @@ function changeColorOnEdgeCreation(idNode) {
 
     for (var i = 0; i < listNode.length; i++) {
         var node = listNode[i];
-        //    ça passe : son parent est null et son idDNode esst pas égal a la source
-        //    ça passe pas si : (le parent est null et je suis pas un sourceTree) a part si je suis différent de null
+        //    ï¿½a passe : son parent est null et son idDNode esst pas ï¿½gal a la source
+        //    ï¿½a passe pas si : (le parent est null et je suis pas un sourceTree) a part si je suis diffï¿½rent de null
 
         if (node.getParentNode() == null && idNode != node.getId()) {
             if (node != Controller.getInstance().getBuilderTree().getRootTree()) {
@@ -504,6 +518,7 @@ function addAction(x,y,text, selectedPos)  {
             faveColor: colorAction,
             faveShape: 'rectangle',
             type:'action',
+            option: 'Edit Your Option',
             height: 105,
             id: selectedPos + ""
         },

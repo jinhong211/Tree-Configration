@@ -46,7 +46,10 @@ function EditDecorator(e) {
         return;
     }
     if(e.cyTarget.data().type=="decorator") {
-        alertWin("Edit", '', 300, 150, e.cyTarget)
+        alertWin("Edit", 'parameter', 300, 150, e.cyTarget)
+    }
+    if(e.cyTarget.data().type=="action") {
+        alertWin("Edit", 'option', 300, 150, e.cyTarget)
     }
 }
 //#endregion
