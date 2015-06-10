@@ -67,25 +67,27 @@ class Parser {
 
         for (var i = 0; i < datajson["nodes"].length; i++) {
             var jsonBloc = datajson["nodes"][i];
+            var parameters : Parameter[];
+            parameters = this.parseParameters(jsonBloc["params"]);
             if (jsonBloc["kind"] == "task") {
-                this.parseParameters(jsonBloc["params"]);
-                listNodeAvailable.push(new ActionTreeNode(jsonBloc["type"],jsonBloc["name"],jsonBloc["desc"]));
+                listNodeAvailable.push(new ActionTreeNode(jsonBloc["type"],jsonBloc["name"],jsonBloc["desc"], parameters));
             } else if (jsonBloc["kind"] == "composite") {
-                listNodeAvailable.push(new CompositeTreeNode(jsonBloc["type"],jsonBloc["name"],jsonBloc["desc"]));
+                listNodeAvailable.push(new CompositeTreeNode(jsonBloc["type"],jsonBloc["name"],jsonBloc["desc"],parameters));
             } else if (jsonBloc["kind"] != "decorator") {
-                listNodeAvailable.push(new TreeNode(jsonBloc["type"], jsonBloc["name"], jsonBloc["desc"]));
+                listNodeAvailable.push(new TreeNode(jsonBloc["type"], jsonBloc["name"], jsonBloc["desc"], parameters));
             }
         }
         return listNodeAvailable;
     }
 
-
+    /**
+     *
+     * @param jsonArray
+     * @returns {Parameter[]}
+     */
     parseParameters(jsonArray : JSON[]) : Array<Parameter> {
         var parameters: Parameter[] = [];
-
         for(var i = 0; i < jsonArray.length; i++) {
-            console.log(jsonArray[i]);
-            console.log(jsonArray[i]["name"],jsonArray[i]["type"]);
             var parameter = new Parameter(jsonArray[i]["name"], jsonArray[i]["type"]);
             parameters.push(parameter);
         }

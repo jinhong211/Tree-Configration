@@ -151,12 +151,7 @@ class Communication {
                     type: "checkDistance",
                     name: "checkDisance",
                     desc: "derp herp",
-                    params: [
-                        {
-                            name: "distance",
-                            type: "number"
-                        }
-                    ]
+                    params:[{name: "distance", type: "number"}]
                 },
                 {
                     kind: "decorator",
