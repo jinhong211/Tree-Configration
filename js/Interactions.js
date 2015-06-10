@@ -552,7 +552,6 @@ function getDecorator() {
     var nameDisplayed;
     for(var i = 0; i < Controller.getInstance().getBuilderTree().getDecorators().length; i++) {
         nameDisplayed = Controller.getInstance().getBuilderTree().getDecorators()[i].nameDisplayed;
-        console.log("name", i ,nameDisplayed);
         (function(nameDisplayed) {
             decoratorArray.push({
                 content:nameDisplayed,
@@ -563,7 +562,5 @@ function getDecorator() {
             });
         })(nameDisplayed);
     }
-    nameDisplayed = "derp";
-    console.log("content", decoratorArray);
     return decoratorArray;
 }
