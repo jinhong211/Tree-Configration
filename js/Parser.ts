@@ -90,7 +90,7 @@ class Parser {
             var jsonBloc = datajson["nodes"][i];
             if (jsonBloc["kind"] == "decorator") {
                 var decorator : Decorator;
-                decorator = new Decorator(jsonBloc["type"], jsonBloc["name"], jsonBloc["desc"])
+                decorator = new Decorator(jsonBloc["type"],jsonBloc["params"] ,jsonBloc["name"], jsonBloc["desc"])
                 listDecoratorsAvailable.push(decorator);
             }
         }

@@ -241,26 +241,6 @@ $(function test() { // on dom ready
         }
     });
 
-    /**
-     * This method handle the right click menu
-     */
-    cy.cxtmenu({
-        selector: 'node',
-        commands: [
-            {
-                content: 'decorator1',
-                select: function() {
-                    decoratorMenu(this, "decorator1");
-                }
-            },
-            {
-                content: 'decorator2',
-                select: function(){
-                    decoratorMenu(this, "decorator2");
-                }
-            }
-        ]
-    });
 
 
     /**
@@ -535,3 +515,33 @@ function addComposite(x, y, text, selectedPos) {
     });
 }
 
+
+/**
+ * This method handle the right click menu
+ */
+function initRightClick() {
+    cy.cxtmenu({
+        selector: 'node',
+        commands:getDecorator()
+    });
+}
+
+/**
+ * This function
+ * @returns {Array}
+ */
+function getDecorator() {
+    var decoratorArray = [];
+    for(var i = 0; i < Controller.getInstance().getBuilderTree().getDecorators().length; i++) {
+        var nameDisplayed = Controller.getInstance().getBuilderTree().getDecorators()[i].nameDisplayed;
+        console.log("name", i ,nameDisplayed);
+        decoratorArray.push({
+            content:nameDisplayed,
+            select: function() {
+                decoratorMenu(this, nameDisplayed)
+            }
+        });
+    }
+    console.log("conteent", decoratorArray);
+    return decoratorArray;
+}

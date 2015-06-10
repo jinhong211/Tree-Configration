@@ -8,6 +8,7 @@
  * @param node that represent the menu.
  */
 function decoratorMenu(node, value) {
+    console.log("decoratormenu",value);
     var pid = "p" + Math.floor((Math.random() * 1000) + 1);
     var currentOffset = $("#cy").offset();
     var x = event.pageX - currentOffset.left;
