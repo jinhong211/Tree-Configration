@@ -150,13 +150,25 @@ class Communication {
                     kind: "decorator",
                     type: "checkDistance",
                     name: "checkDisance",
-                    desc: "derp herp"
+                    desc: "derp herp",
+                    params: [
+                        {
+                            name: "distance",
+                            type: "number"
+                        }
+                    ]
                 },
                 {
                     kind: "decorator",
                     type: "TimeLimit",
                     name: "TimeLimit",
-                    desc: "derp herp"
+                    desc: "derp herp",
+                    params: [
+                        {
+                            name: "limit",
+                            type: "string"
+                        }
+                    ]
                 }
             ]
         };

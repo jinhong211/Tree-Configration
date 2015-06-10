@@ -46,7 +46,7 @@
         // fired when edgehandles interaction is stopped (either complete with added edges or incomplete)
       }
     };
-    
+
     $.fn.cytoscapeEdgehandles = function( params ){
       var fn = params;
       
@@ -230,7 +230,9 @@
             
             //setTimeout(function(){
               cy.nodes()
-                .removeClass('edgehandles-hover')
+                  .removeClass('edgehandles-hover-ontarget-targetable')
+                  .removeClass('edgehandles-hover-ontarget-untargetable')
+                .removeClass('edgehandles-targetable')
                 .removeClass('edgehandles-source')
                 .removeClass('edgehandles-target')
               ;
@@ -386,6 +388,7 @@
             var classes = preview ? 'edgehandles-preview' : '';
             var added = cy.collection();
 
+
             if( !src && !tgt && !preview && options().preview ){
               cy.$('.edgehandles-ghost').remove();
             }
@@ -421,6 +424,10 @@
             for( var i = 0; i < targets.length; i++ ){
               var target = targets[i];
 
+              if (target.isChild()){
+                console.log(target.parent().id());
+                target = target.parent();
+              }
               // Test si la target est le bloc root
               if (target.id() == "root"){;
                 break;
@@ -492,6 +499,7 @@
           function hoverOver( node ){
             var target = node;
 
+
             clearTimeout( hoverTimeout );
             hoverTimeout = setTimeout(function(){
 
@@ -505,7 +513,24 @@
               if( isGhost || noEdge ){ return; }
 
               if( !isLoop || (isLoop && loopAllowed) ){
-                node.addClass('edgehandles-hover');
+
+                if (!node.isChild()) {
+                  if (Controller.getInstance().getBuilderTree().isTargetable(node.id()) && !noneTargetable) {
+                    if (node.hasClass('edgehandles-hover-ontarget-targetable')) {
+                      node.removeClass('edgehandles-hover-ontarget-targetable')
+                    } else {
+                      node.addClass('edgehandles-hover-ontarget-targetable');
+                    }
+                  } else {
+                    if (node.hasClass('edgehandles-hover-ontarget-untargetable')) {
+                      node.removeClass('edgehandles-hover-ontarget-untargetable')
+                    } else {
+                      node.addClass('edgehandles-hover-ontarget-untargetable');
+                    }
+                  }
+                } else {
+
+                }
                 node.toggleClass('edgehandles-target');
                 
                 if( options().preview ){

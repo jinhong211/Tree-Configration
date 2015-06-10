@@ -1,4 +1,5 @@
 ///<reference path="./Decorator"/>
+///<reference path="./Parameter.ts"/>
 
 /**
  * Class for the representation of a node of a simplified behaviour tree
@@ -37,15 +38,21 @@ class TreeNode {
     private decorators : Decorator[];
 
     /**
+     * Params
+     */
+    private params : Array<Parameter>;
+
+    /**
      * Constructor
      * @param n
      */
-    public constructor(n : string, namedisplayed = "", description = ""){
+    public constructor(n : string, namedisplayed = "", description = "", para = []){
         this.name = n;
         this.nameDisplayed = namedisplayed;
         this.description = description;
         this.parentNode = null;
-        this.decorators = null;
+        this.params = para;
+        this.decorators = [];
     }
 
     /**
@@ -118,6 +125,14 @@ class TreeNode {
     public removeDecorator(d: Decorator) {
         var number = this.decorators.indexOf(d);
         this.decorators.splice(number, 1);
+    }
+
+    public getDecorators() {
+        return this.decorators;
+    }
+
+    public getParams(): Array<Parameter> {
+        return this.params;
     }
 
 }

@@ -15,10 +15,11 @@ var ActionTreeNode = (function (_super) {
      * Constructor
      * @param n
      */
-    function ActionTreeNode(n, namedisplayed, description) {
+    function ActionTreeNode(n, namedisplayed, description, params) {
         if (namedisplayed === void 0) { namedisplayed = ""; }
         if (description === void 0) { description = ""; }
-        _super.call(this, n, namedisplayed, description);
+        if (params === void 0) { params = []; }
+        _super.call(this, n, namedisplayed, description, params);
     }
     /**
      * Get the name for the type of the node
@@ -29,4 +30,5 @@ var ActionTreeNode = (function (_super) {
     };
     return ActionTreeNode;
 })(TreeNode);
+//export = ActionTreeNode; 
 //# sourceMappingURL=ActionTreeNode.js.map

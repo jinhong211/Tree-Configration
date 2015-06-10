@@ -10,8 +10,8 @@ class ActionTreeNode extends TreeNode {
      * Constructor
      * @param n
      */
-    public constructor(n : string, namedisplayed = "", description = "") {
-        super(n,namedisplayed,description);
+    public constructor(n : string, namedisplayed = "", description = "", params = []) {
+        super(n,namedisplayed,description, params);
     }
 
     /**
@@ -23,3 +23,5 @@ class ActionTreeNode extends TreeNode {
     }
 
 }
+
+//export = ActionTreeNode;

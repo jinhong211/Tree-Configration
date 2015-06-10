@@ -40,3 +40,5 @@ class Tree {
         this.root = null;
     }
 }
+
+export = Tree;

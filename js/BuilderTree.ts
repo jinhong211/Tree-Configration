@@ -247,19 +247,43 @@ class BuilderTree {
         }
     }
 
+    public findEdgesId(sourceId : string, targetId : string) : number{
+        if (sourceId == "root") {
+            for (var i = 0; i < this.edges.length;i++){
+                if (this.edges[i].getTarget().getId() == +targetId) {
+                    return this.edges[i].getId();
+                }
+            }
+        }
+        else {
+            for (var i = 0; i < this.edges.length; i++) {
+                if (this.edges[i].getSource() != null) {
+                    if (this.edges[i].getSource().getId() == +sourceId && this.edges[i].getTarget().getId() == +targetId) {
+                        return this.edges[i].getId();
+                    }
+                }
+            }
+        }
+        return -1;
+    }
+
     /*
     ** Test si un un noeud peut être la target d'une fleche (edge)
      */
-    public isTargetable(idNode : number) : boolean{
+    public isTargetable(idNode : string) : boolean{
+
+        if (idNode == "root"){
+            return false;
+        }
         // Test si le noeud target a un parent
-        var node = this.getBlockById(idNode);
+        var node = this.getBlockById(+idNode);
         if (node.getParentNode() != null){
             return false;
         }
 
         // Test si la target est la racine (relié à root)
         if (this.existSourceTree()) {
-            if (idNode == this.getRootTree().getId()) {
+            if (+idNode == this.getRootTree().getId()) {
                 return false;
             }
         }

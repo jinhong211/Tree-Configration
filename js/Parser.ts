@@ -2,6 +2,7 @@
 ///<reference path="./ActionTreeNode.ts"/>
 ///<reference path="./CompositeTreeNode"/>
 ///<reference path="./Decorator"/>
+///<reference path="./Parameter.ts"/>
 
 /**
  * Class for the parsing between a simulator and our module
@@ -67,6 +68,7 @@ class Parser {
         for (var i = 0; i < datajson["nodes"].length; i++) {
             var jsonBloc = datajson["nodes"][i];
             if (jsonBloc["kind"] == "task") {
+                this.parseParameters(jsonBloc["params"]);
                 listNodeAvailable.push(new ActionTreeNode(jsonBloc["type"],jsonBloc["name"],jsonBloc["desc"]));
             } else if (jsonBloc["kind"] == "composite") {
                 listNodeAvailable.push(new CompositeTreeNode(jsonBloc["type"],jsonBloc["name"],jsonBloc["desc"]));
@@ -76,6 +78,21 @@ class Parser {
         }
         return listNodeAvailable;
     }
+
+
+    parseParameters(jsonArray : JSON[]) : Array<Parameter> {
+        var parameters: Parameter[] = [];
+
+        for(var i = 0; i < jsonArray.length; i++) {
+            console.log(jsonArray[i]);
+            console.log(jsonArray[i]["name"],jsonArray[i]["type"]);
+            var parameter = new Parameter(jsonArray[i]["name"], jsonArray[i]["type"]);
+            parameters.push(parameter);
+        }
+        return parameters;
+    }
+
+
 
     /**
      * Parse decorators received in JSON format (protocole V3)
@@ -90,7 +107,7 @@ class Parser {
             var jsonBloc = datajson["nodes"][i];
             if (jsonBloc["kind"] == "decorator") {
                 var decorator : Decorator;
-                decorator = new Decorator(jsonBloc["type"], jsonBloc["name"], jsonBloc["desc"])
+                decorator = new Decorator(jsonBloc["type"],jsonBloc["params"] ,jsonBloc["name"], jsonBloc["desc"])
                 listDecoratorsAvailable.push(decorator);
             }
         }
@@ -192,8 +209,8 @@ class Parser {
      * @param init
      * @returns {string}
      */
+    //TODO PAS TESTE ATTENTION !
     parseXml3(currentNode : TreeNode, init = true) : string {
-        // TODO faire le parsage avec le protocole V3
         var xml = document.createElement("root");
         var bloc;
 
@@ -202,7 +219,17 @@ class Parser {
             var type = document.createElement("type");
             type.innerHTML = currentNode.getName();
             bloc.appendChild(type);
-            bloc.appendChild(document.createElement("params"));
+
+            // params
+            var params = document.createElement("params");
+            for(var j=0; j<currentNode.getParams().length; j++) {
+
+                //TODO ça compile pas !
+                var pa = document.createElement(currentNode.getParams()[i].getName());
+                pa.innerHTML = currentNode.getParams()[i].toString();
+                params.appendChild(pa);
+            }
+            bloc.appendChild(params);
 
         } else if (currentNode instanceof CompositeTreeNode) {
             bloc = document.createElement("composite");
@@ -221,6 +248,30 @@ class Parser {
                 bloc.appendChild(childrenNode);
             }
         }
+
+        // decorators
+        if(currentNode.getDecorators().length != 0) {
+            var decs = document.createElement("decorators");
+            for(var i=0; i<currentNode.getDecorators().length; i++) {
+                var dec = document.createElement("decorator");
+                var t = document.createElement("type");
+                t.innerHTML = currentNode.getDecorators()[i].getType();
+                var ps = document.createElement("params");
+
+                // params du decorator
+                for(var j=0; j<currentNode.getDecorators().length; j++) {
+                    var p = document.createElement(currentNode.getDecorators()[i].getName());
+                    p.innerHTML = currentNode.getDecorators()[i].getParams()[i].toString();
+                    ps.appendChild(p);
+                }
+
+                dec.appendChild(t);
+                dec.appendChild(p);
+                decs.appendChild(dec);
+            }
+            bloc.appendChild(decs);
+        }
+
         if (bloc) {
             xml.appendChild(bloc);
         }
