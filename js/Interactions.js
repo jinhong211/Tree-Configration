@@ -435,7 +435,6 @@ function changeColorOnEdgeCreation(idNode) {
 
 
     if (Controller.getInstance().getBuilderTree().existSourceTree() && idNode == "root") {
-        console.log("coucou");
         noneTargetable = true;
         return;
     }

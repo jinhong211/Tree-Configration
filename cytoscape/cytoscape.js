@@ -20194,6 +20194,7 @@ this.cytoscape = cytoscape;
 
       var near = null;
       if( !r.hoverData.draggingEles ){
+
         near = r.findNearestElement(pos[0], pos[1], true);
       }
       var last = r.hoverData.last;
@@ -20202,7 +20203,6 @@ this.cytoscape = cytoscape;
       var disp = [pos[0] - select[2], pos[1] - select[3]];
 
       var draggedElements = r.dragData.possibleDragElements;
-
       var dx = select[2] - select[0];
       var dx2 = dx * dx;
       var dy = select[3] - select[1];
@@ -20405,11 +20405,18 @@ this.cytoscape = cytoscape;
             r.dragData.didDrag = true; // indicate that we actually did drag the node
 
             var toTrigger = [];
+            // On recherche si le block selectionne fait partie d'un decorator, si oui on ajoute tout les noeud a draggedElements
+            var elementToAddDrag = [];
+            for( var i = 0; i < draggedElements.length; i++ ) {
+              var dEle = draggedElements[i];
+              if (dEle.isChild()){
+                draggedElements[0]=dEle.parent()[0];
+              }
+            }
 
             for( var i = 0; i < draggedElements.length; i++ ){
               var dEle = draggedElements[i];
 
-              // now, add the elements to the drag layer if not done already
               if( !r.hoverData.draggingEles ){
                 addNodeToDrag( dEle, { inDragLayer: true } );
               }
@@ -22750,7 +22757,7 @@ this.cytoscape = cytoscape;
         }
       }
 
-      for( var i = 0; i < elesToMove.length; i++ ){ 
+      for( var i = 0; i < elesToMove.length; i++ ){
         var ele = elesToMove[i];
         var info = ele._private.scratch.breadthfirst;
         var intEle = info.intEle;
