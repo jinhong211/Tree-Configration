@@ -2,6 +2,7 @@
 ///<reference path="./ActionTreeNode.ts"/>
 ///<reference path="./CompositeTreeNode"/>
 ///<reference path="./Decorator"/>
+///<reference path="./Parameter.ts"/>
 
 /**
  * Class for the parsing between a simulator and our module
@@ -67,6 +68,7 @@ class Parser {
         for (var i = 0; i < datajson["nodes"].length; i++) {
             var jsonBloc = datajson["nodes"][i];
             if (jsonBloc["kind"] == "task") {
+                this.parseParameters(jsonBloc["params"]);
                 listNodeAvailable.push(new ActionTreeNode(jsonBloc["type"],jsonBloc["name"],jsonBloc["desc"]));
             } else if (jsonBloc["kind"] == "composite") {
                 listNodeAvailable.push(new CompositeTreeNode(jsonBloc["type"],jsonBloc["name"],jsonBloc["desc"]));
@@ -76,6 +78,21 @@ class Parser {
         }
         return listNodeAvailable;
     }
+
+
+    parseParameters(jsonArray : JSON[]) : Array<Parameter> {
+        var parameters: Parameter[] = [];
+
+        for(var i = 0; i < jsonArray.length; i++) {
+            console.log(jsonArray[i]);
+            console.log(jsonArray[i]["name"],jsonArray[i]["type"]);
+            var parameter = new Parameter(jsonArray[i]["name"], jsonArray[i]["type"]);
+            parameters.push(parameter);
+        }
+        return parameters;
+    }
+
+
 
     /**
      * Parse decorators received in JSON format (protocole V3)
