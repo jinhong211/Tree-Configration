@@ -98,6 +98,7 @@ function alertWin(title, msg, w, h,node) {
         var change = document.getElementById("modalName").value;
         node.data().name = change;
         console.log(node.data().name);
+        node.unselect();
         document.body.removeChild(bgObj);
         document.body.removeChild(msgObj);
     }
