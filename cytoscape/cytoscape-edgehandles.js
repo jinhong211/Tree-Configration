@@ -46,7 +46,7 @@
         // fired when edgehandles interaction is stopped (either complete with added edges or incomplete)
       }
     };
-    
+
     $.fn.cytoscapeEdgehandles = function( params ){
       var fn = params;
       
@@ -230,7 +230,9 @@
             
             //setTimeout(function(){
               cy.nodes()
-                .removeClass('edgehandles-hover')
+                  .removeClass('edgehandles-hover-ontarget-targetable')
+                  .removeClass('edgehandles-hover-ontarget-untargetable')
+                .removeClass('edgehandles-targetable')
                 .removeClass('edgehandles-source')
                 .removeClass('edgehandles-target')
               ;
@@ -492,6 +494,7 @@
           function hoverOver( node ){
             var target = node;
 
+
             clearTimeout( hoverTimeout );
             hoverTimeout = setTimeout(function(){
 
@@ -505,7 +508,20 @@
               if( isGhost || noEdge ){ return; }
 
               if( !isLoop || (isLoop && loopAllowed) ){
-                node.addClass('edgehandles-hover');
+                console.log(noneTargetable);
+                if (Controller.getInstance().getBuilderTree().isTargetable(node.id()) && !noneTargetable){
+                  if (node.hasClass('edgehandles-hover-ontarget-targetable')){
+                    node.removeClass('edgehandles-hover-ontarget-targetable')
+                  } else {
+                    node.addClass('edgehandles-hover-ontarget-targetable');
+                  }
+                } else {
+                  if (node.hasClass('edgehandles-hover-ontarget-untargetable')){
+                    node.removeClass('edgehandles-hover-ontarget-untargetable')
+                  } else {
+                    node.addClass('edgehandles-hover-ontarget-untargetable');
+                  }
+                }
                 node.toggleClass('edgehandles-target');
                 
                 if( options().preview ){
