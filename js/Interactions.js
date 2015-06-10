@@ -544,21 +544,26 @@ function initRightClick() {
 }
 
 /**
- * This function
+ * This function create the right click menu
  * @returns {Array}
  */
 function getDecorator() {
     var decoratorArray = [];
+    var nameDisplayed;
     for(var i = 0; i < Controller.getInstance().getBuilderTree().getDecorators().length; i++) {
-        var nameDisplayed = Controller.getInstance().getBuilderTree().getDecorators()[i].nameDisplayed;
+        nameDisplayed = Controller.getInstance().getBuilderTree().getDecorators()[i].nameDisplayed;
         console.log("name", i ,nameDisplayed);
-        decoratorArray.push({
-            content:nameDisplayed,
-            select: function() {
-                decoratorMenu(this, nameDisplayed)
-            }
-        });
+        (function(nameDisplayed) {
+            decoratorArray.push({
+                content:nameDisplayed,
+                select: function() {
+                    console.log(nameDisplayed);
+                    decoratorMenu(this, nameDisplayed)
+                }
+            });
+        })(nameDisplayed);
     }
-    console.log("conteent", decoratorArray);
+    nameDisplayed = "derp";
+    console.log("content", decoratorArray);
     return decoratorArray;
 }
