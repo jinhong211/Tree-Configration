@@ -2,7 +2,6 @@
  * Created by jinhong on 09/06/15.
  */
 function alertWin(title, msg, w, h,node) {
-
     var titleheight = "22px";
     var bordercolor = "#666699";
     var titlecolor = "#FFFFFF";
@@ -92,8 +91,18 @@ function alertWin(title, msg, w, h,node) {
     var submitBtn = submitBox.insertCell(-1);
     submitBtn.style.cssText = "text-align:center;";
     submitBtn.colSpan = 2;
-    submitBtn.innerHTML = "<br/><input type='Button' value='Enter' id='saveHeader'onclick='node.data().name=document.getElementById(\"modalName\").value)' /><br/>";
+    submitBtn.innerHTML = "<br/><input type='Button' value='Enter' id='saveHeader' /><br/>";
+    submitBtn.onclick = function(){
+        console.log(node.data().name);
+        console.log(document.getElementById("modalName").value);
+        var change = document.getElementById("modalName").value;
+        node.data().name = change;
+        console.log(node.data().name);
+        document.body.removeChild(bgObj);
+        document.body.removeChild(msgObj);
+    }
     function getEvent() {
         return window.event || arguments.callee.caller.arguments[0];
     }
 }
+
