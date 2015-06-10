@@ -23,3 +23,5 @@ class ActionTreeNode extends TreeNode {
     }
 
 }
+
+//export = ActionTreeNode;
