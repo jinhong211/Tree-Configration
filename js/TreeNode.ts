@@ -1,4 +1,5 @@
 ///<reference path="./Decorator"/>
+///<reference path="./Parameter.ts"/>
 
 /**
  * Class for the representation of a node of a simplified behaviour tree
@@ -39,7 +40,7 @@ class TreeNode {
     /**
      * Params
      */
-    private params : Array<JSON>;
+    private params : Array<Parameter>;
 
     /**
      * Constructor
@@ -130,7 +131,7 @@ class TreeNode {
         return this.decorators;
     }
 
-    public getParams(): Array<JSON> {
+    public getParams(): Array<Parameter> {
         return this.params;
     }
 

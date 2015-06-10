@@ -1,11 +1,12 @@
 ///<reference path="./TreeNode.ts"/>
+///<reference path="./Parameter.ts"/>
 /**
  * Class for the representation of a special node decorator
  * @author Anais, Quentin Cornevin
  */
 class Decorator extends TreeNode{
 
-    private settableParameter : Array<number | string>;
+    private settableParameter : Array<Parameter>;
 
     /**
      * Constructor of the decorator with a name and an array of string or number containing
@@ -15,7 +16,7 @@ class Decorator extends TreeNode{
      * @param nameDisplayed
      * @param description
      */
-    public constructor(n: string, settableParams : Array<number | string> ,nameDisplayed = "", description = "" ) {
+    public constructor(n: string, settableParams = [] ,nameDisplayed = "", description = "" ) {
         super(n,nameDisplayed,description);
         this.settableParameter = settableParams;
     }
@@ -24,7 +25,7 @@ class Decorator extends TreeNode{
      * This method is a getter for the settable parameter.
      * @returns {Array<number|string>}
      */
-    public getParams(): Array<number | string> {
+    public getParams(): Array<Parameter> {
         return this.settableParameter;
     }
 

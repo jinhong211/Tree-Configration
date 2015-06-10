@@ -208,7 +208,7 @@ class Parser {
             for(var j=0; j<currentNode.getParams().length; j++) {
 
                 //TODO ça compile pas !
-                var pa = document.createElement(currentNode.getParams()[i].get("name"));
+                var pa = document.createElement(currentNode.getParams()[i].getName());
                 pa.innerHTML = currentNode.getParams()[i].toString();
                 params.appendChild(pa);
             }
