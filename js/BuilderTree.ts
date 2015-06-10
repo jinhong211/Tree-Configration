@@ -41,7 +41,7 @@ class BuilderTree {
     /**
      * Decorator nodes available (not displayed in the menu)
      */
-    private decorators:Array<Decorator>;
+    private decoratorsAvailable:Array<Decorator>;
 
 
     /**
@@ -94,7 +94,7 @@ class BuilderTree {
      * @param decos
      */
     public setDecorators(decos:Array<Decorator>) {
-        this.decorators=decos;
+        this.decoratorsAvailable=decos;
     }
 
  
@@ -107,7 +107,7 @@ class BuilderTree {
      * @returns {Array<Decorator>}
      */
     public getDecorators():Array<Decorator>{
-        return this.decorators;
+        return this.decoratorsAvailable;
     }
 
     /**
