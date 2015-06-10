@@ -302,11 +302,8 @@
             // draw line based on type
             switch( options().handleLineType ){
             case 'ghost':
-
               if( !ghostNode || ghostNode.removed() ){
-
                 drawHandle();
-
                 ghostNode = cy.add({
                   group: 'nodes',
                   classes: 'edgehandles-ghost edgehandles-ghost-node',
@@ -314,7 +311,9 @@
                     'background-color': 'blue',
                     'width': 0.0001,
                     'height': 0.0001,
-                    'opacity': 0
+                    'opacity': 0,
+                    'border-width':5,
+                    'border-color': 'white'
                   },
                   position: {
                     x: 0,
@@ -330,7 +329,7 @@
                     target: ghostNode.id()
                   }
                 });
-
+                changeColorOnEdgeCreation(sourceNode.id());
               }
 
               ghostNode.renderedPosition({
@@ -369,12 +368,12 @@
               }
 
               ctx.stroke();
-
               break;
             }
 
             if( options().handleLineType !== 'ghost' ){
               drawsClear = false;
+
             }
           };
 
@@ -396,14 +395,12 @@
             }
 
             idSource = source.id();
-            if (source.id() != "root" && Controller.getInstance().getBuilderTree().getTreeNodeById(idSource).getType() == "action") {
-              // alert("Les actions ne peuvent etre que des feuilles de l'arbre");
+
+            if (idSource =="root" && Controller.getInstance().getBuilderTree().existSourceTree()) {
               return;
             }
 
-            if (source.id() == "root" && Controller.getInstance().getBuilderTree().getRootTree() != null) {
-              return;
-            }
+
             
             // just remove preview class if we already have the edges
             if( !src && !tgt ){
@@ -418,54 +415,54 @@
                 cy.elements('.edgehandles-preview').remove();
               }
             }
-            
+
+
+            // Test des cas ou la fleche est valide : test sur les targets
             for( var i = 0; i < targets.length; i++ ){
               var target = targets[i];
-              idTargets.push(target.id());
-              if (target.id() == "root"){
-                return;
+
+              // Test si la target est le bloc root
+              if (target.id() == "root"){;
+                break;
               }
-              var incomers = target.incomers();
-              for( var i = 0; i < incomers.length; i++ ) {
-                var incomer = incomers[i];
-                if (incomer.data().name == source.data().name) {
-                  // TODO : Bug selection multiplace.
-                 // console.log("incomer",incomer.data().name);
-                 // console.log("source",source.data().name);
-                  alert("Les noeuds sont deja lies");
-                  return;
-                }
-              }
-              if (target.isChild()) {
-                alert("Le noeud a deja un noeud parent");
-                return;
+
+              if (!(Controller.getInstance().getBuilderTree().isTargetable(target.id()))){
+                break;
               }
 
               switch( options().edgeType( source, target ) ){
               
-              case 'flat':
-                var edge = cy.add($.extend( true, {
-                  group: 'edges',
-                  data: {
-                    id: "ed" +  countEdges,
-                    source: source.id(),
-                    target: target.id()
+                case 'flat':
+                  var edge = cy.add($.extend( true, {
+                    group: 'edges',
+                    data: {
+                      id: "ed" +  countEdges,
+                      source: source.id(),
+                      target: target.id()
+                    }
+                  }, options().edgeParams(source, target, 0) )).addClass(classes);
+
+                  // Si la source est root on met source à null car le bloc root n'est pas représenté dans le modèle
+                  var sourceNode;
+                  var targetNode = Controller.getInstance().getBuilderTree().getTreeNodeById(target.id());
+                  if(idSource != "root") {
+                    sourceNode = Controller.getInstance().getBuilderTree().getTreeNodeById(idSource);
+                    Controller.getInstance().getBuilderTree().addEdge(new Edge("ed"+countEdges,sourceNode,targetNode));
+                  } else {
+                    Controller.getInstance().getBuilderTree().addEdge(new Edge("ed"+countEdges,null,targetNode));
                   }
-                }, options().edgeParams(source, target, 0) )).addClass(classes);
+                  countEdges++;
 
-                // Si la source est root on met source à null car le bloc root n'est pas représenté dans le modèle
-                var sourceNode;
-                var targetNode = Controller.getInstance().getBuilderTree().getTreeNodeById(target.id());
-                if(idSource != "root") {
-                  sourceNode = Controller.getInstance().getBuilderTree().getTreeNodeById(idSource);
-                  Controller.getInstance().getBuilderTree().addEdge(new Edge("ed"+countEdges,sourceNode,targetNode));
-                } else {
-                  Controller.getInstance().getBuilderTree().addEdge(new Edge("ed"+countEdges,null,targetNode));
-                }
-                countEdges++;
+                  added = added.add( edge );
+                  idTargets.push(target.id());
 
-                added = added.add( edge );
-
+                  // Si la sourc est root mais qu'on a plusieurs cibles target on en enregistre qu'une seule, on casse le for
+                  if (idSource == "root") {
+                    if (Controller.getInstance().getBuilderTree().getRootTree() == null) {
+                      Controller.getInstance().getBuilderTree().setRoot(Controller.getInstance().getBuilderTree().getTreeNodeById(idTargets[0]));
+                    }
+                    return;
+                  }
                 break;
 
               default:
@@ -473,12 +470,9 @@
                 break; // don't add anything
               }
             }
-            if (idSource == "root") {
-              if (Controller.getInstance().getBuilderTree().getRootTree() == null) {
-                Controller.getInstance().getBuilderTree().setRoot(Controller.getInstance().getBuilderTree().getTreeNodeById(idTargets[0]));
-              }
-            }
 
+
+            // Enregistre toutes les dépendances parent/enfant entres les noeuds
             var sourceNode = Controller.getInstance().getBuilderTree().getTreeNodeById(idSource);
             if (sourceNode instanceof CompositeTreeNode){
               for (var i = 0; idTargets.length>i;i++) {
@@ -546,8 +540,6 @@
             lastPanningEnabled = cy.panningEnabled();
             lastZoomingEnabled = cy.zoomingEnabled();
             lastBoxSelectionEnabled = cy.boxSelectionEnabled();
-
-            console.log('handles on ready')
 
             var lastActiveId;
 
@@ -633,6 +625,8 @@
                 function doneMoving(dmEvent){ 
                  //  console.log('doneMoving %s', node.id());
 
+                  resetColorOnEdgeCreation();
+
                   // TODO : Gestion de la cr?ation des fl?ches ici !!
 
                   if( !mdownOnHandle || inForceStart ){
@@ -660,7 +654,6 @@
               
               function moveHandler(e){
                 // console.log('mousemove moveHandler %s %o', node.id(), node);
-                
                 var pageX = !e.originalEvent.touches ? e.pageX : e.originalEvent.touches[0].pageX;
                 var pageY = !e.originalEvent.touches ? e.pageY : e.originalEvent.touches[0].pageY;
                 var x = pageX - $container.offset().left;
