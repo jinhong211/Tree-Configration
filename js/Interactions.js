@@ -153,8 +153,17 @@ $(function test() { // on dom ready
                             tooltip: 'Remove Node/Edge',
                             action: [performRemove]
                         }
+                    ],
+                    [
+                        {
+                            icon: 'fa fa-crosshairs',
+                            event: ['tap'],
+                            selector: 'cy',
+                            bubbleToCore: false,
+                            tooltip: 'Recenter On Root',
+                            action: [RecenterOnRoot]
+                        }
                     ]
-
                 ],
                 appendTools: false
             });
@@ -167,7 +176,7 @@ $(function test() { // on dom ready
                     'shape': 'rectangle',
                     'width': 'data(weight)',
                     'content': 'data(name)',
-                    // 'height' : 'data(height)',
+                     'height' : 'data(height)',
                     'text-valign': 'center',
                     'border-color': 'data(faveColor)',
 
@@ -408,6 +417,13 @@ function recenterOnRoot(){
     cy.zoom(1.5);
     cy.pan({ x: -250, y:-350 });
 }
+function RecenterOnRoot(e){
+    if (!e.data.canPerform(e, RecenterOnRoot)) {
+        return;
+    }
+
+    recenterOnRoot();
+}
 
 function displayTreeConsole(){
     console.log("#######################  Affichage etat courant #######################")
@@ -487,7 +503,7 @@ function addRoots() {
             weight: 105,
             faveColor: colorRoot,
             faveShape: 'rectangle',
-            height: 105,
+            height: 45,
             id: "root"
         },
         position: {x: 190, y: 150},
@@ -504,17 +520,22 @@ function addRoots() {
  * @param selectedPos : position in the selected block of the builderTree.
  */
 function addAction(x,y,text, selectedPos)  {
+    var title = text;
     var currentOffset = $("#cy").offset();
+    var counter = 1;
+    counter = getParamNumber(counter, text);
+    text = text + "\n" + getParam(text);
     cy.add({
         group: "nodes",
         data: {
             name: text,
-            weight: 105,
+            title: title,
+            weight: 140,
             faveColor: colorAction,
             faveShape: 'rectangle',
             type:'action',
             option: 'Edit Your Option',
-            height: 105,
+            height: 35 * counter,
             id: selectedPos + ""
         },
         renderedPosition: {x: x - currentOffset.left, y: y - currentOffset.top}
@@ -531,6 +552,9 @@ function addAction(x,y,text, selectedPos)  {
  */
 function addComposite(x, y, text, selectedPos) {
     var currentOffset = $("#cy").offset();
+    var counter = 1;
+    counter = getParamNumber(counter, text);
+
     cy.add({
         group: "nodes",
         data: {
@@ -538,7 +562,7 @@ function addComposite(x, y, text, selectedPos) {
             weight: 105,
             faveColor: colorComposite,
             faveShape: 'rectangle',
-            height: 105,
+            height: 35 * counter,
             id: selectedPos + ""
         },
         renderedPosition: {x: x - currentOffset.left, y: y - currentOffset.top}
@@ -576,4 +600,35 @@ function getDecorator() {
         })(nameDisplayed);
     }
     return decoratorArray;
+}
+
+/**
+ *  Thisz method set the height of a block
+ *
+ * @param paramNumber
+ */
+function getParamNumber(paramNumber, text) {
+    for(var i = 0; i < Controller.getInstance().getBuilderTree().getAvailableBlocks().length; i++) {
+        if(Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].getName() == text) {
+            for(var j = 0; j < Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].getParams().length; j++) {
+                paramNumber++;
+            }
+        }
+    }
+    return paramNumber;
+}
+
+
+function getParam(text) {
+    var params = "";
+    for(var i = 0; i < Controller.getInstance().getBuilderTree().getAvailableBlocks().length; i++) {
+        if (Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].getName() == text) {
+            for(var k = 0;k < Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].getParams().length; k++) {
+                params = params + Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].getParams()[k]["name"] + " : ("
+                + Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].getParams()[k]["value"] + ") \n";
+            }
+        }
+    }
+    console.log(params);
+    return params;
 }
