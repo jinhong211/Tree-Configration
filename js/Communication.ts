@@ -52,7 +52,7 @@ class Communication {
             success: function(data){
                 console.log(data);
                 var res = self.httpGetMOCK3();
-                f(res);
+                f(data);
 
                 //f(data);
             },
