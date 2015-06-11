@@ -165,7 +165,16 @@ function EditDecorator(e) {
 
 //#region Remove
 function performRemove() {
-    cy.$(':selected').remove();
+    var res = cy.$(':selected').id().split("");
+    if (res[0]=="e") {
+        Controller.getInstance().getBuilderTree().deleteSelectedEdge(cy.$(':selected').id());
+        cy.$(':selected').remove();
+    } else {
+        if(cy.$(':selected').id() != "root") {
+            Controller.getInstance().getBuilderTree().deleteSelectedNode(cy.$(':selected').id());
+            cy.$(':selected').remove();
+        }
+    }
 }
 //#endregion
 
