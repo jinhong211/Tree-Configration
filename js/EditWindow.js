@@ -98,7 +98,7 @@ function alertWin(title, msg, w, h,node) {
     for(var i = 0; i < Controller.getInstance().getBuilderTree().getSelectedBlocks().length; i++) {
         if (Controller.getInstance().getBuilderTree().getSelectedBlocks()[i].getId() == node.id()) {
             for(var k = 0;k < Controller.getInstance().getBuilderTree().getSelectedBlocks()[i].getParams().length; k++) {
-                if(Controller.getInstance().getBuilderTree().getSelectedBlocks()[i].getParams()[k]["value"] == "blackboard"){
+                if(Controller.getInstance().getBuilderTree().getSelectedBlocks()[i].getParams()[k]["value"]  instanceof Blackboard){
                     paramsinput = paramsinput + "<br/><select id='"+ node.data().title + node.id()+
                         "'><option value ='1'>Volvo</option><option value ='2'>Saab</option>" +
                         "<option value='3'>Opel</option><option value='4'>Audi</option></select><br/>";
@@ -125,7 +125,7 @@ function alertWin(title, msg, w, h,node) {
             for(var i = 0; i < Controller.getInstance().getBuilderTree().getSelectedBlocks().length; i++) {
                 if (Controller.getInstance().getBuilderTree().getSelectedBlocks()[i].getId() == node.id()) {
                     for (var k = 0; k < Controller.getInstance().getBuilderTree().getSelectedBlocks()[i].getParams().length; k++) {
-                        if(Controller.getInstance().getBuilderTree().getSelectedBlocks()[i].getParams()[k]["value"] == "blackboard"){
+                        if(Controller.getInstance().getBuilderTree().getSelectedBlocks()[i].getParams()[k]["value"] instanceof Blackboard){
                             var sel = document.getElementById(node.data().title + node.id());
                             Controller.getInstance().getBuilderTree().getSelectedBlocks()[i].setParams(k,
                                 sel.options[sel.selectedIndex].text);

@@ -23,7 +23,7 @@ class Parameter {
      * @param name of the new paramter
      * @param value of the new paramter
      */
-    public constructor(name : string, value : string | number) {
+    public constructor(name : string, value : string | number | Blackboard) {
         this.name = name;
         this.value = value;
     }

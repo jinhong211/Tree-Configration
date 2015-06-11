@@ -106,7 +106,12 @@ class Parser {
     parseParameters(jsonArray : JSON[]) : Array<Parameter> {
         var parameters: Parameter[] = [];
         for(var i = 0; i < jsonArray.length; i++) {
-            var parameter = new Parameter(jsonArray[i]["name"], jsonArray[i]["type"]);
+            var parameter : Parameter;
+            if(jsonArray[i]["type"] == "blackboard") {
+                parameter = new Parameter(jsonArray[i]["name"], new Blackboard(jsonArray[i]["type"], "test"))
+            } else {
+                parameter = new Parameter(jsonArray[i]["name"], jsonArray[i]["type"]);
+            }
             parameters.push(parameter);
         }
         return parameters;
