@@ -7,7 +7,7 @@
  *
  * @param node that represent the menu.
  */
-var decoratorCounter = 0;
+
 function decoratorMenu(node, value) {
     //console.log("decoratormenu",value);
     var pid = node.id();
