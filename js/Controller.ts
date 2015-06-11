@@ -7,6 +7,9 @@
  * Class for the controller between the model and the view page
  * @author Benjamin, Anais, Quentin
  */
+
+declare var initRightClick: any;
+
 class Controller {
 
     /**
@@ -73,6 +76,7 @@ class Controller {
             // set the datas in our model
             self.building.setAvailableBlocks(nodes);
             self.building.setDecorators(decorators);
+
             initRightClick();
             self.building.getTree().setBlackboard(blackboard);
 
