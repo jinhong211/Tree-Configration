@@ -11,13 +11,8 @@
 function decoratorMenu(node, value) {
     //console.log("decoratormenu",value);
     var pid = node.id();
-    if (pid == "root" ){
-        return;
-    }
-    node.remove();
 
-    var nodeModel = Controller.getInstance().getBuilderTree().getBlockById(pid);
-    nodeModel.addDecorator(new Decorator(value,null,value,""));
+
 
     var currentOffset = $("#cy").offset();
 
@@ -25,28 +20,47 @@ function decoratorMenu(node, value) {
     var y = event.pageY - currentOffset.top;
     //console.log(node.data().name)
     if(!node.isParent() &&  !node.isChild()) {
+
+        node.remove();
+
+        var nodeModel = Controller.getInstance().getBuilderTree().getBlockById(pid);
+        nodeModel.addDecorator(new Decorator(value,null,value,""));
+
         cy.add([{
             group: "nodes",
-            data: {id: pid, weight: 100 ,faveColor: 'gray'},
-            renderedPosition: {x: x, y: y}
-        },
-            {
-                group: "nodes",
-                data: {name: value, parent: pid, weight: 105, height: 45, faveColor: 'blue', type: 'decorator'},
-                renderedPosition: {x: x, y: y}
-            },
+            data: {id: pid, weight: 100,height:100, faveColor: 'gray'},
+            renderedPosition: {x: x, y: y},
+        }
+        ]).addClass("menu");
+        var previous = cy.add([
             {
                 group: "nodes",
                 data: {
                     parent: pid,
                     name: node.data().name,
                     weight: node.data().weight,
-                    height: node.data().height,
-                    faveColor: node.data().faveColor
+                    height: node.height(),
+                    faveColor: node.data().faveColor,
+
                 },
-                renderedPosition: {x: x, y: y + 40}
+                renderedPosition: {x: x, y: y}
             }
         ]);
+        /*
+        console.log("node height " + node.height());
+        console.log("node outerheight " + node.outerHeight());
+        console.log("node renderedheight " + node.renderedHeight());
+        console.log("node renderedOuterheight " + node.renderedOuterHeight());*/
+
+        var newNode = cy.add([
+            {
+                group: "nodes",
+                data: {name: value, parent: pid, weight: 105, height: 45, faveColor: 'blue', type: 'decorator'},
+                renderedPosition: {x: x, y: y}
+            }
+        ]);
+
+        newNode.renderedPosition({x: x, y: y-(previous.renderedOuterHeight()/2 +newNode.renderedOuterHeight()/2) });
 
 
         // Ajout des fleches qui ont �t� supprim� par la cr�ation du decorator
@@ -98,7 +112,40 @@ function decoratorMenu(node, value) {
                 ]);
             }
         }
+    }
+    if (node.isParent()){
 
+        for (var i = 0; i < node.children().length; i++) {
+            if (node.children()[i].data().name == value) {
+                return;
+            }
+        }
+
+        var nodeModel = Controller.getInstance().getBuilderTree().getBlockById(pid);
+        nodeModel.addDecorator(new Decorator(value,null,value,""));
+
+        cy.add([{
+            group: "nodes",
+            data: {name: value, parent: pid, weight: 105,height:45, faveColor: 'blue', type: 'decorator'},
+            renderedPosition: {x: x, y: y},
+        }
+        ]);
+
+        var children = node.children();
+        var posy = 0;
+        var maxWidth =0;
+        for (var i = 0; i < children.length; i++){
+            if (children[i].width() > maxWidth){
+                maxWidth = children[i].width();
+            }
+        }
+        for (var i = 0; i < children.length; i++){
+            if (i!=0){
+                posy += (children[i-1].renderedOuterHeight()/2+children[i].renderedOuterHeight()/2);
+            }
+            children[i].width(maxWidth);
+            children[i].renderedPosition({x: x, y: y-posy});
+        }
     }
 }
 

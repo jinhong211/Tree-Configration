@@ -425,16 +425,20 @@
               var target = targets[i];
 
               if (target.isChild()){
-                target = target.parent();
+                target = target.parent()[0];
+                var out = false;
                 for (var l = 0; l < targets.length;l++){
                   if (target == targets[l]) {
-                    target = null;
+                    var out = true;
                     break;
                   }
                 }
+                if (out){
+                  break;
+                }
               }
               // Test si la target est le bloc root
-              if (target.id() == "root" || null){;
+              if (target.id() == "root"){;
                 break;
               }
 

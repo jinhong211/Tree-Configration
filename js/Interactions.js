@@ -367,7 +367,7 @@ $(function test() { // on dom ready
         });
 
     $('#delete').on('click', function() {
-       cy.$(':selected').remove();
+        cy.$(':selected').remove();
     });
 
     $('html').keyup(function(e){
@@ -414,8 +414,8 @@ $(function test() { // on dom ready
 });
 
 function recenterOnRoot(){
-    cy.zoom(1.5);
-    cy.pan({ x: -250, y:-350 });
+    cy.zoom(1);
+    cy.pan({ x: -50, y:-200 });
 }
 function RecenterOnRoot(e){
     if (!e.data.canPerform(e, RecenterOnRoot)) {
@@ -538,6 +538,7 @@ function addAction(x,y,text, selectedPos)  {
     cy.add({
         group: "nodes",
         data: {
+            class: 'menu',
             name: text,
             title: title,
             weight: 140,
@@ -549,7 +550,7 @@ function addAction(x,y,text, selectedPos)  {
             id: selectedPos + ""
         },
         renderedPosition: {x: x - currentOffset.left, y: y - currentOffset.top}
-    });
+    }).addClass('menu');
 }
 
 /**
@@ -576,7 +577,7 @@ function addComposite(x, y, text, selectedPos) {
             id: selectedPos + ""
         },
         renderedPosition: {x: x - currentOffset.left, y: y - currentOffset.top}
-    });
+    }).addClass('menu');
 }
 
 
@@ -585,7 +586,7 @@ function addComposite(x, y, text, selectedPos) {
  */
 function initRightClick() {
     cy.cxtmenu({
-        selector: 'node',
+        selector:'.menu',
         commands:getDecorator()
     });
 }
@@ -595,6 +596,7 @@ function initRightClick() {
  * @returns {Array}
  */
 function getDecorator() {
+
     var decoratorArray = [];
     var nameDisplayed;
     for(var i = 0; i < Controller.getInstance().getBuilderTree().getDecorators().length; i++) {
@@ -603,7 +605,6 @@ function getDecorator() {
             decoratorArray.push({
                 content:nameDisplayed,
                 select: function() {
-                    console.log(nameDisplayed);
                     decoratorMenu(this, nameDisplayed)
                 }
             });
@@ -639,6 +640,5 @@ function getParam(text) {
             }
         }
     }
-    console.log(params);
     return params;
 }

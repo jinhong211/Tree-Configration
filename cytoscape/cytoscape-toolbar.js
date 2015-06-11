@@ -84,7 +84,6 @@ function performPan(e, action, direction) {
 	//console.log("could not perform pan");
 		return;
 	}
-
 	//console.log("performing pan");
 
 	var toolIndexes = e.data.data.selectedTool;
