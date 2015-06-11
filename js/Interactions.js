@@ -682,8 +682,13 @@ function getParam(text) {
     for(var i = 0; i < Controller.getInstance().getBuilderTree().getAvailableBlocks().length; i++) {
         if (Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].getName() == text) {
             for(var k = 0;k < Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].getParams().length; k++) {
-                params = params + Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].getParams()[k]["name"] + " : ("
-                + Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].getParams()[k]["value"] + ") \n";
+                if(Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].getParams()[k]["value"] instanceof Blackboard) {
+                    params = params + Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].getParams()[k]["name"] + " : ("
+                        + Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].getParams()[k]["value"].name + ") \n";
+                }else{
+                    params = params + Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].getParams()[k]["name"] + " : ("
+                        + Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].getParams()[k]["value"] + ") \n";
+                }
             }
         }
     }
