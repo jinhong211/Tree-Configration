@@ -22,4 +22,14 @@ describe("My first unit test in TS", () => {
             throw new Error("derp")
         }).to.throw(Error);
     })
+
+    it("should parse", () => {
+        var p = new Parser();
+        var c = new Communication("http://46.105.18.34:8080");
+
+        chai.expect(function() {
+            p.parseBlackboard3(c.httpGetMOCK3())
+        }).to.be("blablabla");
+
+    })
 });

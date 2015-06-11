@@ -226,7 +226,6 @@ class Parser {
             var params = document.createElement("params");
             for(var j=0; j<currentNode.getParams().length; j++) {
 
-                //TODO ça compile pas !
                 var pa = document.createElement(currentNode.getParams()[i].getName());
                 pa.innerHTML = currentNode.getParams()[i].toString();
                 params.appendChild(pa);
@@ -239,6 +238,18 @@ class Parser {
             type.innerHTML = currentNode.getName();
             bloc.appendChild(type);
             bloc.appendChild(document.createElement("params"));
+
+            // params
+            var params = document.createElement("params");
+            for(var j=0; j<currentNode.getParams().length; j++) {
+
+                var pa = document.createElement(currentNode.getParams()[i].getName());
+                pa.innerHTML = currentNode.getParams()[i].toString();
+                params.appendChild(pa);
+            }
+            bloc.appendChild(params);
+
+            // children
             var children = currentNode.getChildrenNodes();
             var childrenNode = document.createElement("children");
 
