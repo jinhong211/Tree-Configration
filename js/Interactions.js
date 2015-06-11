@@ -332,7 +332,8 @@ $(function test() { // on dom ready
             if(!t.closest('.jstree').length) {
                 if(t.closest('.drop').length) {
                     if(r=="action") {
-                        var treeNode = new ActionTreeNode(text);
+                        var paramList = getNodeParamList(text);
+                        var treeNode = new ActionTreeNode(text,"" ,"", paramList);
                         treeNode.setId(counter);
                         Controller.getInstance().getBuilderTree().getSelectedBlocks().push(treeNode);
                         addAction(x,y, text, counter);
@@ -541,7 +542,7 @@ function addAction(x,y,text, selectedPos)  {
             class: 'menu',
             name: text,
             title: title,
-            weight: 140,
+            weight: 155,
             faveColor: colorAction,
             faveShape: 'rectangle',
             type:'action',
@@ -629,7 +630,11 @@ function getParamNumber(paramNumber, text) {
     return paramNumber;
 }
 
-
+/**
+ *
+ * @param text
+ * @returns {string}
+ */
 function getParam(text) {
     var params = "";
     for(var i = 0; i < Controller.getInstance().getBuilderTree().getAvailableBlocks().length; i++) {
@@ -641,4 +646,21 @@ function getParam(text) {
         }
     }
     return params;
+}
+
+
+function getNodeParamList(text) {
+    var paramList = [];
+    for(var i = 0; i < Controller.getInstance().getBuilderTree().getAvailableBlocks().length; i++) {
+        if(Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].getName() == text) {
+            for(var k = 0; k < Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].getParams().length; k++) {
+                var paramName = Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].getParams()[k]["name"];
+                var paramValue = Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].getParams()[k]["value"];
+                console.log("name",paramName,"value",paramValue);
+                var param = new Parameter(paramName, paramValue);
+                paramList.push(param);
+            }
+        }
+    }
+    return paramList;
 }

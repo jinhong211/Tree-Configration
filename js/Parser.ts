@@ -238,7 +238,7 @@ class Parser {
         if(currentNode.getParams() != null) {
             for(var j=0; j<currentNode.getParams().length; j++) {
                 var pa = document.createElement(currentNode.getParams()[j].getName());
-                pa.innerHTML = currentNode.getParams()[j].toString();
+                pa.innerHTML = currentNode.getParams()[j].getValue().toString();
                 params.appendChild(pa);
             }
         }
