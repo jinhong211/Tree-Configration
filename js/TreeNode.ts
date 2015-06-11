@@ -141,11 +141,7 @@ class TreeNode {
      * @param paramName
      * @param paramValue
      */
-    public setParams(paramName : string, paramValue : string | number) : void {
-        for(var k = 0; k < this.params.length; k++) {
-            if(this.params[k]["name"] == paramName) {
-                this.params[k]["value"] == paramValue;
-            }
-        }
+    public setParams(k : number, paramValue : string | number) : void {
+        this.params[k]["value"] = paramValue;
     }
 }

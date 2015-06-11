@@ -117,8 +117,12 @@ function alertWin(title, msg, w, h,node) {
             for(var i = 0; i < Controller.getInstance().getBuilderTree().getAvailableBlocks().length; i++) {
                 if (Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].getName() == node.data().title) {
                     for (var k = 0; k < Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].getParams().length; k++) {
+                        Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].setParams(k,
+                            document.getElementById(Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].getParams()[k]["name"]).value);
+                    }
+                    for (var k = 0; k < Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].getParams().length; k++) {
                         setparams = setparams + Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].getParams()[k]["name"] + " : "
-                            + document.getElementById(Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].getParams()[k]["name"]).value + "\n";
+                            + Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].getParams()[k]["value"] + "\n";
                     }
                 }
             }
