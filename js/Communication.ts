@@ -52,7 +52,7 @@ class Communication {
             success: function(data){
                 console.log(data);
                 var res = self.httpGetMOCK3();
-                f(res);
+                f(data);
 
                 //f(data);
             },
@@ -118,19 +118,33 @@ class Communication {
         return {
             blackboard : [{name:"enemyTarget", type:"object", desc:""}],
             nodes : [
-                {kind: "task",
-                    type:"Shout",
-                    name:"Shout Action...",
-                    desc:"Your bot shouts a message.",
-                    category: "Basic Action",
-                    params:[{name:"message", type:"string", defaultValue:"Hello World!"}]
-                },
                 {kind:"task",
                     type:"MoveTo",
                     name:"Move To",
                     desc:"Your bot move to a target.",
                     category:"Move Action",
-                    params:[{name :"target", type :"blackboard"}]
+                    params:[{name :"target", type :"closerEnemy"}]
+                },
+                {kind: "task",
+                    type:"Hide",
+                    name:"Hide",
+                    desc:"Your bot hide.",
+                    category: "Basic Action",
+                    params:[]
+                },
+                {kind: "task",
+                    type:"Shout",
+                    name:"Shout Action...",
+                    desc:"Your bot shouts a message.",
+                    category: "Basic Action",
+                    params:[{name:"message", type:"string", defaultValue:"Oh!"}]
+                },
+                {kind:"task",
+                    type:"Shoot",
+                    name:"Move To",
+                    desc:"Your bot shoot to a target.",
+                    category:"Shoot Action",
+                    params:[{name :"target", type :"closerEnemy"}]
                 },
                 {kind:"composite",
                     type:"Selector",
@@ -146,24 +160,17 @@ class Communication {
                     category:"",
                     params:[]
                 },
-                {
-                    kind: "decorator",
+                {kind: "decorator",
                     type: "checkDistance",
                     name: "checkDistance",
-                    desc: "derp herp",
+                    desc: "check the distance to a target",
                     params:[{name: "distance", type: "number"}]
                 },
-                {
-                    kind: "decorator",
-                    type: "TimeLimit",
-                    name: "TimeLimit",
-                    desc: "derp herp",
-                    params: [
-                        {
-                            name: "limit",
-                            type: "string"
-                        }
-                    ]
+                {kind: "decorator",
+                    type: "Loop",
+                    name: "Loop",
+                    desc: "do loop",
+                    params:[{name: "times", type: "number"}]
                 }
             ]
         };

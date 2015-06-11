@@ -14016,7 +14016,6 @@ this.cytoscape = cytoscape;
       notifyRenderer = notifyRenderer || notifyRenderer === undefined ? true : false;
 
       style.apply( this );
-
       var updatedCompounds = this.updateCompoundBounds();
       var toNotify = updatedCompounds.length > 0 ? this.add( updatedCompounds ) : this;
 

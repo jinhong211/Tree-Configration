@@ -372,7 +372,8 @@ $(function test() { // on dom ready
             if(!t.closest('.jstree').length) {
                 if(t.closest('.drop').length) {
                     if(r=="action") {
-                        var treeNode = new ActionTreeNode(text);
+                        var paramList = getNodeParamList(text);
+                        var treeNode = new ActionTreeNode(text,"" ,"", paramList);
                         treeNode.setId(counter);
                         Controller.getInstance().getBuilderTree().getSelectedBlocks().push(treeNode);
                         addAction(x,y, text, counter);
@@ -407,7 +408,7 @@ $(function test() { // on dom ready
         });
 
     $('#delete').on('click', function() {
-       cy.$(':selected').remove();
+        cy.$(':selected').remove();
     });
     $('#tool-9-0').on('click',function() {
        console.log(this);
@@ -456,8 +457,8 @@ $(function test() { // on dom ready
 });
 
 function recenterOnRoot(){
-    cy.zoom(1.5);
-    cy.pan({ x: -250, y:-350 });
+    cy.zoom(1);
+    cy.pan({ x: -50, y:-200 });
 }
 function RecenterOnRoot(e){
     if (!e.data.canPerform(e, RecenterOnRoot)) {
@@ -486,6 +487,16 @@ function displayTreeConsole(){
         }
         if (nodeSelect.getParentNode() != null) {
             console.log("parent de " + nodeSelect.getName() + " : " + nodeSelect.getParentNode().getName());
+        }
+
+        if((nodeSelect.getDecorators() == null)) {
+            console.log("pas de decorators");
+        } else {
+            for(var k = 0; k<nodeSelect.getDecorators().length; k++) {
+                console.log("decoratorName:"+nodeSelect.getDecorators()[k].getName());
+                console.log("decoratorType:"+nodeSelect.getDecorators()[k].getType());
+                console.log("decoratorParams:"+nodeSelect.getDecorators()[k].getParams());
+            }
         }
     }
 
@@ -570,9 +581,10 @@ function addAction(x,y,text, selectedPos)  {
     cy.add({
         group: "nodes",
         data: {
+            class: 'menu',
             name: text,
             title: title,
-            weight: 140,
+            weight: 155,
             faveColor: colorAction,
             faveShape: 'rectangle',
             type:'action',
@@ -581,7 +593,7 @@ function addAction(x,y,text, selectedPos)  {
             id: selectedPos + ""
         },
         renderedPosition: {x: x - currentOffset.left, y: y - currentOffset.top}
-    });
+    }).addClass('menu');
 }
 
 /**
@@ -608,7 +620,7 @@ function addComposite(x, y, text, selectedPos) {
             id: selectedPos + ""
         },
         renderedPosition: {x: x - currentOffset.left, y: y - currentOffset.top}
-    });
+    }).addClass('menu');
 }
 
 
@@ -617,7 +629,7 @@ function addComposite(x, y, text, selectedPos) {
  */
 function initRightClick() {
     cy.cxtmenu({
-        selector: 'node',
+        selector:'.menu',
         commands:getDecorator()
     });
 }
@@ -627,6 +639,7 @@ function initRightClick() {
  * @returns {Array}
  */
 function getDecorator() {
+
     var decoratorArray = [];
     var nameDisplayed;
     for(var i = 0; i < Controller.getInstance().getBuilderTree().getDecorators().length; i++) {
@@ -635,7 +648,6 @@ function getDecorator() {
             decoratorArray.push({
                 content:nameDisplayed,
                 select: function() {
-                    console.log(nameDisplayed);
                     decoratorMenu(this, nameDisplayed)
                 }
             });
@@ -660,7 +672,11 @@ function getParamNumber(paramNumber, text) {
     return paramNumber;
 }
 
-
+/**
+ *
+ * @param text
+ * @returns {string}
+ */
 function getParam(text) {
     var params = "";
     for(var i = 0; i < Controller.getInstance().getBuilderTree().getAvailableBlocks().length; i++) {
@@ -671,6 +687,22 @@ function getParam(text) {
             }
         }
     }
-    console.log(params);
     return params;
+}
+
+
+function getNodeParamList(text) {
+    var paramList = [];
+    for(var i = 0; i < Controller.getInstance().getBuilderTree().getAvailableBlocks().length; i++) {
+        if(Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].getName() == text) {
+            for(var k = 0; k < Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].getParams().length; k++) {
+                var paramName = Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].getParams()[k]["name"];
+                var paramValue = Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].getParams()[k]["value"];
+                console.log("name",paramName,"value",paramValue);
+                var param = new Parameter(paramName, paramValue);
+                paramList.push(param);
+            }
+        }
+    }
+    return paramList;
 }

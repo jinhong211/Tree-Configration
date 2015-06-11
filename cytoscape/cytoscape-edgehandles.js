@@ -425,16 +425,20 @@
               var target = targets[i];
 
               if (target.isChild()){
-                target = target.parent();
+                target = target.parent()[0];
+                var out = false;
                 for (var l = 0; l < targets.length;l++){
                   if (target == targets[l]) {
-                    target = null;
+                    var out = true;
                     break;
                   }
                 }
+                if (out){
+                  break;
+                }
               }
               // Test si la target est le bloc root
-              if (target.id() == "root" || null){;
+              if (target.id() == "root"){;
                 break;
               }
 
@@ -583,12 +587,16 @@
             var startHandler, hoverHandler, leaveHandler, grabNodeHandler, freeNodeHandler, dragNodeHandler, forceStartHandler, removeHandler, cxtstartHandler, tapToStartHandler, cxtdragHandler, cxtdragoverHandler, cxtdragoutHandler, cxtendHandler, dragHandler, grabHandler;
             cy.on('mouseover tap', 'node', startHandler = function(e){
               var node = this;
-              
+
+
               if( node.isChild()||node.data().type=="action"||disabled() || drawMode || mdownOnHandle || grabbingNode || this.hasClass('edgehandles-preview') || inForceStart || this.hasClass('edgehandles-ghost-node') || node.filter(options().handleNodes).length === 0 ){
                 return; // don't override existing handle that's being dragged
                 // also don't trigger when grabbing a node etc
-              } 
+              }
 
+              if (node.id() != "root" && Controller.getInstance().getBuilderTree().getBlockById(node.id()).getType() == "action"){
+                return;
+              }
               //console.log('mouseover startHandler %s %o', this.id(), this);
               
               if( lastMdownHandler ){

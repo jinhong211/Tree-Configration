@@ -7,6 +7,9 @@
  * Class for the controller between the model and the view page
  * @author Benjamin, Anais, Quentin
  */
+
+declare var initRightClick: any;
+
 class Controller {
 
     /**
@@ -73,6 +76,7 @@ class Controller {
             // set the datas in our model
             self.building.setAvailableBlocks(nodes);
             self.building.setDecorators(decorators);
+
             initRightClick();
             self.building.getTree().setBlackboard(blackboard);
 
@@ -103,10 +107,9 @@ class Controller {
      * Method for the sending of the simplified behaviour tree create by the user to a simulator
      */
     public send() {
-        // var xml = this.communication.parseXml(this.building.getTree().getRoot());
-        var xml = this.parser.parseXml2(this.building.getRootTree());
+        var xml = this.parser.parseXml3(this.building.getRootTree());
         var retour:string;
-        console.log("xml", xml);
+        console.log("RESULT =>" + xml);
         this.communication.httpPost(xml, function (s:string) {
             retour = s;
             alert("Result : " + retour);

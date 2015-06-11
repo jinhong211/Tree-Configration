@@ -2,6 +2,7 @@ typings
 .idea
 *.js.map
 .xml
+
 ActionTreeNode.js
 BuilderTree.js
 Communication.js
@@ -12,3 +13,10 @@ NavigationMenu.js
 Parser.js
 Tree.js
 TreeNode.js
+Decorator.js
+Edge.js
+Parameter.js
+
+node_modules/*TreeNode.js
+firstTest.js
+treeTest.js
