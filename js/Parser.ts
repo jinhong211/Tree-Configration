@@ -243,6 +243,7 @@ class Parser {
                 params.appendChild(pa);
             }
         }
+        console.log("CURRENT" ,currentNode);
         return params;
     }
 

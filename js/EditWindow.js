@@ -114,9 +114,18 @@ function alertWin(title, msg, w, h,node) {
     submitBtn.onclick = function(){
         if(node.data().type=='action'){
             var setparams = "";
+            var currentNode = Controller.getInstance().getBuilderTree().getBlockById(node.id());
+
             for(var i = 0; i < Controller.getInstance().getBuilderTree().getAvailableBlocks().length; i++) {
                 if (Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].getName() == node.data().title) {
                     for (var k = 0; k < Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].getParams().length; k++) {
+
+
+
+                        currentNode.setParamsbyName(Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].getParams()[k]["name"], Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].getParams()[k]["value"]);
+                        console.log(currentNode);
+
+
                         Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].setParams(k,
                             document.getElementById(Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].getParams()[k]["name"]).value);
                     }
@@ -136,6 +145,17 @@ function alertWin(title, msg, w, h,node) {
     }
     function getEvent() {
         return window.event || arguments.callee.caller.arguments[0];
+    }
+}
+
+
+function setSelected(selectedList, theBlock) {
+    for(var j = 0; j < selectedList.length; j++) {
+        if(selectedList[j]["name"] == theBlock.getName()) {
+            selectedList[j]["value"] = theBlock.getParams();
+            console.log(theBlock.getParams());
+            console.log(selectedList[j]["value"]);
+        }
     }
 }
 

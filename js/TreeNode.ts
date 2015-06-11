@@ -142,6 +142,23 @@ class TreeNode {
      * @param paramValue
      */
     public setParams(k : number, paramValue : string | number) : void {
-        this.params[k]["value"] = paramValue;
+        for(var k = 0; k < this.params.length; k++) {
+            this.params[k]["value"] = paramValue;
+        }
+    }
+
+
+    /**
+     *
+     * @param paramName
+     * @param paramValue
+     */
+    public setParamsbyName(paramName : string, paramValue: string | number ) : void {
+        for(var k = 0; k < this.params.length; k++){
+            if(this.params[k]["name"] == paramName ){
+                console.log("derp");
+                this.params[k]["value"] = paramValue;
+            }
+        }
     }
 }
