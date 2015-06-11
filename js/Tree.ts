@@ -41,4 +41,4 @@ class Tree {
     }
 }
 
-export = Tree;
+//export = Tree;

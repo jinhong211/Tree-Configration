@@ -103,10 +103,9 @@ class Controller {
      * Method for the sending of the simplified behaviour tree create by the user to a simulator
      */
     public send() {
-        // var xml = this.communication.parseXml(this.building.getTree().getRoot());
-        var xml = this.parser.parseXml2(this.building.getRootTree());
+        var xml = this.parser.parseXml3(this.building.getRootTree());
         var retour:string;
-        console.log("xml", xml);
+        console.log("RESULT =>" + xml);
         this.communication.httpPost(xml, function (s:string) {
             retour = s;
             alert("Result : " + retour);

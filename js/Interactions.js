@@ -445,6 +445,16 @@ function displayTreeConsole(){
         if (nodeSelect.getParentNode() != null) {
             console.log("parent de " + nodeSelect.getName() + " : " + nodeSelect.getParentNode().getName());
         }
+
+        if((nodeSelect.getDecorators() == null)) {
+            console.log("pas de decorators");
+        } else {
+            for(var k = 0; k<nodeSelect.getDecorators().length; k++) {
+                console.log("decoratorName:"+nodeSelect.getDecorators()[k].getName());
+                console.log("decoratorType:"+nodeSelect.getDecorators()[k].getType());
+                console.log("decoratorParams:"+nodeSelect.getDecorators()[k].getParams());
+            }
+        }
     }
 
     for (var i = 0; i < Controller.getInstance().getBuilderTree().getEdges().length; i++) {

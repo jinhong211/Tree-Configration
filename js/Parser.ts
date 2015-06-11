@@ -164,43 +164,87 @@ class Parser {
      */
     parseXml2(currentNode : TreeNode, init = true) : string {
 
-    var xml = document.createElement("root");
-    var bloc;
+        var xml = document.createElement("root");
+        var bloc;
 
-    if (currentNode instanceof ActionTreeNode) {
-        bloc = document.createElement("task");
-        var type = document.createElement("type");
-        type.innerHTML = currentNode.getName();
-        bloc.appendChild(type);
-        bloc.appendChild(document.createElement("params"));
-    } else if (currentNode instanceof CompositeTreeNode) {
-        bloc = document.createElement("composite");
-        var type = document.createElement("type");
-        type.innerHTML = currentNode.getName();
-        bloc.appendChild(type);
-        bloc.appendChild(document.createElement("params"));
-        var children = currentNode.getChildrenNodes();
-        var childrenNode = document.createElement("children");
+        if (currentNode instanceof ActionTreeNode) {
+            bloc = document.createElement("task");
+            var type = document.createElement("type");
+            type.innerHTML = currentNode.getName();
+            bloc.appendChild(type);
+            bloc.appendChild(document.createElement("params"));
+        } else if (currentNode instanceof CompositeTreeNode) {
+            bloc = document.createElement("composite");
+            var type = document.createElement("type");
+            type.innerHTML = currentNode.getName();
+            bloc.appendChild(type);
+            bloc.appendChild(document.createElement("params"));
+            var children = currentNode.getChildrenNodes();
+            var childrenNode = document.createElement("children");
 
-        for (var i=0; i<children.length; i++) {
-            childrenNode.innerHTML += this.parseXml2(children[i],false);
+            for (var i=0; i<children.length; i++) {
+                childrenNode.innerHTML += this.parseXml2(children[i],false);
+            }
+
+            if (children.length>0){
+                bloc.appendChild(childrenNode);
+            }
+        }
+        if (bloc) {
+            xml.appendChild(bloc);
         }
 
-        if (children.length>0){
-            bloc.appendChild(childrenNode);
+        if (init) {
+            var shell = document.createElement("shell");
+            shell.appendChild(xml);
+            return shell.innerHTML;
         }
-    }
-    if (bloc) {
-        xml.appendChild(bloc);
+        else return xml.innerHTML;
     }
 
-    if (init) {
-        var shell = document.createElement("shell");
-        shell.appendChild(xml);
-        return shell.innerHTML;
+
+    parseXml3Decorator(currentNode : TreeNode) : HTMLElement {
+        // DECORATORS
+        if (currentNode.getDecorators() != null) {
+            console.log("decorators!");
+            var decs = document.createElement("decorators");
+            for (var i = 0; i < currentNode.getDecorators().length; i++) {
+
+                var dec = document.createElement("decorator");
+                var t = document.createElement("type");
+                t.innerHTML = currentNode.getDecorators()[i].getType();
+                var ps = document.createElement("params");
+
+                // PARAMS DECORATOR
+                for (var j = 0; j < currentNode.getDecorators().length; j++) {
+                    var p = document.createElement(currentNode.getDecorators()[i].getName());
+
+                    if (currentNode.getDecorators()[i].getParams() != null) {
+                        p.innerHTML = currentNode.getDecorators()[i].getParams()[j].toString();
+                    }
+                    ps.appendChild(p);
+                }
+                dec.appendChild(t);
+                dec.appendChild(ps);
+                decs.appendChild(dec);
+            }
+        }
+        return decs;
     }
-    else return xml.innerHTML;
-}
+
+    parserXml3Params(currentNode : TreeNode) : HTMLElement {
+        // PARAMS DU NODE
+        var params = document.createElement("params");
+        if(currentNode.getParams() != null) {
+            for(var j=0; j<currentNode.getParams().length; j++) {
+                var pa = document.createElement(currentNode.getParams()[j].getName());
+                pa.innerHTML = currentNode.getParams()[j].toString();
+                params.appendChild(pa);
+            }
+        }
+        return params;
+    }
+
 
     /**
      * Parse a complex Tree in a XML format to be send to a simulator
@@ -211,34 +255,33 @@ class Parser {
      * @param init
      * @returns {string}
      */
-    //TODO PAS TESTE ATTENTION !
     parseXml3(currentNode : TreeNode, init = true) : string {
         var xml = document.createElement("root");
         var bloc;
 
+        // NODE ACTION
         if (currentNode instanceof ActionTreeNode) {
             bloc = document.createElement("task");
             var type = document.createElement("type");
             type.innerHTML = currentNode.getName();
             bloc.appendChild(type);
 
-            // params
-            var params = document.createElement("params");
-            for(var j=0; j<currentNode.getParams().length; j++) {
-
-                //TODO ça compile pas !
-                var pa = document.createElement(currentNode.getParams()[i].getName());
-                pa.innerHTML = currentNode.getParams()[i].toString();
-                params.appendChild(pa);
-            }
+            // PARAMS DU NODE
+            var params = this.parserXml3Params(currentNode);
             bloc.appendChild(params);
 
+        // NODE COMPOSITE
         } else if (currentNode instanceof CompositeTreeNode) {
             bloc = document.createElement("composite");
             var type = document.createElement("type");
             type.innerHTML = currentNode.getName();
             bloc.appendChild(type);
-            bloc.appendChild(document.createElement("params"));
+
+            // PARAMS DU NODE
+            var params = this.parserXml3Params(currentNode);
+            bloc.appendChild(params);
+
+            // CHILDREN OF THE COMPOSITE
             var children = currentNode.getChildrenNodes();
             var childrenNode = document.createElement("children");
 
@@ -251,29 +294,11 @@ class Parser {
             }
         }
 
-        // decorators
-        if(currentNode.getDecorators().length != 0) {
-            var decs = document.createElement("decorators");
-            for(var i=0; i<currentNode.getDecorators().length; i++) {
-                var dec = document.createElement("decorator");
-                var t = document.createElement("type");
-                t.innerHTML = currentNode.getDecorators()[i].getType();
-                var ps = document.createElement("params");
+        // DECORATORS
+        var decs = this.parseXml3Decorator(currentNode);
+        bloc.appendChild(decs);
 
-                // params du decorator
-                for(var j=0; j<currentNode.getDecorators().length; j++) {
-                    var p = document.createElement(currentNode.getDecorators()[i].getName());
-                    p.innerHTML = currentNode.getDecorators()[i].getParams()[i].toString();
-                    ps.appendChild(p);
-                }
-
-                dec.appendChild(t);
-                dec.appendChild(p);
-                decs.appendChild(dec);
-            }
-            bloc.appendChild(decs);
-        }
-
+        // FINI ?
         if (bloc) {
             xml.appendChild(bloc);
         }
