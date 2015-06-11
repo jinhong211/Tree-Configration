@@ -116,7 +116,8 @@ class Communication {
 
     httpGetMOCK3() : any {
         return {
-            blackboard : [{name:"enemyTarget", type:"object", desc:""}],
+            blackboard : [{name:"ennemyTarget", type:"object", desc:""},
+                {name:"Bob",type:"string",desc:""}],
             nodes : [
                 {kind:"task",
                     type:"MoveTo",
