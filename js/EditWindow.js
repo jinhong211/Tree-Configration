@@ -84,10 +84,10 @@ function alertWin(title, msg, w, h,node) {
     var nameLable = nameBox.insertCell(-1);
     nameLable.style.cssText = "font:12pt;text-align:center;";
     var params = "";
-    for(var i = 0; i < Controller.getInstance().getBuilderTree().getAvailableBlocks().length; i++) {
-        if (Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].getName() == node.data().title) {
-            for(var k = 0;k < Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].getParams().length; k++) {
-                params = params + "<br/>"+ Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].getParams()[k]["name"] +":<br/>";
+    for(var i = 0; i < Controller.getInstance().getBuilderTree().getSelectedBlocks().length; i++) {
+        if (Controller.getInstance().getBuilderTree().getSelectedBlocks()[i].getId() == node.id()) {
+            for(var k = 0;k < Controller.getInstance().getBuilderTree().getSelectedBlocks()[i].getParams().length; k++) {
+                params = params + "<br/>"+ Controller.getInstance().getBuilderTree().getSelectedBlocks()[i].getParams()[k]["name"] +":<br/>";
             }
         }
     }
@@ -95,13 +95,18 @@ function alertWin(title, msg, w, h,node) {
     var nametext = nameBox.insertCell(-1);
     nametext.style.cssText = "font:12pt;text-align:Left; margin-left:0px";
     var paramsinput = "";
-    for(var i = 0; i < Controller.getInstance().getBuilderTree().getAvailableBlocks().length; i++) {
-        if (Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].getName() == node.data().title) {
-            for(var k = 0;k < Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].getParams().length; k++) {
-                paramsinput = paramsinput + "<br/><input type='text' value = '"
-                    + Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].getParams()[k]["value"] +"' id='"
-                    + Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].getParams()[k]["name"]
-                    +"'/>   <br/>";
+    for(var i = 0; i < Controller.getInstance().getBuilderTree().getSelectedBlocks().length; i++) {
+        if (Controller.getInstance().getBuilderTree().getSelectedBlocks()[i].getId() == node.id()) {
+            for(var k = 0;k < Controller.getInstance().getBuilderTree().getSelectedBlocks()[i].getParams().length; k++) {
+                if(Controller.getInstance().getBuilderTree().getSelectedBlocks()[i].getParams()[k]["value"] == "blackboard"){
+                    paramsinput = paramsinput + "<br/><select><option value ='1'>Volvo</option><option value ='2'>Saab</option>" +
+                        "<option value='3'>Opel</option><option value='4'>Audi</option></select><br/>";
+                }else {
+                    paramsinput = paramsinput + "<br/><input type='text' value = '"
+                        + Controller.getInstance().getBuilderTree().getSelectedBlocks()[i].getParams()[k]["value"] + "' id='"
+                        + node.data().title + node.id()
+                        + "'/>   <br/>";
+                }
             }
         }
     }
@@ -116,22 +121,22 @@ function alertWin(title, msg, w, h,node) {
             var setparams = "";
             var currentNode = Controller.getInstance().getBuilderTree().getBlockById(node.id());
 
-            for(var i = 0; i < Controller.getInstance().getBuilderTree().getAvailableBlocks().length; i++) {
-                if (Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].getName() == node.data().title) {
-                    for (var k = 0; k < Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].getParams().length; k++) {
+            for(var i = 0; i < Controller.getInstance().getBuilderTree().getSelectedBlocks().length; i++) {
+                if (Controller.getInstance().getBuilderTree().getSelectedBlocks()[i].getId() == node.id()) {
+                    for (var k = 0; k < Controller.getInstance().getBuilderTree().getSelectedBlocks()[i].getParams().length; k++) {
 
 
 
-                        currentNode.setParamsbyName(Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].getParams()[k]["name"], Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].getParams()[k]["value"]);
+                        currentNode.setParamsbyName(Controller.getInstance().getBuilderTree().getSelectedBlocks()[i].getParams()[k]["name"], Controller.getInstance().getBuilderTree().getSelectedBlocks()[i].getParams()[k]["value"]);
                         console.log(currentNode);
 
 
-                        Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].setParams(k,
-                            document.getElementById(Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].getParams()[k]["name"]).value);
+                        Controller.getInstance().getBuilderTree().getSelectedBlocks()[i].setParams(k,
+                            document.getElementById(node.data().title + node.id()).value);
                     }
-                    for (var k = 0; k < Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].getParams().length; k++) {
-                        setparams = setparams + Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].getParams()[k]["name"] + " : "
-                            + Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].getParams()[k]["value"] + "\n";
+                    for (var k = 0; k < Controller.getInstance().getBuilderTree().getSelectedBlocks()[i].getParams().length; k++) {
+                        setparams = setparams + Controller.getInstance().getBuilderTree().getSelectedBlocks()[i].getParams()[k]["name"] + " : "
+                            + Controller.getInstance().getBuilderTree().getSelectedBlocks()[i].getParams()[k]["value"] + "\n";
                     }
                 }
             }

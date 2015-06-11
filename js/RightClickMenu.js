@@ -150,14 +150,17 @@ function decoratorMenu(node, value) {
 }
 
 function EditDecorator(e) {
+    var counter = 1;
+    counter = getParamNumber(counter, e.cyTarget.data().title);
+
     if (!e.data.canPerform(e, EditDecorator)) {
         return;
     }
     if(e.cyTarget.data().type=="decorator") {
-        alertWin("Edit", 'parameter', 300, 150, e.cyTarget)
+        alertWin("Edit", 'parameter', 300, 50 + counter * 50, e.cyTarget)
     }
     if(e.cyTarget.data().type=="action") {
-        alertWin("Edit", '', 300, 150, e.cyTarget)
+        alertWin("Edit", '', 300, 50 + counter * 50, e.cyTarget)
     }
 }
 //#endregion
