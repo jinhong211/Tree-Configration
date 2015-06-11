@@ -100,8 +100,12 @@ function alertWin(title, msg, w, h,node) {
             for(var k = 0;k < Controller.getInstance().getBuilderTree().getSelectedBlocks()[i].getParams().length; k++) {
                 if(Controller.getInstance().getBuilderTree().getSelectedBlocks()[i].getParams()[k]["value"]  instanceof Blackboard){
                     paramsinput = paramsinput + "<br/><select id='"+ node.data().title + node.id()+
-                        "'><option value ='1'>Volvo</option><option value ='2'>Saab</option>" +
-                        "<option value='3'>Opel</option><option value='4'>Audi</option></select><br/>";
+                        "'>";
+                    for(var j = 1; j<=Controller.getInstance().getBuilderTree().getBlackboard().length; j++) {
+                        paramsinput = paramsinput + "<option value ='"+ j +"'>" +Controller.getInstance().getBuilderTree().getBlackboard()[j-1].getName()
+                            + "</option>";
+                    }
+                    paramsinput = paramsinput + "</select><br/>";
                 }else {
                     paramsinput = paramsinput + "<br/><input type='text' value = '"
                         + Controller.getInstance().getBuilderTree().getSelectedBlocks()[i].getParams()[k]["value"] + "' id='"
