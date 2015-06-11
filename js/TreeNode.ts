@@ -42,6 +42,7 @@ class TreeNode {
      */
     private params : Array<Parameter>;
 
+
     /**
      * Constructor
      * @param n
@@ -135,4 +136,16 @@ class TreeNode {
         return this.params;
     }
 
+    /**
+     * This method set the parameter with the given name with the given value.
+     * @param paramName
+     * @param paramValue
+     */
+    public setParams(paramName : string, paramValue : string | number) : void {
+        for(var k = 0; k < this.params.length; k++) {
+            if(this.params[k]["name"] == paramName) {
+                this.params[k]["value"] == paramValue;
+            }
+        }
+    }
 }
