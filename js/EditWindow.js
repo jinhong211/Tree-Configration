@@ -127,8 +127,9 @@ function alertWin(title, msg, w, h,node) {
                     for (var k = 0; k < Controller.getInstance().getBuilderTree().getSelectedBlocks()[i].getParams().length; k++) {
                         if(Controller.getInstance().getBuilderTree().getSelectedBlocks()[i].getParams()[k]["value"] instanceof Blackboard){
                             var sel = document.getElementById(node.data().title + node.id());
-                            Controller.getInstance().getBuilderTree().getSelectedBlocks()[i].setParams(k,
-                                sel.options[sel.selectedIndex].text);
+                            // TODO c'est ici qu'on set
+                            Controller.getInstance().getBuilderTree().getSelectedBlocks()[i].setParams(k,Controller.getInstance().getBuilderTree().getBlackboard()[sel.selectedIndex]);
+
                         }else {
                             Controller.getInstance().getBuilderTree().getSelectedBlocks()[i].setParams(k,
                                 document.getElementById(node.data().title + node.id()).value);
