@@ -505,16 +505,19 @@ function addRoots() {
  */
 function addAction(x,y,text, selectedPos)  {
     var currentOffset = $("#cy").offset();
+    var counter = 1;
+    counter = getParamNumber(counter, text);
+    text = text + "\n" + getParam(text);
     cy.add({
         group: "nodes",
         data: {
             name: text,
-            weight: 105,
+            weight: 140,
             faveColor: colorAction,
             faveShape: 'rectangle',
             type:'action',
             option: 'Edit Your Option',
-            height: 35,
+            height: 35 * counter,
             id: selectedPos + ""
         },
         renderedPosition: {x: x - currentOffset.left, y: y - currentOffset.top}
@@ -531,6 +534,9 @@ function addAction(x,y,text, selectedPos)  {
  */
 function addComposite(x, y, text, selectedPos) {
     var currentOffset = $("#cy").offset();
+    var counter = 1;
+    counter = getParamNumber(counter, text);
+
     cy.add({
         group: "nodes",
         data: {
@@ -538,7 +544,7 @@ function addComposite(x, y, text, selectedPos) {
             weight: 105,
             faveColor: colorComposite,
             faveShape: 'rectangle',
-            height: 35,
+            height: 35 * counter,
             id: selectedPos + ""
         },
         renderedPosition: {x: x - currentOffset.left, y: y - currentOffset.top}
@@ -576,4 +582,35 @@ function getDecorator() {
         })(nameDisplayed);
     }
     return decoratorArray;
+}
+
+/**
+ *  Thisz method set the height of a block
+ *
+ * @param paramNumber
+ */
+function getParamNumber(paramNumber, text) {
+    for(var i = 0; i < Controller.getInstance().getBuilderTree().getAvailableBlocks().length; i++) {
+        if(Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].getName() == text) {
+            for(var j = 0; j < Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].getParams().length; j++) {
+                paramNumber++;
+            }
+        }
+    }
+    return paramNumber;
+}
+
+
+function getParam(text) {
+    var params = "";
+    for(var i = 0; i < Controller.getInstance().getBuilderTree().getAvailableBlocks().length; i++) {
+        if (Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].getName() == text) {
+            for(var k = 0;k < Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].getParams().length; k++) {
+                params = params + Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].getParams()[k]["name"] + " : ("
+                + Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].getParams()[k]["value"] + ") \n";
+            }
+        }
+    }
+    console.log(params);
+    return params;
 }
