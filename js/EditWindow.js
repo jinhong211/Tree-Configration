@@ -99,7 +99,8 @@ function alertWin(title, msg, w, h,node) {
         if (Controller.getInstance().getBuilderTree().getSelectedBlocks()[i].getId() == node.id()) {
             for(var k = 0;k < Controller.getInstance().getBuilderTree().getSelectedBlocks()[i].getParams().length; k++) {
                 if(Controller.getInstance().getBuilderTree().getSelectedBlocks()[i].getParams()[k]["value"] == "blackboard"){
-                    paramsinput = paramsinput + "<br/><select><option value ='1'>Volvo</option><option value ='2'>Saab</option>" +
+                    paramsinput = paramsinput + "<br/><select id='"+ node.data().title + node.id()+
+                        "'><option value ='1'>Volvo</option><option value ='2'>Saab</option>" +
                         "<option value='3'>Opel</option><option value='4'>Audi</option></select><br/>";
                 }else {
                     paramsinput = paramsinput + "<br/><input type='text' value = '"
@@ -124,15 +125,14 @@ function alertWin(title, msg, w, h,node) {
             for(var i = 0; i < Controller.getInstance().getBuilderTree().getSelectedBlocks().length; i++) {
                 if (Controller.getInstance().getBuilderTree().getSelectedBlocks()[i].getId() == node.id()) {
                     for (var k = 0; k < Controller.getInstance().getBuilderTree().getSelectedBlocks()[i].getParams().length; k++) {
-
-
-
-                        currentNode.setParamsbyName(Controller.getInstance().getBuilderTree().getSelectedBlocks()[i].getParams()[k]["name"], Controller.getInstance().getBuilderTree().getSelectedBlocks()[i].getParams()[k]["value"]);
-                        console.log(currentNode);
-
-
-                        Controller.getInstance().getBuilderTree().getSelectedBlocks()[i].setParams(k,
-                            document.getElementById(node.data().title + node.id()).value);
+                        if(Controller.getInstance().getBuilderTree().getSelectedBlocks()[i].getParams()[k]["value"] == "blackboard"){
+                            var sel = document.getElementById(node.data().title + node.id());
+                            Controller.getInstance().getBuilderTree().getSelectedBlocks()[i].setParams(k,
+                                sel.options[sel.selectedIndex].text);
+                        }else {
+                            Controller.getInstance().getBuilderTree().getSelectedBlocks()[i].setParams(k,
+                                document.getElementById(node.data().title + node.id()).value);
+                        }
                     }
                     for (var k = 0; k < Controller.getInstance().getBuilderTree().getSelectedBlocks()[i].getParams().length; k++) {
                         setparams = setparams + Controller.getInstance().getBuilderTree().getSelectedBlocks()[i].getParams()[k]["name"] + " : "
