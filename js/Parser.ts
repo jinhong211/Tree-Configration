@@ -3,6 +3,8 @@
 ///<reference path="./CompositeTreeNode"/>
 ///<reference path="./Decorator"/>
 ///<reference path="./Parameter.ts"/>
+///<reference path="./Blackboard.ts"/>
+
 
 /**
  * Class for the parsing between a simulator and our module
@@ -80,6 +82,21 @@ class Parser {
         return listNodeAvailable;
     }
 
+    /**
+     * Parse blocks received in JSON format (protocole V3)
+     * @param datajson
+     * @returns {Array<TreeNode>}
+     */
+    parseBlackboard3(datajson:JSON):Array<Blackboard> {
+        // nodes
+        var listBlackBoard = [];
+        for (var i = 0; i < datajson["blackboard"].length; i++) {
+            var jsonBlackboard = datajson["blackboard"][i];
+            listBlackBoard.push(new Blackboard(jsonBlackboard["name"],jsonBlackboard["type"],jsonBlackboard["desc"]));
+            console.log(jsonBlackboard["name"] + " " + jsonBlackboard["type"] + " " + jsonBlackboard["desc"]);
+        }
+        return listBlackBoard;
+    }
 
     /**
      *
@@ -117,14 +134,6 @@ class Parser {
         return listDecoratorsAvailable;
     }
 
-    /**
-     * Parse blackboard received in JSON format (protocole V3)
-     * @param datajson
-     * @returns {Array<JSON>}
-     */
-    parseBlackboard3(datajson:JSON): Array<JSON>{
-        return datajson["blackboard"];
-    }
 
     /**
      * Parse a Tree with one block in a XML format to be send to a simulator

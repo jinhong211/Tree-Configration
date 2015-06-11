@@ -145,11 +145,11 @@ class BuilderTree {
         return this.edges;
     }
 
-    public getBlackboard() : Array<String> {
+    public getBlackboard() : Array<Blackboard> {
         return this.blackboard;
     }
 
-    public setBlackboard(newBlackBoard : Array<String>) : void{
+    public setBlackboard(newBlackBoard : Array<Blackboard>) : void{
         this.blackboard = newBlackBoard;
     }
 

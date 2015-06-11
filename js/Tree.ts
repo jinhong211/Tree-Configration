@@ -10,8 +10,6 @@ class Tree {
      */
     private root : TreeNode;
 
-    private blackboard : Array<JSON>;
-
     /**
      * Get the root of the behaviour tree
      * @returns {TreeNode}
@@ -22,14 +20,6 @@ class Tree {
 
     public setRoot(r:TreeNode) {
         this.root = r;
-    }
-
-    public getBlackboard() : Array<JSON>{
-        return this.blackboard;
-    }
-
-    public setBlackboard(bb : Array<JSON>) : void {
-        this.blackboard = bb;
     }
     
     /**
