@@ -153,8 +153,17 @@ $(function test() { // on dom ready
                             tooltip: 'Remove Node/Edge',
                             action: [performRemove]
                         }
+                    ],
+                    [
+                        {
+                            icon: 'fa fa-crosshairs',
+                            event: ['tap'],
+                            selector: 'cy',
+                            bubbleToCore: false,
+                            tooltip: 'Recenter On Root',
+                            action: [RecenterOnRoot]
+                        }
                     ]
-
                 ],
                 appendTools: false
             });
@@ -408,6 +417,13 @@ function recenterOnRoot(){
     cy.zoom(1.5);
     cy.pan({ x: -250, y:-350 });
 }
+function RecenterOnRoot(e){
+    if (!e.data.canPerform(e, RecenterOnRoot)) {
+        return;
+    }
+
+    recenterOnRoot();
+}
 
 function displayTreeConsole(){
     console.log("#######################  Affichage etat courant #######################")
@@ -504,6 +520,7 @@ function addRoots() {
  * @param selectedPos : position in the selected block of the builderTree.
  */
 function addAction(x,y,text, selectedPos)  {
+    var title = text;
     var currentOffset = $("#cy").offset();
     var counter = 1;
     counter = getParamNumber(counter, text);
@@ -512,6 +529,7 @@ function addAction(x,y,text, selectedPos)  {
         group: "nodes",
         data: {
             name: text,
+            title: title,
             weight: 140,
             faveColor: colorAction,
             faveShape: 'rectangle',

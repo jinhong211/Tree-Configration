@@ -49,7 +49,7 @@ function decoratorMenu(node, value) {
         ]);
 
 
-        // Ajout des fleches qui ont été supprimé par la création du decorator
+        // Ajout des fleches qui ont ï¿½tï¿½ supprimï¿½ par la crï¿½ation du decorator
 
         // Ajout de la fleche parent
         var parent;
@@ -110,7 +110,7 @@ function EditDecorator(e) {
         alertWin("Edit", 'parameter', 300, 150, e.cyTarget)
     }
     if(e.cyTarget.data().type=="action") {
-        alertWin("Edit", 'option', 300, 150, e.cyTarget)
+        alertWin("Edit", '', 300, 150, e.cyTarget)
     }
 }
 //#endregion

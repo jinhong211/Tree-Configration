@@ -83,19 +83,46 @@ function alertWin(title, msg, w, h,node) {
     var nameBox = table.insertRow(-1);
     var nameLable = nameBox.insertCell(-1);
     nameLable.style.cssText = "font:12pt;text-align:center;";
-    nameLable.innerHTML = "<br/>"+ msg +":<br/>";
+    var params = "";
+    for(var i = 0; i < Controller.getInstance().getBuilderTree().getAvailableBlocks().length; i++) {
+        if (Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].getName() == node.data().title) {
+            for(var k = 0;k < Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].getParams().length; k++) {
+                params = params + "<br/>"+ Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].getParams()[k]["name"] +":<br/>";
+            }
+        }
+    }
+    nameLable.innerHTML = params;
     var nametext = nameBox.insertCell(-1);
     nametext.style.cssText = "font:12pt;text-align:Left; margin-left:0px";
-    nametext.innerHTML = "<br/><input type='text' id='modalName'/>   <br/>";
+    var paramsinput = "";
+    for(var i = 0; i < Controller.getInstance().getBuilderTree().getAvailableBlocks().length; i++) {
+        if (Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].getName() == node.data().title) {
+            for(var k = 0;k < Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].getParams().length; k++) {
+                paramsinput = paramsinput + "<br/><input type='text' value = '"
+                    + Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].getParams()[k]["value"] +"' id='"
+                    + Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].getParams()[k]["name"]
+                    +"'/>   <br/>";
+            }
+        }
+    }
+    nametext.innerHTML = paramsinput;
     var submitBox = table.insertRow(-1);
     var submitBtn = submitBox.insertCell(-1);
     submitBtn.style.cssText = "text-align:center;";
     submitBtn.colSpan = 2;
     submitBtn.innerHTML = "<br/><input type='Button' value='Enter' id='saveHeader' /><br/>";
     submitBtn.onclick = function(){
-        var change = document.getElementById("modalName").value;
         if(node.data().type=='action'){
-            node.data().option = change;
+            var setparams = "";
+            for(var i = 0; i < Controller.getInstance().getBuilderTree().getAvailableBlocks().length; i++) {
+                if (Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].getName() == node.data().title) {
+                    for (var k = 0; k < Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].getParams().length; k++) {
+                        setparams = setparams + Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].getParams()[k]["name"] + " : "
+                            + document.getElementById(Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].getParams()[k]["name"]).value + "\n";
+                    }
+                }
+            }
+            node.data().name = node.data().title + "\n" + setparams;
         }else {
             node.data().name = change;
         }
