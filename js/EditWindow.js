@@ -131,7 +131,7 @@ function alertWin(title, msg, w, h,node) {
                     for (var k = 0; k < Controller.getInstance().getBuilderTree().getSelectedBlocks()[i].getParams().length; k++) {
                         if(Controller.getInstance().getBuilderTree().getSelectedBlocks()[i].getParams()[k]["value"] instanceof Blackboard){
                             var sel = document.getElementById(node.data().title + node.id());
-                            Controller.getInstance().getBuilderTree().getSelectedBlocks()[i].setParams(k,Controller.getInstance().getBuilderTree().getBlackboard()[sel.selectedIndex].getName());
+                            Controller.getInstance().getBuilderTree().getSelectedBlocks()[i].setParams(k,Controller.getInstance().getBuilderTree().getBlackboard()[sel.selectedIndex]);
 
                         }else {
                             Controller.getInstance().getBuilderTree().getSelectedBlocks()[i].setParams(k,
@@ -139,8 +139,13 @@ function alertWin(title, msg, w, h,node) {
                         }
                     }
                     for (var k = 0; k < Controller.getInstance().getBuilderTree().getSelectedBlocks()[i].getParams().length; k++) {
-                        setparams = setparams + Controller.getInstance().getBuilderTree().getSelectedBlocks()[i].getParams()[k]["name"] + " : "
-                            + Controller.getInstance().getBuilderTree().getSelectedBlocks()[i].getParams()[k]["value"] + "\n";
+                        if(Controller.getInstance().getBuilderTree().getSelectedBlocks()[i].getParams()[k]["value"] instanceof Blackboard) {
+                            setparams = setparams + Controller.getInstance().getBuilderTree().getSelectedBlocks()[i].getParams()[k]["name"] + " : "
+                                + Controller.getInstance().getBuilderTree().getSelectedBlocks()[i].getParams()[k]["value"].getName() + "\n";
+                        }else {
+                            setparams = setparams + Controller.getInstance().getBuilderTree().getSelectedBlocks()[i].getParams()[k]["name"] + " : "
+                                + Controller.getInstance().getBuilderTree().getSelectedBlocks()[i].getParams()[k]["value"] + "\n";
+                        }
                     }
                 }
             }
