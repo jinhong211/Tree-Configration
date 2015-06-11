@@ -43,6 +43,7 @@ class BuilderTree {
      */
     private decoratorsAvailable:Array<Decorator>;
 
+    private blackboard:Array<String>;
 
     /**
      * Constructor
@@ -51,6 +52,7 @@ class BuilderTree {
         this.edges = [];
         this.selected = [];
         this.available = [];
+        this.blackboard = [];
         this.tree = new Tree();
     }
 
@@ -142,6 +144,15 @@ class BuilderTree {
     public getEdges():Array<Edge> {
         return this.edges;
     }
+
+    public getBlackboard() : Array<String> {
+        return this.blackboard;
+    }
+
+    public setBlackboard(newBlackBoard : Array<String>) : void{
+        this.blackboard = newBlackBoard;
+    }
+
 
     /**
      * Generate a textual display of the available blocks
