@@ -43,7 +43,7 @@ class BuilderTree {
      */
     private decoratorsAvailable:Array<Decorator>;
 
-    private blackboard:Array<String>;
+    private blackboard:Array<Blackboard>;
 
     /**
      * Constructor

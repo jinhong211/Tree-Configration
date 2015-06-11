@@ -5,4 +5,18 @@
 
 class Blackboard {
 
+    private name : string;
+
+    private type : string;
+
+    private description : string;
+
+    public constructor(name: string, myType :string, description = "") {
+        this.name = name;
+        this.type = myType;
+        this.description = description;
+    }
+
+
+
 }
