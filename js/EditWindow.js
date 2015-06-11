@@ -127,7 +127,6 @@ function alertWin(title, msg, w, h,node) {
                     for (var k = 0; k < Controller.getInstance().getBuilderTree().getSelectedBlocks()[i].getParams().length; k++) {
                         if(Controller.getInstance().getBuilderTree().getSelectedBlocks()[i].getParams()[k]["value"] instanceof Blackboard){
                             var sel = document.getElementById(node.data().title + node.id());
-                            // TODO c'est ici qu'on set
                             Controller.getInstance().getBuilderTree().getSelectedBlocks()[i].setParams(k,Controller.getInstance().getBuilderTree().getBlackboard()[sel.selectedIndex]);
 
                         }else {
@@ -153,15 +152,3 @@ function alertWin(title, msg, w, h,node) {
         return window.event || arguments.callee.caller.arguments[0];
     }
 }
-
-
-function setSelected(selectedList, theBlock) {
-    for(var j = 0; j < selectedList.length; j++) {
-        if(selectedList[j]["name"] == theBlock.getName()) {
-            selectedList[j]["value"] = theBlock.getParams();
-            console.log(theBlock.getParams());
-            console.log(selectedList[j]["value"]);
-        }
-    }
-}
-

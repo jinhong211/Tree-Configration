@@ -17,6 +17,14 @@ class Blackboard {
         this.description = description;
     }
 
+    /**
+     *
+     * @returns {string}
+     */
+    public getName() : string {
+        return this.name;
+    }
+
 
 
 }
