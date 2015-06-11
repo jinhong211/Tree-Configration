@@ -53,7 +53,7 @@ $(function test() { // on dom ready
                             },
                             bubbleToCore: false,
                             tooltip: 'Zoom In',
-                            action: [performZoomIn]
+                            action: []
                         }
                     ],
                     [
@@ -71,7 +71,7 @@ $(function test() { // on dom ready
                             },
                             bubbleToCore: false,
                             tooltip: 'Zoom Out',
-                            action: [performZoomOut]
+                            action: []
                         }
                     ],
                     [
@@ -86,7 +86,7 @@ $(function test() { // on dom ready
                             },
                             bubbleToCore: true,
                             tooltip: 'Pan Right',
-                            action: [performPanRight]
+                            action: []
                         }
                     ],
                     [
@@ -101,7 +101,7 @@ $(function test() { // on dom ready
                             },
                             bubbleToCore: true,
                             tooltip: 'Pan Down',
-                            action: [performPanDown]
+                            action: []
                         }
                     ],
                     [
@@ -116,7 +116,7 @@ $(function test() { // on dom ready
                             },
                             bubbleToCore: true,
                             tooltip: 'Pan Left',
-                            action: [performPanLeft]
+                            action: []
                         }
                     ],
                     [
@@ -131,7 +131,7 @@ $(function test() { // on dom ready
                             },
                             bubbleToCore: true,
                             tooltip: 'Pan Up',
-                            action: [performPanUp]
+                            action: []
                         }
                     ],
                     [
@@ -148,10 +148,10 @@ $(function test() { // on dom ready
                         {
                             icon: 'fa fa-trash-o',
                             event: ['tap'],
-                            selector: 'edge,node',
+                            selector: 'cy',
                             bubbleToCore: false,
                             tooltip: 'Remove Node/Edge',
-                            action: [performRemove]
+                            action: []
                         }
                     ],
                     [
@@ -161,11 +161,48 @@ $(function test() { // on dom ready
                             selector: 'cy',
                             bubbleToCore: false,
                             tooltip: 'Recenter On Root',
-                            action: [RecenterOnRoot]
+                            action: []
+                        }
+                    ],
+                    [
+                        {
+                            icon: 'fa fa-upload',
+                            event: ['tap'],
+                            selector: 'cy',
+                            bubbleToCore: false,
+                            tooltip: 'Recenter On Root',
+                            action: []
                         }
                     ]
                 ],
                 appendTools: false
+            });
+            $("#tool-1-0").on('click',function(){
+                myzoomin();
+            });
+            $("#tool-2-0").on('click',function(){
+                myzoomout();
+            });
+            $("#tool-3-0").on('click',function(){
+                mypanright();
+            });
+            $("#tool-4-0").on('click',function(){
+                mypandown();
+            });
+            $("#tool-5-0").on('click',function(){
+                mypanleft();
+            });
+            $("#tool-6-0").on('click',function(){
+                mypanup();
+            });
+            $("#tool-8-0").on('click',function(){
+                performRemove();
+            });
+            $("#tool-9-0").on('click',function(){
+               recenterOnRoot();
+            });
+            $("#tool-10-0").on('click',function(){
+                Controller.getInstance().send();
             });
         },
         elements: elesJson,
@@ -270,12 +307,14 @@ $(function test() { // on dom ready
         }
     });
 
-
-    cy.elements().qtip({
-        content: '123',
+    cy.elements('node').qtip({
+        content: function(){ return 'Example qTip on ele ' + this.id() },
         position: {
             my: 'top center',
             at: 'bottom center'
+        },
+        show: {
+            cyBgOnly: false
         },
         style: {
             classes: 'qtip-bootstrap',
@@ -285,6 +324,7 @@ $(function test() { // on dom ready
             }
         }
     });
+
 
     /**
      * This function handle all the draw of the edge
@@ -369,7 +409,9 @@ $(function test() { // on dom ready
     $('#delete').on('click', function() {
        cy.$(':selected').remove();
     });
-
+    $('#tool-9-0').on('click',function() {
+       console.log(this);
+    });
     $('html').keyup(function(e){
 
         switch (e.keyCode){

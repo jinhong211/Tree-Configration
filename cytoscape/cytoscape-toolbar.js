@@ -27,9 +27,9 @@ function zoomGraph(core, x, y, factors) {
 	//console.log({ x : x, y : y, factors : factors });
 
 	var factor = 1 + factors.zoom;
-
+	console.log(factor);
 	var zoom = core.zoom();
-
+	console.log(zoom);
 	var lvl = zoom * factor;
 
 	if (lvl < factors.minZoom) {
@@ -51,9 +51,33 @@ function zoomGraph(core, x, y, factors) {
 
 var zx, zy;
 function zoomTo(core, x, y, level) {
+	console.log(level);
+	console.log(x);
+	console.log(window.innerWidth/2);
+	console.log(y);
+	console.log(window.innerHeight/2);
 	core.zoom({
 		level: level,
 		renderedPosition: { x: x, y: y }
+	});
+}
+function myzoomout(){
+	var level = 0.9 * cy.zoom();
+	if(level<=cy.minZoom()){
+		level = cy.minZoom();
+	}
+	cy.zoom({
+		level: level,
+		renderedPosition: { x: window.innerWidth/2, y: window.innerHeight/2 }
+	});
+}function myzoomin(){
+	var level = 1.1 * cy.zoom();
+	if(level>=cy.maxZoom()){
+		level = cy.maxZoom();
+	}
+	cy.zoom({
+		level: level,
+		renderedPosition: { x: window.innerWidth/2, y: window.innerHeight/2 }
 	});
 }
 // end zooming
@@ -91,6 +115,7 @@ function performPan(e, action, direction) {
 	var tool = e.data.data.options.tools[toolIndexes[0]][toolIndexes[1]];
 
 	pan(e.cy, direction, tool.options.cy);
+	console.log(tool.options.cy);
 }
 
 function pan(core, direction, factors) {
@@ -104,6 +129,19 @@ function pan(core, direction, factors) {
 			core.panBy({ x: 0, y: factors.distance });
 			break;
 	}
+}
+
+function mypanright() {
+	cy.panBy({ x: -80, y: 0 });
+}
+function mypandown() {
+	cy.panBy({ x: 0, y: -80 });
+}
+function mypanleft() {
+	cy.panBy({ x: 80, y: 0 });
+}
+function mypanup() {
+	cy.panBy({ x: 0, y: 80 });
 }
 // end panning
 

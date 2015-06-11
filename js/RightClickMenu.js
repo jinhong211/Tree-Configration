@@ -117,12 +117,8 @@ function EditDecorator(e) {
 
 
 //#region Remove
-function performRemove(e) {
-    if (!e.data.canPerform(e, performRemove)) {
-        return;
-    }
-
-    cy.remove(e.cyTarget);
+function performRemove() {
+    cy.$(':selected').remove();
 }
 //#endregion
 
