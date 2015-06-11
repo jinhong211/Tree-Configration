@@ -1,3 +1,4 @@
+///<reference path="./Blackboard.ts"/>
 /**
  * @author Quentin Cornevin
  *
@@ -14,7 +15,7 @@ class Parameter {
     /**
      * This is the value of the parameter
      */
-    private value : string | number;
+    private value : string | number | Blackboard;
 
     /***
      * This constructor initialize a new Paramter with a given name and a given value
@@ -35,7 +36,7 @@ class Parameter {
         this.name = newName;
     }
 
-    public getValue() : string | number {
+    public getValue() : string | number | Blackboard {
         return this.value;
     }
 

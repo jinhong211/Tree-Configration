@@ -123,7 +123,7 @@ class Communication {
                     name:"Move To",
                     desc:"Your bot move to a target.",
                     category:"Move Action",
-                    params:[{name :"target", type :"closerEnemy"}]
+                    params:[{name :"target", type :"blackboard"}]
                 },
                 {kind: "task",
                     type:"Hide",
@@ -144,7 +144,7 @@ class Communication {
                     name:"Move To",
                     desc:"Your bot shoot to a target.",
                     category:"Shoot Action",
-                    params:[{name :"target", type :"closerEnemy"}]
+                    params:[{name :"target", type :"blackboard"}]
                 },
                 {kind:"composite",
                     type:"Selector",
