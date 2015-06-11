@@ -167,7 +167,7 @@ $(function test() { // on dom ready
                     'shape': 'rectangle',
                     'width': 'data(weight)',
                     'content': 'data(name)',
-                    // 'height' : 'data(height)',
+                     'height' : 'data(height)',
                     'text-valign': 'center',
                     'border-color': 'data(faveColor)',
 
@@ -487,7 +487,7 @@ function addRoots() {
             weight: 105,
             faveColor: colorRoot,
             faveShape: 'rectangle',
-            height: 105,
+            height: 45,
             id: "root"
         },
         position: {x: 190, y: 150},
@@ -514,7 +514,7 @@ function addAction(x,y,text, selectedPos)  {
             faveShape: 'rectangle',
             type:'action',
             option: 'Edit Your Option',
-            height: 105,
+            height: 35,
             id: selectedPos + ""
         },
         renderedPosition: {x: x - currentOffset.left, y: y - currentOffset.top}
@@ -538,7 +538,7 @@ function addComposite(x, y, text, selectedPos) {
             weight: 105,
             faveColor: colorComposite,
             faveShape: 'rectangle',
-            height: 105,
+            height: 35,
             id: selectedPos + ""
         },
         renderedPosition: {x: x - currentOffset.left, y: y - currentOffset.top}
