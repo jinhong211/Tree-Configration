@@ -211,45 +211,47 @@ class Parser {
      * @param init
      * @returns {string}
      */
-    //TODO PAS TESTE ATTENTION !
     parseXml3(currentNode : TreeNode, init = true) : string {
         var xml = document.createElement("root");
         var bloc;
 
+        // NODE ACTION
         if (currentNode instanceof ActionTreeNode) {
             bloc = document.createElement("task");
             var type = document.createElement("type");
             type.innerHTML = currentNode.getName();
             bloc.appendChild(type);
 
-            // params
+            // PARAMS DU NODE
             var params = document.createElement("params");
-            for(var j=0; j<currentNode.getParams().length; j++) {
-
-                var pa = document.createElement(currentNode.getParams()[i].getName());
-                pa.innerHTML = currentNode.getParams()[i].toString();
-                params.appendChild(pa);
+            if(currentNode.getParams() != null) {
+                for(var j=0; j<currentNode.getParams().length; j++) {
+                    var pa = document.createElement(currentNode.getParams()[i].getName());
+                    pa.innerHTML = currentNode.getParams()[i].toString();
+                    params.appendChild(pa);
+                }
             }
             bloc.appendChild(params);
 
+        // NODE COMPOSITE
         } else if (currentNode instanceof CompositeTreeNode) {
             bloc = document.createElement("composite");
             var type = document.createElement("type");
             type.innerHTML = currentNode.getName();
             bloc.appendChild(type);
-            bloc.appendChild(document.createElement("params"));
 
-            // params
+            // PARAMS DU NODE
             var params = document.createElement("params");
-            for(var j=0; j<currentNode.getParams().length; j++) {
-
-                var pa = document.createElement(currentNode.getParams()[i].getName());
-                pa.innerHTML = currentNode.getParams()[i].toString();
-                params.appendChild(pa);
+            if(currentNode.getParams() != null) {
+                for (var j = 0; j < currentNode.getParams().length; j++) {
+                    var pa = document.createElement(currentNode.getParams()[i].getName());
+                    pa.innerHTML = currentNode.getParams()[i].toString();
+                    params.appendChild(pa);
+                }
             }
             bloc.appendChild(params);
 
-            // children
+            // CHILDREN OF THE COMPOSITE
             var children = currentNode.getChildrenNodes();
             var childrenNode = document.createElement("children");
 
@@ -262,24 +264,28 @@ class Parser {
             }
         }
 
-        // decorators
-        if(currentNode.getDecorators().length != 0) {
+        // DECORATORS
+        if(currentNode.getDecorators() != null) {
+            console.log("decorators!");
             var decs = document.createElement("decorators");
             for(var i=0; i<currentNode.getDecorators().length; i++) {
+
                 var dec = document.createElement("decorator");
                 var t = document.createElement("type");
                 t.innerHTML = currentNode.getDecorators()[i].getType();
                 var ps = document.createElement("params");
 
-                // params du decorator
+                // PARAMS DECORATOR
                 for(var j=0; j<currentNode.getDecorators().length; j++) {
                     var p = document.createElement(currentNode.getDecorators()[i].getName());
-                    p.innerHTML = currentNode.getDecorators()[i].getParams()[i].toString();
+
+                    if(currentNode.getDecorators()[i].getParams() != null) {
+                        p.innerHTML = currentNode.getDecorators()[i].getParams()[j].toString();
+                    }
                     ps.appendChild(p);
                 }
-
                 dec.appendChild(t);
-                dec.appendChild(p);
+                dec.appendChild(ps);
                 decs.appendChild(dec);
             }
             bloc.appendChild(decs);
