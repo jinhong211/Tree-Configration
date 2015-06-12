@@ -27,12 +27,13 @@ h1 {
 }
 
 /* le menu des blocs disponible (gauche) */
-#jstree {
-    height: 200px;
-    width: 200px;
+#imgLoad {
+    height: 50px;
+    width: 50px;
     top: 0;
     right: 0;
 }
+
 
 /* la zone de construction */
 #cy {

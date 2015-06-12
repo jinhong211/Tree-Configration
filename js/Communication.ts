@@ -45,18 +45,24 @@ class Communication {
      * @param f : anonyme function for the callback.
      */
     httpGet(f:(s:JSON)=>void) : void {
+        var $loading = $('#loadingDiv').hide();
+        var $loadText = $('#loadText');
+
         var self = this;
+        $loading.show();
         $.ajax({
             url: this.urlSimulator+this.routeGET,
             type: 'GET',
             success: function(data){
-                console.log(data);
+                $loadText.html( "<p>Blocs charges du simulateur</p>" );
                 var res = self.httpGetMOCK3();
                 f(data);
-
+                $loading.hide();
                 //f(data);
             },
             error: function(data) {
+                $loading.hide();
+                $loadText.html( "<p>Blocs par defaut</p>" );
                 alert("Erreur : echec de chargement des donnees du serveur simulation. Nous chargeons des blocs" +
                 " predefinis");
                 var res = self.httpGetMOCK3();
