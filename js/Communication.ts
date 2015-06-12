@@ -200,15 +200,19 @@ class Communication {
      */
     httpPost(xml:string, f:(s:string)=>void):void {
         // envoyer shout en format xml et afficher le résultat de la requete
+        var $loading = $('#loadingDiv').show();
+
         var json = {
             "xml" : xml.toString()
         };
         $.post(this.urlSimulator+this.routePOST, json)
             .done(function (data) {
                 alert("Result: " + data);
+                $loading.hide();
             })
             .fail(function () {
-                alert("Error: echec de l'envoi au serveur de simulation")
+                alert("Error: echec de l'envoi au serveur de simulation");
+                $loading.hide();
             });
     }
 
