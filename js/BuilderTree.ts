@@ -255,7 +255,9 @@ class BuilderTree {
         } else {
             edge.getSource().removeChildNode(edge.getTarget());
             edge.getTarget().removeParentNode();
+            updateEdgeNumber(edge.getSource());
         }
+
     }
 
     public findEdgesId(sourceId : string, targetId : string) : number{
@@ -302,6 +304,16 @@ class BuilderTree {
 
     }
 
+    public getEdgeIdByTarget(target : TreeNode) : number {
+        for (var i = 0; i<this.edges.length;i++){
+
+            if (this.edges[i].getTarget().getId() == target.getId()){
+                return this.edges[i].getId();
+            }
+        }
+        return -1;
+    }
+
     // Id du noeud à supprimer
     public deleteSelectedNode(id : number) {
         // Suppression du noeud
@@ -318,7 +330,7 @@ class BuilderTree {
         }
         for (var i =0; i< this.edges.length; i++){
             if (this.edges[i].getTarget().getId() == id) {
-                idEdgeToDelete.push(i);
+                idEdgeToDelete.push(this.edges[i].getId());
                 if (this.edges[i].getSource() == null) {
                     this.tree.deleteRoot();
                 }
@@ -340,6 +352,7 @@ class BuilderTree {
 
         if (parentNode instanceof CompositeTreeNode) {
             parentNode.removeChildNode(currentNode);
+            updateEdgeNumber(parentNode);
         }
 
 
