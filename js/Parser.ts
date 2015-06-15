@@ -72,6 +72,7 @@ class Parser {
             var parameters : Parameter[];
             parameters = this.parseParameters(jsonBloc["params"]);
             if (jsonBloc["kind"] == "task") {
+                console.log(jsonBloc["desc"]);
                 listNodeAvailable.push(new ActionTreeNode(jsonBloc["type"],jsonBloc["name"],jsonBloc["desc"], parameters));
             } else if (jsonBloc["kind"] == "composite") {
                 listNodeAvailable.push(new CompositeTreeNode(jsonBloc["type"],jsonBloc["name"],jsonBloc["desc"],parameters));
@@ -93,7 +94,6 @@ class Parser {
         for (var i = 0; i < datajson["blackboard"].length; i++) {
             var jsonBlackboard = datajson["blackboard"][i];
             listBlackBoard.push(new Blackboard(jsonBlackboard["name"],jsonBlackboard["type"],jsonBlackboard["desc"]));
-            console.log(jsonBlackboard["name"] + " " + jsonBlackboard["type"] + " " + jsonBlackboard["desc"]);
         }
         return listBlackBoard;
     }

@@ -381,12 +381,14 @@ $(function test() { // on dom ready
                 if(t.closest('.drop').length) {
                     if(r=="action") {
                         var paramList = getNodeParamList(text);
-                        var treeNode = new ActionTreeNode(text,"" ,"", paramList);
+                        var desc = getNodeDesc(text);
+                        var treeNode = new ActionTreeNode(text,"" ,desc , paramList);
                         treeNode.setId(counter);
                         Controller.getInstance().getBuilderTree().getSelectedBlocks().push(treeNode);
                         addAction(x,y, text, counter);
                     } else if (r == "composite") {
-                        var treeNode = new CompositeTreeNode(text);
+                        var desc = getNodeDesc(text);
+                        var treeNode = new CompositeTreeNode(text, text, desc);
                         treeNode.setId(counter);
                         Controller.getInstance().getBuilderTree().getSelectedBlocks().push(treeNode);
                         var selectedPos = Controller.getInstance().getBuilderTree().getSelectedBlocks().length;
@@ -616,10 +618,30 @@ function addAction(x,y,text, selectedPos)  {
             type:'action',
             option: 'Edit Your Option',
             height: 35 * counter,
+            description : Controller.getInstance().getBuilderTree().getSelectedBlocks()[selectedPos-1].getDescription(),
             id: selectedPos + ""
         },
         renderedPosition: {x: x - currentOffset.left, y: y - currentOffset.top}
     }).addClass('menu');
+    cy.elements('node').qtip({
+        content: function () {
+            return this.data().description
+        },
+        position: {
+            my: 'bottom center',
+            at: 'top center'
+        },
+        show: {
+            cyBgOnly: false
+        },
+        style: {
+            classes: 'qtip-bootstrap',
+            tip: {
+                width: 16,
+                height: 8
+            }
+        }
+    });
 }
 
 /**
@@ -643,10 +665,30 @@ function addComposite(x, y, text, selectedPos) {
             faveColor: colorComposite,
             faveShape: 'rectangle',
             height: 35 * counter,
+            description : Controller.getInstance().getBuilderTree().getSelectedBlocks()[selectedPos-1].getDescription(),
             id: selectedPos + ""
         },
         renderedPosition: {x: x - currentOffset.left, y: y - currentOffset.top}
     }).addClass('menu');
+    cy.elements('node').qtip({
+        content: function () {
+            return this.data().description
+        },
+        position: {
+            my: 'bottom center',
+            at: 'top center'
+        },
+        show: {
+            cyBgOnly: false
+        },
+        style: {
+            classes: 'qtip-bootstrap',
+            tip: {
+                width: 16,
+                height: 8
+            }
+        }
+    });
 }
 
 
@@ -721,6 +763,15 @@ function getParam(text) {
     return params;
 }
 
+
+function getNodeDesc(text) {
+    var available = Controller.getInstance().getBuilderTree().getAvailableBlocks();
+    for(var i = 0; i < available.length; i++) {
+        if(available[i].getName() == text) {
+            return available[i].getDescription();
+        }
+    }
+}
 
 function getNodeParamList(text) {
     var paramList = [];
