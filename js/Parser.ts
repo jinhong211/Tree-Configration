@@ -223,7 +223,7 @@ class Parser {
         // DECORATORS
         if (currentNode != null && currentNode.getDecorators() != null) {
             console.log("decorators!");
-            var decs = document.createElement("decorators");
+            decs = document.createElement("decorators");
             for (var i = 0; i < currentNode.getDecorators().length; i++) {
 
                 var dec = document.createElement("decorator");

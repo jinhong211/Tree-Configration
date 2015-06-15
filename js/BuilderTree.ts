@@ -181,17 +181,17 @@ class BuilderTree {
         var res = [];
 
         var parent1 = {
-            "id": "action",
-            "parent": "#",
-            "text": "Action",
-            "type": "actions"
-        };
-
-        var parent2 = {
             "id": "composite",
             "parent": "#",
             "text": "Composite",
             "type": "conditions"
+        };
+
+        var parent2 = {
+            "id": "action",
+            "parent": "#",
+            "text": "Action",
+            "type": "actions"
         };
 
         res.push(parent1);
