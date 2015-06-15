@@ -204,6 +204,28 @@ $(function test() { // on dom ready
             $("#tool-10-0").on('click',function(){
                 Controller.getInstance().send();
             });
+
+            cy.navigator({
+
+            });
+
+            cy.elements('node').qtip({
+                content: function(){ return 'Description of ' + this.data().name },
+                position: {
+                    my: 'top center',
+                    at: 'bottom center'
+                },
+                show: {
+                    cyBgOnly: false
+                },
+                style: {
+                    classes: 'qtip-bootstrap',
+                    tip: {
+                        width: 16,
+                        height: 8
+                    }
+                }
+            });
         },
         elements: elesJson,
         style: [
@@ -307,23 +329,6 @@ $(function test() { // on dom ready
         }
     });
 
-    cy.elements('node').qtip({
-        content: function(){ return 'Example qTip on ele ' + this.id() },
-        position: {
-            my: 'top center',
-            at: 'bottom center'
-        },
-        show: {
-            cyBgOnly: false
-        },
-        style: {
-            classes: 'qtip-bootstrap',
-            tip: {
-                width: 16,
-                height: 8
-            }
-        }
-    });
 
 
     /**
@@ -409,9 +414,6 @@ $(function test() { // on dom ready
 
     $('#delete').on('click', function() {
         cy.$(':selected').remove();
-    });
-    $('#tool-9-0').on('click',function() {
-       console.log(this);
     });
     $('html').keyup(function(e){
 
