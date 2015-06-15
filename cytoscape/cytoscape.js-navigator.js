@@ -88,8 +88,8 @@
       var options = this.options
 
       // Cache sizes
-      this.panelWidth = this.$panel.width()
-      this.panelHeight = this.$panel.height()
+      this.panelWidth = this.$panel.width() * 0.5
+      this.panelHeight = this.$panel.height() * 0.5
     }
 
     /*
