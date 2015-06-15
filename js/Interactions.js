@@ -52,7 +52,7 @@ $(function test() { // on dom ready
                                 }
                             },
                             bubbleToCore: false,
-                            tooltip: 'Zoom In',
+                            tooltip: 'Zoom In (+)',
                             action: []
                         }
                     ],
@@ -70,7 +70,7 @@ $(function test() { // on dom ready
                                 }
                             },
                             bubbleToCore: false,
-                            tooltip: 'Zoom Out',
+                            tooltip: 'Zoom Out (-)',
                             action: []
                         }
                     ],
@@ -85,7 +85,7 @@ $(function test() { // on dom ready
                                 }
                             },
                             bubbleToCore: true,
-                            tooltip: 'Pan Right',
+                            tooltip: 'Pan Right (key-right)',
                             action: []
                         }
                     ],
@@ -100,7 +100,7 @@ $(function test() { // on dom ready
                                 }
                             },
                             bubbleToCore: true,
-                            tooltip: 'Pan Down',
+                            tooltip: 'Pan Down (key-down)',
                             action: []
                         }
                     ],
@@ -115,7 +115,7 @@ $(function test() { // on dom ready
                                 }
                             },
                             bubbleToCore: true,
-                            tooltip: 'Pan Left',
+                            tooltip: 'Pan Left (key-left)',
                             action: []
                         }
                     ],
@@ -130,7 +130,7 @@ $(function test() { // on dom ready
                                 }
                             },
                             bubbleToCore: true,
-                            tooltip: 'Pan Up',
+                            tooltip: 'Pan Up (key-up)',
                             action: []
                         }
                     ],
@@ -150,7 +150,7 @@ $(function test() { // on dom ready
                             event: ['tap'],
                             selector: 'cy',
                             bubbleToCore: false,
-                            tooltip: 'Remove Node/Edge',
+                            tooltip: 'Remove Node/Edge (suprr)',
                             action: []
                         }
                     ],
@@ -160,7 +160,7 @@ $(function test() { // on dom ready
                             event: ['tap'],
                             selector: 'cy',
                             bubbleToCore: false,
-                            tooltip: 'Recenter On Root',
+                            tooltip: 'Recenter On Root (space)',
                             action: []
                         }
                     ],
@@ -170,7 +170,7 @@ $(function test() { // on dom ready
                             event: ['tap'],
                             selector: 'cy',
                             bubbleToCore: false,
-                            tooltip: 'Recenter On Root',
+                            tooltip: 'Send to the arena',
                             action: []
                         }
                     ]
@@ -438,7 +438,7 @@ $(function test() { // on dom ready
                 break;
             // key space
             case 32:
-                recenterOnRoot()
+                recenterOnRoot();
                 break;
             // key +
             case 107:
@@ -448,6 +448,27 @@ $(function test() { // on dom ready
             case 109:
                 cy.zoom(cy.zoom()*0.8);
                 break;
+
+            // key up
+            case 38:
+                mypanup();
+                break;
+
+            // key down
+            case 40:
+                mypandown();
+                break;
+
+            // key left
+            case 37:
+                mypanleft();
+                break;
+
+            // key right
+            case 39:
+                mypanright();
+                break;
+
             case 66 :
                 break;
         }

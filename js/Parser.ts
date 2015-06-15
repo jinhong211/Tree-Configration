@@ -219,10 +219,11 @@ class Parser {
 
 
     parseXml3Decorator(currentNode : TreeNode) : HTMLElement {
+        var decs = null;
         // DECORATORS
-        if (currentNode.getDecorators() != null) {
+        if (currentNode != null && currentNode.getDecorators() != null) {
             console.log("decorators!");
-            var decs = document.createElement("decorators");
+            decs = document.createElement("decorators");
             for (var i = 0; i < currentNode.getDecorators().length; i++) {
 
                 var dec = document.createElement("decorator");
@@ -312,7 +313,9 @@ class Parser {
 
         // DECORATORS
         var decs = this.parseXml3Decorator(currentNode);
-        bloc.appendChild(decs);
+        if(decs != null) {
+            bloc.appendChild(decs);
+        }
 
         // FINI ?
         if (bloc) {
