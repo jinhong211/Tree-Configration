@@ -247,7 +247,9 @@ $(function test() { // on dom ready
             {
                 selector: 'edge',
                 css: {
-                    'font-size':20,
+                    'font-size':26,
+                    'font-weight': 'bold',
+                    'text-opacity':1,
                     'color':'black',
                     'content':'data(name)',
                     'line-color': '#FFFFFF',
@@ -332,8 +334,6 @@ $(function test() { // on dom ready
         }
     });
 
-
-
     /**
      * This function handle all the draw of the edge
      */
@@ -341,6 +341,26 @@ $(function test() { // on dom ready
         // options go here
     });
     var r;
+
+    cy.on('.mouseup','node',function(){
+
+        if (this.data().id == 'root'){
+            return;
+        }
+        var node = Controller.getInstance().getBuilderTree().getBlockById(this.data().id);
+
+        if (node == null){
+            return;
+        }
+        if (node.getParentNode() == null){
+            return;
+        }
+
+        changePositionInArrayChildren(this);
+
+        updateEdgeNumber(node.getParentNode());
+
+    })
     $('#jstree')
         .on('changed.jstree', function(e , data) {
         var i, j = [];
@@ -789,8 +809,30 @@ function getNodeParamList(text) {
     return paramList;
 }
 
+function changePositionInArrayChildren(nodeCy){
+    var node = Controller.getInstance().getBuilderTree().getBlockById(nodeCy.data().id);
+
+    var positionNodeX = nodeCy.position().x;
+    var sourceNode = node.getParentNode();
+
+    var numb = sourceNode.getChildrenNodes().indexOf(node);
+    sourceNode.getChildrenNodes().splice(numb, 1);
+
+    var pos = 0;
+    for (var i = 0; i<sourceNode.getChildrenNodes().length;i++){
+        var childId = sourceNode.getChildrenNodes()[i].getId();
+        if (positionNodeX > cy.getElementById(childId).position().x){
+            pos++;
+        }
+    }
+    sourceNode.getChildrenNodes().splice(pos, 0, node);
+}
+
 
 function updateEdgeNumber(source) {
+    if (!(source instanceof CompositeTreeNode)) {
+        return;
+    }
     var children = source.getChildrenNodes();
     if (children.length == 1){
         var idEdge = Controller.getInstance().getBuilderTree().getEdgeIdByTarget(children[0]);
