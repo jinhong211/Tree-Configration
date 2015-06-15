@@ -247,6 +247,9 @@ $(function test() { // on dom ready
             {
                 selector: 'edge',
                 css: {
+                    'font-size':20,
+                    'color':'black',
+                    'content':'data(name)',
                     'line-color': '#FFFFFF',
                     'target-arrow-color': '#FFFFFF',
                     'width': 2,
@@ -726,11 +729,47 @@ function getNodeParamList(text) {
             for(var k = 0; k < Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].getParams().length; k++) {
                 var paramName = Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].getParams()[k]["name"];
                 var paramValue = Controller.getInstance().getBuilderTree().getAvailableBlocks()[i].getParams()[k]["value"];
-                console.log("name",paramName,"value",paramValue);
+                //console.log("name",paramName,"value",paramValue);
                 var param = new Parameter(paramName, paramValue);
                 paramList.push(param);
             }
         }
     }
     return paramList;
+}
+
+
+function updateEdgeNumber(source) {
+    var children = source.getChildrenNodes();
+    if (children.length == 1){
+        var idEdge = Controller.getInstance().getBuilderTree().getEdgeIdByTarget(children[0]);
+        cy.remove(cy.getElementById(idEdge));
+        cy.add({
+            group: 'edges',
+            data: {
+                id: idEdge,
+                source: source.getId(),
+                target: children[0].getId()
+            }
+        });
+
+    } else {
+        for (var i=0;i< children.length;i++){
+            var idEdge = Controller.getInstance().getBuilderTree().getEdgeIdByTarget(children[i]);
+            if (idEdge == -1){
+                break;
+            }
+            cy.remove(cy.getElementById(idEdge));
+            cy.add({
+                group: 'edges',
+                data: {
+                    name:i+1,
+                    id: idEdge,
+                    source: source.getId(),
+                    target: children[i].getId()
+                }
+            });
+        }
+    }
+
 }

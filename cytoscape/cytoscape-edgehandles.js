@@ -447,14 +447,13 @@
               }
 
               switch( options().edgeType( source, target ) ){
-              
                 case 'flat':
                   var edge = cy.add($.extend( true, {
                     group: 'edges',
                     data: {
                       id: "ed" +  countEdges,
                       source: source.id(),
-                      target: target.id()
+                      target: target.id(),
                     }
                   }, options().edgeParams(source, target, 0) )).addClass(classes);
 
@@ -495,10 +494,11 @@
                 var childNode = Controller.getInstance().getBuilderTree().getTreeNodeById(idTargets[i]);
                 sourceNode.addChildNode(childNode);
                 childNode.setParentNode(sourceNode);
-
               }
+
             }
 
+            updateEdgeNumber(sourceNode);
             if( !preview ){
               options().complete( source, targets, added );
               source.trigger('cyedgehandles.complete'); 
