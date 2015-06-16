@@ -247,7 +247,9 @@ $(function test() { // on dom ready
             {
                 selector: 'edge',
                 css: {
-                    'font-size':20,
+                    'font-size':26,
+                    'font-weight': 'bold',
+                    'text-opacity':1,
                     'color':'black',
                     'content':'data(name)',
                     'line-color': '#FFFFFF',
@@ -332,8 +334,6 @@ $(function test() { // on dom ready
         }
     });
 
-
-
     /**
      * This function handle all the draw of the edge
      */
@@ -341,6 +341,26 @@ $(function test() { // on dom ready
         // options go here
     });
     var r;
+
+    cy.on('.mouseup','node',function(){
+
+        if (this.data().id == 'root'){
+            return;
+        }
+        var node = Controller.getInstance().getBuilderTree().getBlockById(this.data().id);
+
+        if (node == null){
+            return;
+        }
+        if (node.getParentNode() == null){
+            return;
+        }
+
+        changePositionInArrayChildren(this);
+
+        updateEdgeNumber(node.getParentNode());
+
+    })
     $('#jstree')
         .on('changed.jstree', function(e , data) {
         var i, j = [];
@@ -381,12 +401,14 @@ $(function test() { // on dom ready
                 if(t.closest('.drop').length) {
                     if(r=="action") {
                         var paramList = getNodeParamList(text);
-                        var treeNode = new ActionTreeNode(text,"" ,"", paramList);
+                        var desc = getNodeDesc(text);
+                        var treeNode = new ActionTreeNode(text,"" ,desc , paramList);
                         treeNode.setId(counter);
                         Controller.getInstance().getBuilderTree().getSelectedBlocks().push(treeNode);
                         addAction(x,y, text, counter);
                     } else if (r == "composite") {
-                        var treeNode = new CompositeTreeNode(text);
+                        var desc = getNodeDesc(text);
+                        var treeNode = new CompositeTreeNode(text, text, desc);
                         treeNode.setId(counter);
                         Controller.getInstance().getBuilderTree().getSelectedBlocks().push(treeNode);
                         var selectedPos = Controller.getInstance().getBuilderTree().getSelectedBlocks().length;
@@ -617,10 +639,30 @@ function addAction(x,y,text, selectedPos)  {
             type:'action',
             option: 'Edit Your Option',
             height: 35 * counter,
+            description : Controller.getInstance().getBuilderTree().getSelectedBlocks()[selectedPos-1].getDescription(),
             id: selectedPos + ""
         },
         renderedPosition: {x: x - currentOffset.left, y: y - currentOffset.top}
     }).addClass('menu');
+    cy.elements('node').qtip({
+        content: function () {
+            return this.data().description
+        },
+        position: {
+            my: 'bottom center',
+            at: 'top center'
+        },
+        show: {
+            cyBgOnly: false
+        },
+        style: {
+            classes: 'qtip-bootstrap',
+            tip: {
+                width: 16,
+                height: 8
+            }
+        }
+    });
 }
 
 /**
@@ -644,10 +686,30 @@ function addComposite(x, y, text, selectedPos) {
             faveColor: colorComposite,
             faveShape: 'rectangle',
             height: 35 * counter,
+            description : Controller.getInstance().getBuilderTree().getSelectedBlocks()[selectedPos-1].getDescription(),
             id: selectedPos + ""
         },
         renderedPosition: {x: x - currentOffset.left, y: y - currentOffset.top}
     }).addClass('menu');
+    cy.elements('node').qtip({
+        content: function () {
+            return this.data().description
+        },
+        position: {
+            my: 'bottom center',
+            at: 'top center'
+        },
+        show: {
+            cyBgOnly: false
+        },
+        style: {
+            classes: 'qtip-bootstrap',
+            tip: {
+                width: 16,
+                height: 8
+            }
+        }
+    });
 }
 
 
@@ -723,6 +785,15 @@ function getParam(text) {
 }
 
 
+function getNodeDesc(text) {
+    var available = Controller.getInstance().getBuilderTree().getAvailableBlocks();
+    for(var i = 0; i < available.length; i++) {
+        if(available[i].getName() == text) {
+            return available[i].getDescription();
+        }
+    }
+}
+
 function getNodeParamList(text) {
     var paramList = [];
     for(var i = 0; i < Controller.getInstance().getBuilderTree().getAvailableBlocks().length; i++) {
@@ -739,8 +810,30 @@ function getNodeParamList(text) {
     return paramList;
 }
 
+function changePositionInArrayChildren(nodeCy){
+    var node = Controller.getInstance().getBuilderTree().getBlockById(nodeCy.data().id);
+
+    var positionNodeX = nodeCy.position().x;
+    var sourceNode = node.getParentNode();
+
+    var numb = sourceNode.getChildrenNodes().indexOf(node);
+    sourceNode.getChildrenNodes().splice(numb, 1);
+
+    var pos = 0;
+    for (var i = 0; i<sourceNode.getChildrenNodes().length;i++){
+        var childId = sourceNode.getChildrenNodes()[i].getId();
+        if (positionNodeX > cy.getElementById(childId).position().x){
+            pos++;
+        }
+    }
+    sourceNode.getChildrenNodes().splice(pos, 0, node);
+}
+
 
 function updateEdgeNumber(source) {
+    if (!(source instanceof CompositeTreeNode)) {
+        return;
+    }
     var children = source.getChildrenNodes();
     if (children.length == 1){
         var idEdge = Controller.getInstance().getBuilderTree().getEdgeIdByTarget(children[0]);

@@ -6,6 +6,7 @@
 ///<reference path="./Edge.ts"/>
 ///<reference path="./Decorator.ts"/>
 
+declare var updateEdgeNumber: any;
 
 /**
  * Class for the building of a simplified behaviour tree with available blocks

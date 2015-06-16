@@ -494,6 +494,7 @@
                 var childNode = Controller.getInstance().getBuilderTree().getTreeNodeById(idTargets[i]);
                 sourceNode.addChildNode(childNode);
                 childNode.setParentNode(sourceNode);
+                changePositionInArrayChildren(cy.getElementById(idTargets[i]));
               }
 
             }

@@ -32,6 +32,7 @@ function decoratorMenu(node, value) {
             renderedPosition: {x: x, y: y},
         }
         ]).addClass("menu");
+
         var previous = cy.add([
             {
                 group: "nodes",
@@ -46,11 +47,6 @@ function decoratorMenu(node, value) {
                 renderedPosition: {x: x, y: y}
             }
         ]);
-        /*
-        console.log("node height " + node.height());
-        console.log("node outerheight " + node.outerHeight());
-        console.log("node renderedheight " + node.renderedHeight());
-        console.log("node renderedOuterheight " + node.renderedOuterHeight());*/
 
         var newNode = cy.add([
             {
@@ -80,6 +76,7 @@ function decoratorMenu(node, value) {
                 }
             }
             ]);
+            updateEdgeNumber(parent);
         }
 
         if ((Controller.getInstance().getBuilderTree().getRootTree().getId() == pid)){
@@ -112,6 +109,7 @@ function decoratorMenu(node, value) {
                 ]);
             }
         }
+        updateEdgeNumber(nodeModel);
     }
     if (node.isParent()){
 
@@ -146,7 +144,11 @@ function decoratorMenu(node, value) {
             children[i].width(maxWidth);
             children[i].renderedPosition({x: x, y: y-posy});
         }
+
     }
+
+
+
 }
 
 function EditDecorator(e) {

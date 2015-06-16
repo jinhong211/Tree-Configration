@@ -50,6 +50,7 @@ class TreeNode {
     public constructor(n : string, namedisplayed = "", description = "", para = []){
         this.name = n;
         this.nameDisplayed = namedisplayed;
+        console.log("description", description);
         this.description = description;
         this.parentNode = null;
         this.params = para;
@@ -126,6 +127,10 @@ class TreeNode {
     public removeDecorator(d: Decorator) {
         var number = this.decorators.indexOf(d);
         this.decorators.splice(number, 1);
+    }
+
+    public getDescription() {
+        return this.description;
     }
 
     public getDecorators() {
