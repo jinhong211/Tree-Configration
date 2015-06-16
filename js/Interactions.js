@@ -196,7 +196,6 @@ $(function test() { // on dom ready
                 mypanup();
             });
             $("#tool-7-0").on('click',function(){
-                console.log(cy.$(":selected").data().title);
                 EditDecorator(cy.$(":selected"));
             });
             $("#tool-8-0").on('click',function(){
