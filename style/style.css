@@ -45,6 +45,39 @@ h1 {
     background-color : #FAEDEF;
     background-image:url("BG3.png");
 }
+#logo {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+#menuLeft {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: 110px;
+}
+img#imagelogo{
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    left: 20px;
+    top: 10px;
+    width:100px;
+    height:100px;
+}
+img#imagetitle{
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    left: 150px;
+    top: 10px;
+    width:150px;
+    height:100px;
+}
+
 
 #buttons {
     position: absolute;
@@ -52,5 +85,26 @@ h1 {
     bottom: 0;
     z-index: 99999;
 }
-
-
+#loadingDiv {
+    height: 100%;
+    width: 100%;
+    position:absolute;
+    top:0;
+    left:0;
+    filter:Alpha(Opacity=30);
+    opacity:0.3;
+    background-color:#000000;
+    z-index:1001;
+    border-style:none;
+    border-width:0px;
+    border:0px;
+}
+img#imgLoad {
+    position:absolute;
+    top:50%;
+    left:50%;
+    margin:-25px 0 0 -25px;
+    width:50px;
+    height:50px;
+    z-index:99;
+}
