@@ -421,7 +421,6 @@ $(function test() { // on dom ready
                         var treeNode = new CompositeTreeNode(text, text, desc);
                         treeNode.setId(counter);
                         Controller.getInstance().getBuilderTree().getSelectedBlocks().push(treeNode);
-                        var selectedPos = Controller.getInstance().getBuilderTree().getSelectedBlocks().length;
                         addComposite(x,y,text,counter);
                     }
 
@@ -457,16 +456,7 @@ $(function test() { // on dom ready
             // key suppr
             case 46 :
                 // delete
-                var res = cy.$(':selected').id().split("");
-                if (res[0]=="e") {
-                    Controller.getInstance().getBuilderTree().deleteSelectedEdge(cy.$(':selected').id());
-                    cy.$(':selected').remove();
-                } else {
-                    if(cy.$(':selected').id() != "root") {
-                        Controller.getInstance().getBuilderTree().deleteSelectedNode(cy.$(':selected').id());
-                        cy.$(':selected').remove();
-                    }
-                }
+                performRemove();
                 break;
             // key a
             case 65 :
@@ -633,11 +623,11 @@ function addRoots() {
  * @param text : text of the block
  * @param selectedPos : position in the selected block of the builderTree.
  */
-function addAction(x,y,text, selectedPos)  {
+function addAction(x,y,text, id)  {
     var title = text;
     var currentOffset = $("#cy").offset();
-    var counter = 1;
-    counter = getParamNumber(counter, text);
+    var localCounter = 1;
+    localCounter = getParamNumber(localCounter, text);
     text = text + "\n" + getParam(text);
     cy.add({
         group: "nodes",
@@ -650,9 +640,9 @@ function addAction(x,y,text, selectedPos)  {
             faveShape: 'rectangle',
             type:'action',
             option: 'Edit Your Option',
-            height: 35 * counter,
-            description : Controller.getInstance().getBuilderTree().getSelectedBlocks()[selectedPos-1].getDescription(),
-            id: selectedPos + ""
+            height: 35 * localCounter,
+            description : Controller.getInstance().getBuilderTree().getBlockById(id).getDescription(),
+            id: id + ""
         },
         renderedPosition: {x: x - currentOffset.left, y: y - currentOffset.top}
     }).addClass('menu');
@@ -685,10 +675,10 @@ function addAction(x,y,text, selectedPos)  {
  * @param text : text of the block
  * @param selectedPos : position in the selected block of the builderTree.
  */
-function addComposite(x, y, text, selectedPos) {
+function addComposite(x, y, text, id) {
     var currentOffset = $("#cy").offset();
-    var counter = 1;
-    counter = getParamNumber(counter, text);
+    var localCounter = 1;
+    localCounter = getParamNumber(localCounter, text);
 
     cy.add({
         group: "nodes",
@@ -697,9 +687,9 @@ function addComposite(x, y, text, selectedPos) {
             weight: 105,
             faveColor: colorComposite,
             faveShape: 'rectangle',
-            height: 35 * counter,
-            description : Controller.getInstance().getBuilderTree().getSelectedBlocks()[selectedPos-1].getDescription(),
-            id: selectedPos + ""
+            height: 35 * localCounter,
+            description : Controller.getInstance().getBuilderTree().getBlockById(id).getDescription(),
+            id: id + ""
         },
         renderedPosition: {x: x - currentOffset.left, y: y - currentOffset.top}
     }).addClass('menu');

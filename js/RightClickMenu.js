@@ -9,7 +9,6 @@
  */
 
 function decoratorMenu(node, value) {
-    //console.log("decoratormenu",value);
     var pid = node.id();
 
     var x = node.renderedPosition().x;
@@ -168,6 +167,7 @@ function performRemove() {
             cy.$(':selected').remove();
         }
     }
+
 }
 //#endregion
 
