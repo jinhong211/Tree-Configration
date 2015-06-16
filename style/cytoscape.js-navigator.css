@@ -25,7 +25,7 @@
 	background: white;
 	-moz-opacity: 0.50;
 	opacity: 0.50;
-	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha"(Opacity=50);
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
 	z-index: 102;
 }
 
