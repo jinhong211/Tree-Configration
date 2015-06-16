@@ -266,7 +266,7 @@ $(function test() { // on dom ready
                 selector: ':selected',
                 css: {
                     'border-width': 4,
-                    'border-color':'#727272',
+                    'border-color':'black',
                     'background-color': 'data(faveColor)',
                     'line-color': 'grey',
                     'target-arrow-color': 'grey',
@@ -364,6 +364,13 @@ $(function test() { // on dom ready
         updateEdgeNumber(node.getParentNode());
 
     })
+
+    /*
+    cy.on('.mousedown','node',function(){
+        cy.$(":selected").unselect();
+        this.select();
+    })*/
+
     $('#jstree')
         .on('changed.jstree', function(e , data) {
         var i, j = [];
@@ -497,7 +504,9 @@ $(function test() { // on dom ready
             case 39:
                 mypanright();
                 break;
-
+            case 83:
+                sortTree();
+                break;
             case 66 :
                 break;
         }
@@ -787,6 +796,84 @@ function getParam(text) {
     return params;
 }
 
+function sortTree(){
+    var numberBlockByDepth;
+    var maxHeightByDepth = [];
+    var sumTotalByDepth = [];
+
+    var node = Controller.getInstance().getBuilderTree().getRootTree();
+    var nodeDisplay = cy.getElementById("root");
+
+    if (cy.$(":selected").length != 0){
+        if (cy.$(":selected").id() != "root") {
+            node = Controller.getInstance().getBuilderTree().getTreeNodeById(cy.$(":selected").id());
+            nodeDisplay = cy.$(":selected");
+        }
+    }
+
+    numberBlockByDepth = Controller.getInstance().getBuilderTree().arrayNumberBlocByDepth(node);
+    var depth = Controller.getInstance().getBuilderTree().depthTree(node);
+    var blocksIdByDepth = Controller.getInstance().getBuilderTree().arrayIdofBlock(node);
+
+
+    // i correspond au niveau de profondeur
+    for (var i = 0; i < depth; i++){
+        var result = calcHeighMaxAndSumWidth(i,node);
+        maxHeightByDepth.push(result[0]);
+        sumTotalByDepth.push(result[1]);
+    }
+
+    var posXPrevious = nodeDisplay.position().x;
+    var posYPrevious = nodeDisplay.position().y;
+    var heightPrevious = nodeDisplay.renderedOuterHeight();
+    var newPosY = posYPrevious;
+    if (nodeDisplay.id() =="root"){
+        if (Controller.getInstance().getBuilderTree().existSourceTree()){
+            var heightRoot = cy.getElementById(Controller.getInstance().getBuilderTree().getRootTree().getId()).renderedOuterHeight();
+            newPosY = posYPrevious + heightPrevious/2 + heightRoot/2 + 50;
+        }
+    }
+    var center = posXPrevious;
+    for (var i = 0; i < depth; i++) {
+        // On place par défaut un espace de 30 entre chaque blocka
+        sumTotalByDepth[i] += (numberBlockByDepth[i]-1) * 50;
+        placeInDepth(center,newPosY,numberBlockByDepth[i],sumTotalByDepth[i],blocksIdByDepth[i]);
+        if (depth !=i+1){
+            newPosY = newPosY + maxHeightByDepth[i]/2+maxHeightByDepth[i+1]/2 + 50;
+        }
+    }
+
+}
+
+function placeInDepth(center,newPosY,numberOfBlock,sumTotal,blocksById){
+    var positionX = (center - sumTotal/2) ;
+    for (var i = 0; i<blocksById.length;i++){
+        var currentNodeDisplay = cy.getElementById(blocksById[i]);
+        positionX += currentNodeDisplay.renderedOuterWidth()/2;
+        currentNodeDisplay.position({x : positionX ,y : newPosY});
+        if (currentNodeDisplay.isParent()){
+            var children = currentNodeDisplay.children();
+
+            var totalChild = currentNodeDisplay.children().length;
+            var totalHeightChild = 0;
+            for (var j=0;j<children.length;j++) {
+                totalHeightChild+=children[j].renderedOuterHeight();
+            }
+
+            var relativePosY = (totalHeightChild/2);
+
+            for (var j=0;j<children.length;j++){
+                relativePosY -= children[j].renderedOuterHeight()/2;
+                children[j].relativePosition({x:0,y:relativePosY});
+                //console.log(children[j].renderedOuterHeight());
+                relativePosY -=children[j].renderedOuterHeight()/2;
+
+            }
+        }
+        positionX += currentNodeDisplay.renderedOuterWidth()/2 + 50;
+    }
+}
+
 
 function getNodeDesc(text) {
     var available = Controller.getInstance().getBuilderTree().getAvailableBlocks();
@@ -868,5 +955,23 @@ function updateEdgeNumber(source) {
             });
         }
     }
+}
 
+function calcHeighMaxAndSumWidth(depth, node){
+    var returnMaxHeight = 0;
+    var returnSumWidth = 0;
+    if (depth == 0){
+        return [cy.getElementById(node.getId()).renderedOuterHeight(),cy.getElementById(node.getId()).renderedOuterWidth()];
+    }
+    if (node instanceof CompositeTreeNode) {
+        for (var i = 0; i < node.getChildrenNodes().length; i++) {
+            var result = calcHeighMaxAndSumWidth(depth-1,node.getChildNode(i));
+            if (result[0] > returnMaxHeight ) {
+                returnMaxHeight = result[0];
+            }
+
+            returnSumWidth += result[1];
+        }
+    }
+    return [returnMaxHeight,returnSumWidth];
 }

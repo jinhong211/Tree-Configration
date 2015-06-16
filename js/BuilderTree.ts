@@ -281,6 +281,71 @@ class BuilderTree {
         return -1;
     }
 
+    public depthTree(node : TreeNode) : number {
+        if (node == null){
+            return 0;
+        }
+        if (node instanceof CompositeTreeNode){
+            var max = 1;
+            for (var i = 0; i<node.getChildrenNodes().length ;i++){
+                var depth = 1 + this.depthTree(node.getChildNode(i));
+                if (depth>max){
+                    max = depth;
+                }
+            }
+            return max;
+        }
+        return 1;
+    }
+
+
+    public arrayIdofBlock(node : TreeNode) : Array<Array<Number>> {
+        var ret = [];
+        var depth = this.depthTree(node);
+        for (var i = 0; i < depth; i++){
+            ret.push(this.arrayIdOfBlockByDepth(i,node));
+        }
+        return ret;
+    }
+
+
+    public arrayIdOfBlockByDepth(depth : number, node : TreeNode) : Array<Number> {
+        var ret = [];
+        if (depth == 0){
+            ret.push(node.getId());
+            return ret;
+        }
+        if (node instanceof CompositeTreeNode) {
+            for (var i = 0; i < node.getChildrenNodes().length; i++) {
+                ret = ret.concat(this.arrayIdOfBlockByDepth(depth-1,node.getChildNode(i)));
+            }
+        }
+        return ret;
+    }
+
+    public arrayNumberBlocByDepth(node : TreeNode) : Array<Number> {
+        var depth = this.depthTree(node);
+        var blockdepth = [];
+        for (var i = 0; i < depth; i++){
+            blockdepth.push(this.numberByDepth(i,node));
+        }
+        return blockdepth;
+    }
+
+    public numberByDepth(depth : number, node : TreeNode) : number{
+        var retour = 0;
+
+        if (depth == 0){
+            return 1;
+        }
+        if (node instanceof CompositeTreeNode) {
+            for (var i = 0; i < node.getChildrenNodes().length; i++) {
+                retour += this.numberByDepth(depth-1,node.getChildNode(i));
+            }
+        }
+        return retour;
+    }
+
     /*
     ** Test si un un noeud peut être la target d'une fleche (edge)
      */
