@@ -151,18 +151,12 @@ function decoratorMenu(node, value) {
 
 }
 
-function EditDecorator(e) {
+function EditDecorator(node) {
     var counter = 1;
-    counter = getParamNumber(counter, e.cyTarget.data().title);
+    counter = getParamNumber(counter, node.data().title);
 
-    if (!e.data.canPerform(e, EditDecorator)) {
-        return;
-    }
-    if(e.cyTarget.data().type=="decorator") {
-        alertWin("Edit", 'parameter', 300, 50 + counter * 50, e.cyTarget)
-    }
-    if(e.cyTarget.data().type=="action") {
-        alertWin("Edit", '', 300, 50 + counter * 50, e.cyTarget)
+    if(node.data().type=="action") {
+        alertWin("Edit", '', 300, 50 + counter * 50, node)
     }
 }
 //#endregion

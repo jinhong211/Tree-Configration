@@ -141,7 +141,7 @@ $(function test() { // on dom ready
                             selector: 'node',
                             bubbleToCore: false,
                             tooltip: 'Edit Parameter',
-                            action: [EditDecorator]
+                            action: []
                         }
                     ],
                     [
@@ -194,6 +194,10 @@ $(function test() { // on dom ready
             });
             $("#tool-6-0").on('click',function(){
                 mypanup();
+            });
+            $("#tool-7-0").on('click',function(){
+                console.log(cy.$(":selected").data().title);
+                EditDecorator(cy.$(":selected"));
             });
             $("#tool-8-0").on('click',function(){
                 performRemove();
