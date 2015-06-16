@@ -209,7 +209,7 @@ $(function test() { // on dom ready
 
             });
 
-            cy.elements('node').qtip({
+            cy.elements().qtip({
                 content: function(){ return 'Description of ' + this.data().name },
                 position: {
                     my: 'top center',
@@ -418,6 +418,7 @@ $(function test() { // on dom ready
     $('#delete').on('click', function() {
         cy.$(':selected').remove();
     });
+
     $('html').keyup(function(e){
 
         switch (e.keyCode){

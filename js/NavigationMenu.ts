@@ -41,19 +41,19 @@ class NavigationMenu {
                     "valid_children": ["root"]
                 },
                 "conditions" : {
-                    "icon" : "assets/images/tree_icon.png",
+                    "icon" : "fa fa-sitemap",
                     "valid_children" : ["composite"]
                 },
                 "actions" : {
-                    "icon" : "assets/images/action_icon.png",
+                    "icon" : "fa fa-male",
                     "valid_children" : ["action"]
                 },
                 "composite" : {
-                    "icon" : "glyphicon glyphicon-file",
+                    "icon" : "assets/images/composite.png",
                     "valid_children" : []
                 },
                 "action" : {
-                    "icon" : "glyphicon glyphicon-file",
+                    "icon" : "assets/images/action.png",
                     "valid_children" : []
                 },
                 "root": {
