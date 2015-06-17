@@ -9,6 +9,7 @@ var noneTargetable = false;
 var colorAction = '#5656E2';
 var colorComposite = '#57BCD7';
 var colorRoot = '#000000';
+var disableEvent = false;
 
 $(function test() { // on dom ready
 
@@ -166,6 +167,16 @@ $(function test() { // on dom ready
                     ],
                     [
                         {
+                            icon: 'fa fa-code-fork',
+                            event: ['tap'],
+                            selector: 'cy',
+                            bubbleToCore: false,
+                            tooltip: 'Sort the tree from selected node (s)',
+                            action: []
+                        }
+                    ],
+                    [
+                        {
                             icon: 'fa fa-upload',
                             event: ['tap'],
                             selector: 'cy',
@@ -205,6 +216,9 @@ $(function test() { // on dom ready
                recenterOnRoot();
             });
             $("#tool-10-0").on('click',function(){
+                sortTree();
+            });
+            $("#tool-11-0").on('click',function(){
                 Controller.getInstance().send();
             });
 
@@ -215,8 +229,8 @@ $(function test() { // on dom ready
             cy.elements().qtip({
                 content: function(){ return 'Description of ' + this.data().name },
                 position: {
-                    my: 'top center',
-                    at: 'bottom center'
+                    my: 'bottom center',
+                    at: 'top center'
                 },
                 show: {
                     cyBgOnly: false
@@ -421,7 +435,6 @@ $(function test() { // on dom ready
                         var treeNode = new CompositeTreeNode(text, text, desc);
                         treeNode.setId(counter);
                         Controller.getInstance().getBuilderTree().getSelectedBlocks().push(treeNode);
-                        var selectedPos = Controller.getInstance().getBuilderTree().getSelectedBlocks().length;
                         addComposite(x,y,text,counter);
                     }
 
@@ -451,22 +464,27 @@ $(function test() { // on dom ready
         cy.$(':selected').remove();
     });
 
+    $('html').keydown(function(e){
+        if (disableEvent){
+            return;
+        }
+        switch (e.keyCode) {
+            case 32:
+                e.preventDefault();
+                break;
+        }
+    });
+
     $('html').keyup(function(e){
 
+        if (disableEvent){
+            return;
+        }
         switch (e.keyCode){
             // key suppr
             case 46 :
                 // delete
-                var res = cy.$(':selected').id().split("");
-                if (res[0]=="e") {
-                    Controller.getInstance().getBuilderTree().deleteSelectedEdge(cy.$(':selected').id());
-                    cy.$(':selected').remove();
-                } else {
-                    if(cy.$(':selected').id() != "root") {
-                        Controller.getInstance().getBuilderTree().deleteSelectedNode(cy.$(':selected').id());
-                        cy.$(':selected').remove();
-                    }
-                }
+                performRemove();
                 break;
             // key a
             case 65 :
@@ -478,11 +496,11 @@ $(function test() { // on dom ready
                 break;
             // key +
             case 107:
-                cy.zoom(cy.zoom()*1.25);
+                cy.zoom(cy.zoom()*1.1);
                 break;
             // key -
             case 109:
-                cy.zoom(cy.zoom()*0.8);
+                cy.zoom(cy.zoom()*0.9 );
                 break;
 
             // key up
@@ -519,7 +537,7 @@ $(function test() { // on dom ready
 
 function recenterOnRoot(){
     cy.zoom(1);
-    cy.pan({ x: -50, y:-200 });
+    cy.pan({ x: -100, y:-200 });
 }
 function RecenterOnRoot(e){
     if (!e.data.canPerform(e, RecenterOnRoot)) {
@@ -633,11 +651,11 @@ function addRoots() {
  * @param text : text of the block
  * @param selectedPos : position in the selected block of the builderTree.
  */
-function addAction(x,y,text, selectedPos)  {
+function addAction(x,y,text, id)  {
     var title = text;
     var currentOffset = $("#cy").offset();
-    var counter = 1;
-    counter = getParamNumber(counter, text);
+    var localCounter = 1;
+    localCounter = getParamNumber(localCounter, text);
     text = text + "\n" + getParam(text);
     cy.add({
         group: "nodes",
@@ -650,9 +668,9 @@ function addAction(x,y,text, selectedPos)  {
             faveShape: 'rectangle',
             type:'action',
             option: 'Edit Your Option',
-            height: 35 * counter,
-            description : Controller.getInstance().getBuilderTree().getSelectedBlocks()[selectedPos-1].getDescription(),
-            id: selectedPos + ""
+            height: 35 * localCounter,
+            description : Controller.getInstance().getBuilderTree().getBlockById(id).getDescription(),
+            id: id + ""
         },
         renderedPosition: {x: x - currentOffset.left, y: y - currentOffset.top}
     }).addClass('menu');
@@ -685,10 +703,10 @@ function addAction(x,y,text, selectedPos)  {
  * @param text : text of the block
  * @param selectedPos : position in the selected block of the builderTree.
  */
-function addComposite(x, y, text, selectedPos) {
+function addComposite(x, y, text, id) {
     var currentOffset = $("#cy").offset();
-    var counter = 1;
-    counter = getParamNumber(counter, text);
+    var localCounter = 1;
+    localCounter = getParamNumber(localCounter, text);
 
     cy.add({
         group: "nodes",
@@ -697,9 +715,9 @@ function addComposite(x, y, text, selectedPos) {
             weight: 105,
             faveColor: colorComposite,
             faveShape: 'rectangle',
-            height: 35 * counter,
-            description : Controller.getInstance().getBuilderTree().getSelectedBlocks()[selectedPos-1].getDescription(),
-            id: selectedPos + ""
+            height: 35 * localCounter,
+            description : Controller.getInstance().getBuilderTree().getBlockById(id).getDescription(),
+            id: id + ""
         },
         renderedPosition: {x: x - currentOffset.left, y: y - currentOffset.top}
     }).addClass('menu');
@@ -835,7 +853,7 @@ function sortTree(){
     }
     var center = posXPrevious;
     for (var i = 0; i < depth; i++) {
-        // On place par défaut un espace de 30 entre chaque blocka
+        // On place par dï¿½faut un espace de 30 entre chaque blocka
         sumTotalByDepth[i] += (numberBlockByDepth[i]-1) * 50;
         placeInDepth(center,newPosY,numberBlockByDepth[i],sumTotalByDepth[i],blocksIdByDepth[i]);
         if (depth !=i+1){
