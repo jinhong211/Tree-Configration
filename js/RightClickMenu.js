@@ -167,7 +167,8 @@ function performRemove() {
             cy.$(':selected').remove();
         }
     }
-
+    var t = cy.zoom();
+    cy.zoom(t);
 }
 //#endregion
 

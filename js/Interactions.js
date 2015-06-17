@@ -228,8 +228,8 @@ $(function test() { // on dom ready
             cy.elements().qtip({
                 content: function(){ return 'Description of ' + this.data().name },
                 position: {
-                    my: 'top center',
-                    at: 'bottom center'
+                    my: 'bottom center',
+                    at: 'top center'
                 },
                 show: {
                     cyBgOnly: false
@@ -467,7 +467,7 @@ $(function test() { // on dom ready
 
         switch (e.keyCode){
             // key suppr
-            case 46 :
+            case 66 :
                 // delete
                 performRemove();
                 break;
@@ -838,7 +838,7 @@ function sortTree(){
     }
     var center = posXPrevious;
     for (var i = 0; i < depth; i++) {
-        // On place par défaut un espace de 30 entre chaque blocka
+        // On place par dï¿½faut un espace de 30 entre chaque blocka
         sumTotalByDepth[i] += (numberBlockByDepth[i]-1) * 50;
         placeInDepth(center,newPosY,numberBlockByDepth[i],sumTotalByDepth[i],blocksIdByDepth[i]);
         if (depth !=i+1){
