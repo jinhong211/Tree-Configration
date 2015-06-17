@@ -467,7 +467,7 @@ $(function test() { // on dom ready
 
         switch (e.keyCode){
             // key suppr
-            case 66 :
+            case 46 :
                 // delete
                 performRemove();
                 break;
