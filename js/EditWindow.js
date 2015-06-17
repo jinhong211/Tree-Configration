@@ -2,6 +2,8 @@
  * Created by jinhong on 09/06/15.
  */
 function alertWin(title, msg, w, h,node) {
+
+
     var titleheight = "22px";
     var bordercolor = "#666699";
     var titlecolor = "#FFFFFF";
@@ -12,6 +14,7 @@ function alertWin(title, msg, w, h,node) {
 
     var bgObj = document.createElement("div");
 
+    disableEvent = true;
     bgObj.style.cssText = "position:absolute;left:0px;top:0px;width:" + iWidth + "px;height:" + Math.max(document.body.clientHeight, iHeight) + "px;filter:Alpha(Opacity=30);opacity:0.3;background-color:#000000;z-index:1000;";
 
     document.body.appendChild(bgObj);
@@ -75,6 +78,7 @@ function alertWin(title, msg, w, h,node) {
     closeBtn.onclick = function() {
         document.body.removeChild(bgObj);
         document.body.removeChild(msgObj);
+        disableEvent = false;
     }
     var msgBox = table.insertRow(-1).insertCell(-1);
     msgBox.style.cssText = "font:10pt;";
@@ -156,6 +160,7 @@ function alertWin(title, msg, w, h,node) {
         node.unselect();
         document.body.removeChild(bgObj);
         document.body.removeChild(msgObj);
+        disableEvent = false;
     }
     function getEvent() {
         return window.event || arguments.callee.caller.arguments[0];

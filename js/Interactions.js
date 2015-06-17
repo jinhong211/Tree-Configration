@@ -9,6 +9,7 @@ var noneTargetable = false;
 var colorAction = '#5656E2';
 var colorComposite = '#57BCD7';
 var colorRoot = '#000000';
+var disableEvent = false;
 
 $(function test() { // on dom ready
 
@@ -464,6 +465,9 @@ $(function test() { // on dom ready
     });
 
     $('html').keydown(function(e){
+        if (disableEvent){
+            return;
+        }
         switch (e.keyCode) {
             case 32:
                 e.preventDefault();
@@ -473,6 +477,9 @@ $(function test() { // on dom ready
 
     $('html').keyup(function(e){
 
+        if (disableEvent){
+            return;
+        }
         switch (e.keyCode){
             // key suppr
             case 46 :

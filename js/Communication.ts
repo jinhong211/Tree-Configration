@@ -210,7 +210,7 @@ class Communication {
                 $loading.hide();
             })
             .fail(function () {
-                alert("Error: the send of data to the server failed");
+                alert("Error: the sending of data the server failed");
                 $loading.hide();
             });
     }
