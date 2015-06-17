@@ -223,17 +223,17 @@ class Parser {
         // DECORATORS
         if (currentNode != null && currentNode.getDecorators() != null) {
             console.log("decorators!");
-            decs = document.createElement("decorators");
+            decs = document.createElementNS("derp","decorators");
             for (var i = 0; i < currentNode.getDecorators().length; i++) {
 
-                var dec = document.createElement("decorator");
-                var t = document.createElement("type");
+                var dec = document.createElementNS("derp","decorator");
+                var t = document.createElementNS("derp","type");
                 t.innerHTML = currentNode.getDecorators()[i].getType();
-                var ps = document.createElement("params");
+                var ps = document.createElementNS("derp","params");
 
                 // PARAMS DECORATOR
                 for (var j = 0; j < currentNode.getDecorators().length; j++) {
-                    var p = document.createElement(currentNode.getDecorators()[i].getName());
+                    var p = document.createElementNS("derp",currentNode.getDecorators()[i].getName());
 
                     if (currentNode.getDecorators()[i].getParams() != null) {
                         p.innerHTML = currentNode.getDecorators()[i].getParams()[j].toString();
@@ -250,10 +250,10 @@ class Parser {
 
     parserXml3Params(currentNode : TreeNode) : HTMLElement {
         // PARAMS DU NODE
-        var params = document.createElement("params");
+        var params = document.createElementNS("derp","params");
         if(currentNode.getParams() != null) {
             for(var j=0; j<currentNode.getParams().length; j++) {
-                var pa = document.createElement(currentNode.getParams()[j].getName());
+                var pa = document.createElementNS("derp",currentNode.getParams()[j].getName());
                 pa.innerHTML = currentNode.getParams()[j].getValue().toString();
                 params.appendChild(pa);
             }
