@@ -148,8 +148,8 @@ class Parser {
      * @returns {string}
      */
     parseXml(currentNode : TreeNode) : string {
-        var xml = document.createElement("node");
-        var bloc = document.createElement("node");
+        var xml = document.createElementNS("derp", "node");
+        var bloc = document.createElementNS("derp", "node");
 
         if (currentNode instanceof ActionTreeNode) {
             bloc.setAttribute("type","action");
@@ -178,23 +178,23 @@ class Parser {
      */
     parseXml2(currentNode : TreeNode, init = true) : string {
 
-        var xml = document.createElement("root");
+        var xml = document.createElementNS("derp", "root");
         var bloc;
 
         if (currentNode instanceof ActionTreeNode) {
-            bloc = document.createElement("task");
-            var type = document.createElement("type");
+            bloc = document.createElementNS("derp", "task");
+            var type = document.createElementNS("derp", "type");
             type.innerHTML = currentNode.getName();
             bloc.appendChild(type);
-            bloc.appendChild(document.createElement("params"));
+            bloc.appendChild(document.createElementNS("derp", "params"));
         } else if (currentNode instanceof CompositeTreeNode) {
-            bloc = document.createElement("composite");
-            var type = document.createElement("type");
+            bloc = document.createElementNS("derp", "composite");
+            var type = document.createElementNS("derp", "type");
             type.innerHTML = currentNode.getName();
             bloc.appendChild(type);
-            bloc.appendChild(document.createElement("params"));
+            bloc.appendChild(document.createElementNS("derp", "params"));
             var children = currentNode.getChildrenNodes();
-            var childrenNode = document.createElement("children");
+            var childrenNode = document.createElementNS("derp", "children");
 
             for (var i=0; i<children.length; i++) {
                 childrenNode.innerHTML += this.parseXml2(children[i],false);
@@ -209,7 +209,7 @@ class Parser {
         }
 
         if (init) {
-            var shell = document.createElement("shell");
+            var shell = document.createElementNS("derp", "shell");
             shell.appendChild(xml);
             return shell.innerHTML;
         }
@@ -272,13 +272,13 @@ class Parser {
      * @returns {string}
      */
     parseXml3(currentNode : TreeNode, init = true) : string {
-        var xml = document.createElement("root");
+        var xml = document.createElementNS("derp", "root");
         var bloc;
 
         // NODE ACTION
         if (currentNode instanceof ActionTreeNode) {
-            bloc = document.createElement("task");
-            var type = document.createElement("type");
+            bloc = document.createElementNS("derp", "task");
+            var type = document.createElementNS("derp", "type");
             type.innerHTML = currentNode.getName();
             bloc.appendChild(type);
 
@@ -288,8 +288,8 @@ class Parser {
 
         // NODE COMPOSITE
         } else if (currentNode instanceof CompositeTreeNode) {
-            bloc = document.createElement("composite");
-            var type = document.createElement("type");
+            bloc = document.createElementNS("derp", "composite");
+            var type = document.createElementNS("derp", "type");
             type.innerHTML = currentNode.getName();
             bloc.appendChild(type);
 
@@ -299,7 +299,7 @@ class Parser {
 
             // CHILDREN OF THE COMPOSITE
             var children = currentNode.getChildrenNodes();
-            var childrenNode = document.createElement("children");
+            var childrenNode = document.createElementNS("derp", "children");
 
             for (var i=0; i<children.length; i++) {
                 childrenNode.innerHTML += this.parseXml3(children[i],false);
@@ -322,7 +322,7 @@ class Parser {
         }
 
         if (init) {
-            var shell = document.createElement("shell");
+            var shell = document.createElementNS("derp", "shell");
             shell.appendChild(xml);
             return shell.innerHTML;
         }
