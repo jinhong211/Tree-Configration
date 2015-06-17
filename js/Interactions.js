@@ -166,21 +166,21 @@ $(function test() { // on dom ready
                     ],
                     [
                         {
-                            icon: 'fa fa-upload',
-                            event: ['tap'],
-                            selector: 'cy',
-                            bubbleToCore: false,
-                            tooltip: 'Send to the arena',
-                            action: []
-                        }
-                    ],
-                    [
-                        {
                             icon: 'fa fa-code-fork',
                             event: ['tap'],
                             selector: 'cy',
                             bubbleToCore: false,
                             tooltip: 'Sort the tree from selected node (s)',
+                            action: []
+                        }
+                    ],
+                    [
+                        {
+                            icon: 'fa fa-upload',
+                            event: ['tap'],
+                            selector: 'cy',
+                            bubbleToCore: false,
+                            tooltip: 'Send to the arena',
                             action: []
                         }
                     ]
@@ -215,10 +215,10 @@ $(function test() { // on dom ready
                recenterOnRoot();
             });
             $("#tool-10-0").on('click',function(){
-                Controller.getInstance().send();
+                sortTree();
             });
             $("#tool-11-0").on('click',function(){
-                sortTree();
+                Controller.getInstance().send();
             });
 
             cy.navigator({
@@ -463,6 +463,14 @@ $(function test() { // on dom ready
         cy.$(':selected').remove();
     });
 
+    $('html').keydown(function(e){
+        switch (e.keyCode) {
+            case 32:
+                e.preventDefault();
+                break;
+        }
+    });
+
     $('html').keyup(function(e){
 
         switch (e.keyCode){
@@ -481,11 +489,11 @@ $(function test() { // on dom ready
                 break;
             // key +
             case 107:
-                cy.zoom(cy.zoom()*1.25);
+                cy.zoom(cy.zoom()*1.1);
                 break;
             // key -
             case 109:
-                cy.zoom(cy.zoom()*0.8);
+                cy.zoom(cy.zoom()*0.9 );
                 break;
 
             // key up
@@ -522,7 +530,7 @@ $(function test() { // on dom ready
 
 function recenterOnRoot(){
     cy.zoom(1);
-    cy.pan({ x: -50, y:-200 });
+    cy.pan({ x: -250, y:-200 });
 }
 function RecenterOnRoot(e){
     if (!e.data.canPerform(e, RecenterOnRoot)) {

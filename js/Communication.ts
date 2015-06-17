@@ -54,7 +54,7 @@ class Communication {
             url: this.urlSimulator+this.routeGET,
             type: 'GET',
             success: function(data){
-                $loadText.html( "<p>Blocs charges du simulateur</p>" );
+                $loadText.html( "<p>Blocks load from simulator</p>" );
                 var res = self.httpGetMOCK3();
                 f(data);
                 $loading.hide();
@@ -62,9 +62,8 @@ class Communication {
             },
             error: function(data) {
                 $loading.hide();
-                $loadText.html( "<p>Blocs par defaut</p>" );
-                alert("Erreur : echec de chargement des donnees du serveur simulation. Nous chargeons des blocs" +
-                " predefinis");
+                $loadText.html( "<p>Predifined blocks</p>" );
+                alert("Error: load failed from server, load of predifined blocks");
                 var res = self.httpGetMOCK3();
                 f(res);
 
@@ -211,7 +210,7 @@ class Communication {
                 $loading.hide();
             })
             .fail(function () {
-                alert("Error: echec de l'envoi au serveur de simulation");
+                alert("Error: the send of data to the server failed");
                 $loading.hide();
             });
     }

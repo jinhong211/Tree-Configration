@@ -37,11 +37,11 @@ h1 {
 
 /* la zone de construction */
 #cy {
-    height: 85%;
-    width: 78%;
     position: absolute;
     right: 0;
     bottom: 0;
+    top:50px;
+    left:320px;
     background-color : #FAEDEF;
     background-image:url("BG3.png");
 }

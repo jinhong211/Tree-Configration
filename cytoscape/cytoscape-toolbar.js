@@ -446,7 +446,7 @@ function mypanup() {
 												position: 'absolute',
 												width: toolList.length * 55,
 												height: 45,
-												'background-color': '#f9f9f9'
+												'background-color': 'white'
 											});
 
 						$toolListWrapper.append($toolList);
