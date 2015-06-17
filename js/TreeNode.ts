@@ -50,7 +50,6 @@ class TreeNode {
     public constructor(n : string, namedisplayed = "", description = "", para = []){
         this.name = n;
         this.nameDisplayed = namedisplayed;
-        console.log("description", description);
         this.description = description;
         this.parentNode = null;
         this.params = para;

@@ -72,7 +72,6 @@ class Parser {
             var parameters : Parameter[];
             parameters = this.parseParameters(jsonBloc["params"]);
             if (jsonBloc["kind"] == "task") {
-                console.log(jsonBloc["desc"]);
                 listNodeAvailable.push(new ActionTreeNode(jsonBloc["type"],jsonBloc["name"],jsonBloc["desc"], parameters));
             } else if (jsonBloc["kind"] == "composite") {
                 listNodeAvailable.push(new CompositeTreeNode(jsonBloc["type"],jsonBloc["name"],jsonBloc["desc"],parameters));

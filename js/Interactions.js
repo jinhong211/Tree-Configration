@@ -173,6 +173,16 @@ $(function test() { // on dom ready
                             tooltip: 'Send to the arena',
                             action: []
                         }
+                    ],
+                    [
+                        {
+                            icon: 'fa fa-code-fork',
+                            event: ['tap'],
+                            selector: 'cy',
+                            bubbleToCore: false,
+                            tooltip: 'Sort the tree from selected node (s)',
+                            action: []
+                        }
                     ]
                 ],
                 appendTools: false
@@ -206,6 +216,9 @@ $(function test() { // on dom ready
             });
             $("#tool-10-0").on('click',function(){
                 Controller.getInstance().send();
+            });
+            $("#tool-11-0").on('click',function(){
+                sortTree();
             });
 
             cy.navigator({
