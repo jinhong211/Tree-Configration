@@ -530,7 +530,7 @@ $(function test() { // on dom ready
 
 function recenterOnRoot(){
     cy.zoom(1);
-    cy.pan({ x: -250, y:-200 });
+    cy.pan({ x: -100, y:-200 });
 }
 function RecenterOnRoot(e){
     if (!e.data.canPerform(e, RecenterOnRoot)) {
