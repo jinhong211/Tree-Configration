@@ -351,12 +351,6 @@ $(function test() { // on dom ready
         }
     });
 
-    /**
-     * This function handle all the draw of the edge
-     */
-    cy.edgehandles({
-        // options go here
-    });
     var r;
 
     cy.on('.mouseup','node',function(){
@@ -477,11 +471,24 @@ $(function test() { // on dom ready
 
     $('html').bind('mousewheel', function(e){
 
+        e.preventDefault();
+
+        var x = event.x;
+        var y = event.y;
+
+        var currentOffset = $("#cy").offset();
+
         if(e.originalEvent.wheelDelta /120 > 0) {
-            cy.zoom(cy.zoom()*1.1);
+            cy.zoom({
+                level : cy.zoom()*1.1,
+                renderedPosition : { x: x-currentOffset.left, y: y-currentOffset.top }
+            });
         }
         else{
-            cy.zoom(cy.zoom()*0.9);
+            cy.zoom({
+                level : cy.zoom()*0.9,
+                renderedPosition : { x: x-currentOffset.left, y: y-currentOffset.top }
+            });
         }
     });
 
