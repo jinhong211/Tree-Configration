@@ -20589,6 +20589,8 @@ this.cytoscape = cytoscape;
     }, false);
 
     var wheelHandler = function(e) {
+
+      return;
       if( r.scrollingPage ){ return; } // while scrolling, ignore wheel-to-zoom
 
       var cy = r.data.cy;

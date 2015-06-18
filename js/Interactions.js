@@ -475,6 +475,21 @@ $(function test() { // on dom ready
         }
     });
 
+    $('html').bind('mousewheel', function(e){
+        console.log("coucou");
+        //cy.pan({ x: -100, y:-200 });
+
+        if(e.originalEvent.wheelDelta /120 > 0) {
+            console.log('scrolling up !');
+
+            cy.zoom(cy.zoom()*1.1);
+        }
+        else{
+            console.log('scrolling down !');
+            cy.zoom(cy.zoom()*0.9);
+        }
+    });
+
     $('html').keyup(function(e){
 
         if (disableEvent){
