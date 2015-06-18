@@ -148,8 +148,8 @@ class Parser {
      * @returns {string}
      */
     parseXml(currentNode : TreeNode) : string {
-        var xml = document.createElement("node");
-        var bloc = document.createElement("node");
+        var xml = document.createElementNS("derp", "node");
+        var bloc = document.createElementNS("derp", "node");
 
         if (currentNode instanceof ActionTreeNode) {
             bloc.setAttribute("type","action");
@@ -178,23 +178,23 @@ class Parser {
      */
     parseXml2(currentNode : TreeNode, init = true) : string {
 
-        var xml = document.createElement("root");
+        var xml = document.createElementNS("derp", "root");
         var bloc;
 
         if (currentNode instanceof ActionTreeNode) {
-            bloc = document.createElement("task");
-            var type = document.createElement("type");
+            bloc = document.createElementNS("derp", "task");
+            var type = document.createElementNS("derp", "type");
             type.innerHTML = currentNode.getName();
             bloc.appendChild(type);
-            bloc.appendChild(document.createElement("params"));
+            bloc.appendChild(document.createElementNS("derp", "params"));
         } else if (currentNode instanceof CompositeTreeNode) {
-            bloc = document.createElement("composite");
-            var type = document.createElement("type");
+            bloc = document.createElementNS("derp", "composite");
+            var type = document.createElementNS("derp", "type");
             type.innerHTML = currentNode.getName();
             bloc.appendChild(type);
-            bloc.appendChild(document.createElement("params"));
+            bloc.appendChild(document.createElementNS("derp", "params"));
             var children = currentNode.getChildrenNodes();
-            var childrenNode = document.createElement("children");
+            var childrenNode = document.createElementNS("derp", "children");
 
             for (var i=0; i<children.length; i++) {
                 childrenNode.innerHTML += this.parseXml2(children[i],false);
@@ -209,7 +209,7 @@ class Parser {
         }
 
         if (init) {
-            var shell = document.createElement("shell");
+            var shell = document.createElementNS("derp", "shell");
             shell.appendChild(xml);
             return shell.innerHTML;
         }
@@ -222,17 +222,17 @@ class Parser {
         // DECORATORS
         if (currentNode != null && currentNode.getDecorators() != null) {
             console.log("decorators!");
-            decs = document.createElement("decorators");
+            decs = document.createElementNS("derp","decorators");
             for (var i = 0; i < currentNode.getDecorators().length; i++) {
 
-                var dec = document.createElement("decorator");
-                var t = document.createElement("type");
+                var dec = document.createElementNS("derp","decorator");
+                var t = document.createElementNS("derp","type");
                 t.innerHTML = currentNode.getDecorators()[i].getType();
-                var ps = document.createElement("params");
+                var ps = document.createElementNS("derp","params");
 
                 // PARAMS DECORATOR
                 for (var j = 0; j < currentNode.getDecorators().length; j++) {
-                    var p = document.createElement(currentNode.getDecorators()[i].getName());
+                    var p = document.createElementNS("derp",currentNode.getDecorators()[i].getName());
 
                     if (currentNode.getDecorators()[i].getParams() != null) {
                         p.innerHTML = currentNode.getDecorators()[i].getParams()[j].toString();
@@ -249,10 +249,10 @@ class Parser {
 
     parserXml3Params(currentNode : TreeNode) : HTMLElement {
         // PARAMS DU NODE
-        var params = document.createElement("params");
+        var params = document.createElementNS("derp","params");
         if(currentNode.getParams() != null) {
             for(var j=0; j<currentNode.getParams().length; j++) {
-                var pa = document.createElement(currentNode.getParams()[j].getName());
+                var pa = document.createElementNS("derp",currentNode.getParams()[j].getName());
                 pa.innerHTML = currentNode.getParams()[j].getValue().toString();
                 params.appendChild(pa);
             }
@@ -272,13 +272,13 @@ class Parser {
      * @returns {string}
      */
     parseXml3(currentNode : TreeNode, init = true) : string {
-        var xml = document.createElement("root");
+        var xml = document.createElementNS("derp", "root");
         var bloc;
 
         // NODE ACTION
         if (currentNode instanceof ActionTreeNode) {
-            bloc = document.createElement("task");
-            var type = document.createElement("type");
+            bloc = document.createElementNS("derp", "task");
+            var type = document.createElementNS("derp", "type");
             type.innerHTML = currentNode.getName();
             bloc.appendChild(type);
 
@@ -288,8 +288,8 @@ class Parser {
 
         // NODE COMPOSITE
         } else if (currentNode instanceof CompositeTreeNode) {
-            bloc = document.createElement("composite");
-            var type = document.createElement("type");
+            bloc = document.createElementNS("derp", "composite");
+            var type = document.createElementNS("derp", "type");
             type.innerHTML = currentNode.getName();
             bloc.appendChild(type);
 
@@ -299,7 +299,7 @@ class Parser {
 
             // CHILDREN OF THE COMPOSITE
             var children = currentNode.getChildrenNodes();
-            var childrenNode = document.createElement("children");
+            var childrenNode = document.createElementNS("derp", "children");
 
             for (var i=0; i<children.length; i++) {
                 childrenNode.innerHTML += this.parseXml3(children[i],false);
@@ -322,7 +322,7 @@ class Parser {
         }
 
         if (init) {
-            var shell = document.createElement("shell");
+            var shell = document.createElementNS("derp", "shell");
             shell.appendChild(xml);
             return shell.innerHTML;
         }
